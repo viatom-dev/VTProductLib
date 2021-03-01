@@ -1,8 +1,8 @@
-#### 1. VTO2Lib - Viatom O2 SERIES iOS lib
+#### 1. Viatom ECG SERIES iOS lib
 
 * ##### 1.1 Changelog
 
-    ##### [Changelog](https://github.com/viatom-dev/VTO2Lib/blob/master/ChangeLog.md)
+    ##### [Changelog](https://github.com/viatom-dev/VTProductLib/blob/main/ChangeLog.md)
 
 * ##### 1.2 Functions
 
