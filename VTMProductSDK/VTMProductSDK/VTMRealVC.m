@@ -108,9 +108,9 @@
                 NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
                 _waveformView.receiveArray = filterArr;
                 _weightLabel.text = [NSString stringWithFormat:@"weight:%.1fkg",weight];
-                //运行状态  0:待机 1:秤端测量中 2:秤端测量结束 3:心电准备阶段 4:心电测量中 5:心电正常结束 6:带阻抗心电异常结束  7:不带阻抗异常结束
-                if (status == 5 || status == 6 || status == 7) {//测量完成
-                    DLog(@"测量完成");
+                //run status  0:待机 1:秤端测量中 2:秤端测量结束 3:心电准备阶段 4:心电测量中 5:心电正常结束 6:带阻抗心电异常结束  7:不带阻抗异常结束
+                if (status == 5 || status == 6 || status == 7) {
+                    DLog(@"Complete Measure");
                 }
             }
         }
@@ -123,7 +123,6 @@
                 VTMRealTimeWF wf = bpData.rt_wav.wav;
                 for (int i = 0; i < wf.sampling_num; i ++) {
                     short mv = wf.wave_data[i];
-//                    [tempStr appendString:[NSString stringWithFormat:@"%d\n", mv]];
                     if (wf.wave_data[i] != 0x7FFF) {
                         [tempArray addObject:@([VTMBLEParser mVFromShort:mv])];
                     }

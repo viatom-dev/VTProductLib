@@ -75,9 +75,7 @@
         {
             DLog(@"Config successfully");
             [self.progressHUD hideAnimated:YES];
-            [self showAlertWithTitle:@"Config successfully" message:nil handler:^(UIAlertAction *action) {
-                
-            }];
+            [self showAlertWithTitle:@"Config successfully" message:nil handler:nil];
         }
             break;
             
@@ -92,9 +90,7 @@
         {
             DLog(@"Config failure");
             [self.progressHUD hideAnimated:YES];
-            [self showAlertWithTitle:@"Config failure" message:nil handler:^(UIAlertAction *action) {
-                
-            }];
+            [self showAlertWithTitle:@"Config failure" message:nil handler:nil];
         }
             break;
             

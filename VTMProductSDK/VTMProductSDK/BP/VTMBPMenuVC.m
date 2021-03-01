@@ -29,7 +29,7 @@ static NSString *identifier = @"funcCell";
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -60,22 +60,16 @@ static NSString *identifier = @"funcCell";
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSString *str = _funcArray[indexPath.section];
     cell.textLabel.text = str;
-        if ([str isEqualToString:@"Heartbeat switch"]) {
-            UISwitch *swi  = [[UISwitch alloc]init];
-            cell.accessoryView = swi;
-            [swi addTarget:self action:@selector(syncConfigSwitch:) forControlEvents:UIControlEventTouchUpInside];
-        }
+    if ([str isEqualToString:@"Heartbeat switch"]) {
+        UISwitch *swi  = [[UISwitch alloc]init];
+        cell.accessoryView = swi;
+        [swi addTarget:self action:@selector(syncHeartbeatSwitch:) forControlEvents:UIControlEventTouchUpInside];
+    }
     return cell;
 }
--(void)syncConfigSwitch:(UISwitch *)swi{
+-(void)syncHeartbeatSwitch:(UISwitch *)swi{
     [self.progressHUD showAnimated:YES];
     [[VTMProductURATUtils sharedInstance] syncBPSwitch:swi.on];
-//    if (swi.on) {// 配置打开,设置HR高低值
-//
-//    }else{//配置关闭
-//
-//    }
-
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
@@ -135,7 +129,7 @@ static NSString *identifier = @"funcCell";
                             config.sn.serial_num[i] = [t.text characterAtIndex:i];
                         }
                     }else{
-                        // 提示错误
+                        // error
                     }
                 }else if (t.tag == 101) {
                     if ([t.text isEqualToString:@"A"] ||
@@ -145,7 +139,8 @@ static NSString *identifier = @"funcCell";
                         config.burn_flag |= (1 << 1);
                         config.hw_version = [t.text characterAtIndex:0];
                     }else{
-                        
+                        // error
+
                     }
                 }else{
                     if (t.text.length == 8) {
@@ -154,7 +149,7 @@ static NSString *identifier = @"funcCell";
                             config.branch_code[i] = [t.text characterAtIndex:i];
                         }
                     }else{
-                        // 提示错误
+                        // error
                     }
                 }
             }
@@ -180,11 +175,6 @@ static NSString *identifier = @"funcCell";
         VTMRealVC *vc = [[VTMRealVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }
-//    else if ([textStr isEqualToString:@"Voice Switch"]){
-//
-//        [self.progressHUD showAnimated:YES];
-//        [[VTMProductURATUtils sharedInstance] syncBPSwitch:YES];
-//    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -192,27 +182,24 @@ static NSString *identifier = @"funcCell";
 #pragma mark -- vt communicate
 - (void)util:(VTMURATUtils *)util commandCompletion:(u_char)cmdType deviceType:(VTMDeviceType)deviceType response:(NSData *)response{
     DLog(@"response:%@",response);
-     if(cmdType == VTMBLECmdGetDeviceInfo) {
+    if(cmdType == VTMBLECmdGetDeviceInfo) {
         VTMDeviceInfo info = [VTMBLEParser parseDeviceInfo:response];
         DLog(@"hw_version:%hhu,fw_version:%hhu,fw_version:%hhu,sn:%s,branch_code:%s",info.hw_version,info.fw_version,info.fw_version,info.sn.serial_num,info.branch_code);
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"sn:%s", info.sn.serial_num] handler:^(UIAlertAction *action) {
-            
-        }];
-     }else if(cmdType == VTMBPCmdGetRealData){
-         VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
-         VTMBatteryInfo info = bpData.run_status.battery;
-         DLog(@"state:%hhu,percent:%hhu,voltage:%hhu",info.state,info.percent,info.voltage);
-         [self.progressHUD hideAnimated:YES];
-         [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"percent:%hhu%%", info.percent] handler:^(UIAlertAction *action) {
-             
-         }];
-     }else if(cmdType == VTMBLECmdSyncTime){
+        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"sn:%s", info.sn.serial_num] handler:nil];
+        
+    }else if(cmdType == VTMBPCmdGetRealData){
+        VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
+        VTMBatteryInfo info = bpData.run_status.battery;
+        DLog(@"state:%hhu,percent:%hhu,voltage:%hhu",info.state,info.percent,info.voltage);
+        [self.progressHUD hideAnimated:YES];
+        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"percent:%hhu%%", info.percent] handler:nil];
+        
+    }else if(cmdType == VTMBLECmdSyncTime){
         DLog(@"Synchronize time successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Synchronize time successfully" message:nil handler:^(UIAlertAction *action) {
-            
-        }];
+        [self showAlertWithTitle:@"Synchronize time successfully" message:nil handler:nil];
+        
     }else if(cmdType == VTMBLECmdGetFileList){//
         VTMFileList list = [VTMBLEParser parseFileList:response];
         NSMutableArray *downloadArr = [NSMutableArray array];
@@ -233,6 +220,7 @@ static NSString *identifier = @"funcCell";
         }else{
             [self.progressHUD hideAnimated:YES];
         }
+        
     }else if(cmdType == VTMBLECmdStartRead){
         _downloadLen = 0;
         _downloadData = [NSMutableData data];
@@ -244,6 +232,7 @@ static NSString *identifier = @"funcCell";
         }else{
             [[VTMProductURATUtils sharedInstance] readFile:0];
         }
+        
     }else if (cmdType == VTMBLECmdReadFile) {
         [_downloadData appendData:response];
         DLog(@"Download data length: %d",(int)_downloadData.length);
@@ -252,41 +241,38 @@ static NSString *identifier = @"funcCell";
         }else{
             [[VTMProductURATUtils sharedInstance] readFile:(u_int)_downloadData.length];
         }
+        
     }else if(cmdType == VTMBLECmdEndRead){
         DLog(@"Download successfully");
         [self.progressHUD hideAnimated:YES];
         [self showAlertWithTitle:@"Download successfully" message:nil handler:^(UIAlertAction *action) {
         }];
+        
     }else if (cmdType == VTMBLECmdRestore) {
         DLog(@"Factory Settings restored successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Factory Settings restored successfully" message:nil handler:^(UIAlertAction *action)   {
-            
-        }];
+        [self showAlertWithTitle:@"Factory Settings restored successfully" message:nil handler:nil];
+        
     }else if (cmdType == VTMBLECmdRestoreInfo) {
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Set successfully" message:nil handler:^(UIAlertAction *action)   {
-            
-        }];
+        [self showAlertWithTitle:@"Set successfully" message:nil handler:nil];
+        
     }else if (cmdType == VTMBLECmdProductReset){
         DLog(@"Production factory Settings restored successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Reset successfully" message:nil handler:^(UIAlertAction *action) {
-            
-        }];
+        [self showAlertWithTitle:@"Reset successfully" message:nil handler:nil];
+        
     }else if (cmdType == VTMBPCmdGetConfig){
         DLog(@"Get Config successfully");
         [self.progressHUD hideAnimated:YES];
         VTMBPConfig  bpConfig =  [VTMBLEParser parseBPConfig:response];
-        [self showAlertWithTitle:@"Get Config successfully" message:nil handler:^(UIAlertAction *action) {
-            
-        }];
+        [self showAlertWithTitle:@"Get Config successfully" message:nil handler:nil];
+        
     }else if (cmdType == VTMBPCmdSetConfig){
         DLog(@"Set Config successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Set Config successfully" message:nil handler:^(UIAlertAction *action) {
-            
-        }];
+        [self showAlertWithTitle:@"Set Config successfully" message:nil handler:nil];
+        
     }
 }
 
@@ -304,7 +290,7 @@ static NSString *identifier = @"funcCell";
 
 #pragma mark --
 - (void)showAlertWithTitle:(NSString *)title
-                  message:(NSString *)message
+                   message:(NSString *)message
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
