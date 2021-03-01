@@ -1,0 +1,828 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6504C3E624A20532005CE0CF /* VTBLEUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C3E524A20532005CE0CF /* VTBLEUtils.m */; };
+		6504C3E924A21824005CE0CF /* VTDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C3E824A21824005CE0CF /* VTDevice.m */; };
+		6504C41524A9CEE9005CE0CF /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C40B24A9CEE9005CE0CF /* SVRadialGradientLayer.m */; };
+		6504C41624A9CEE9005CE0CF /* SVProgressAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C40E24A9CEE9005CE0CF /* SVProgressAnimatedView.m */; };
+		6504C41724A9CEE9005CE0CF /* SVProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C41124A9CEE9005CE0CF /* SVProgressHUD.m */; };
+		6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C41224A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m */; };
+		6504C41924A9CEE9005CE0CF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6504C41324A9CEE9005CE0CF /* SVProgressHUD.bundle */; };
+		6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C42424A9EBA1005CE0CF /* VTMRealVC.m */; };
+		6570DEB624A09FBD00F80D5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEB524A09FBD00F80D5C /* AppDelegate.m */; };
+		6570DEBF24A09FBD00F80D5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEBD24A09FBD00F80D5C /* Main.storyboard */; };
+		6570DEC124A09FC200F80D5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEC024A09FC200F80D5C /* Assets.xcassets */; };
+		6570DEC424A09FC200F80D5C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEC224A09FC200F80D5C /* LaunchScreen.storyboard */; };
+		6570DEC724A09FC200F80D5C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEC624A09FC200F80D5C /* main.m */; };
+		6570DED124A09FC300F80D5C /* VTMProductSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DED024A09FC300F80D5C /* VTMProductSDKTests.m */; };
+		6570DEDC24A09FC300F80D5C /* VTMProductSDKUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEDB24A09FC300F80D5C /* VTMProductSDKUITests.m */; };
+		6570DEEE24A0ADAA00F80D5C /* VTConnectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */; };
+		8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */; };
+		8B07EF8425E513F7001F97C5 /* VTMProductLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B07EF8325E513F7001F97C5 /* VTMProductLib.framework */; };
+		8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */; };
+		8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */; };
+		8B07EFCC25E5EE5D001F97C5 /* VTMECGMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFCA25E5EE5D001F97C5 /* VTMECGMenuVC.m */; };
+		8B07EFCD25E5EE5D001F97C5 /* VTMECGMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B07EFCB25E5EE5D001F97C5 /* VTMECGMenuVC.xib */; };
+		8B07EFE625E600ED001F97C5 /* VTMBPMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFE425E600ED001F97C5 /* VTMBPMenuVC.m */; };
+		8B07EFE725E600ED001F97C5 /* VTMBPMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B07EFE525E600ED001F97C5 /* VTMBPMenuVC.xib */; };
+		8B07EFF725E6019E001F97C5 /* VTMScaleMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFF525E6019E001F97C5 /* VTMScaleMenuVC.m */; };
+		8B07EFF825E6019E001F97C5 /* VTMScaleMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B07EFF625E6019E001F97C5 /* VTMScaleMenuVC.xib */; };
+		8BDFB5B925E79257001AD6FE /* VTMECGConfigVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDFB5B725E79257001AD6FE /* VTMECGConfigVC.m */; };
+		8BDFB5BA25E79257001AD6FE /* VTMECGConfigVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BDFB5B825E79257001AD6FE /* VTMECGConfigVC.xib */; };
+		ABE489368AC56A8CE17C798D /* Pods_VTMProductSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6570DECD24A09FC300F80D5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6570DEA924A09FBD00F80D5C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6570DEB024A09FBD00F80D5C;
+			remoteInfo = VTMProductSDK;
+		};
+		6570DED824A09FC300F80D5C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6570DEA924A09FBD00F80D5C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6570DEB024A09FBD00F80D5C;
+			remoteInfo = VTMProductSDK;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		36568C35A55E7393D652D689 /* Pods-VTMProductSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VTMProductSDK.debug.xcconfig"; path = "Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		6504C3E424A20532005CE0CF /* VTBLEUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTBLEUtils.h; sourceTree = "<group>"; };
+		6504C3E524A20532005CE0CF /* VTBLEUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTBLEUtils.m; sourceTree = "<group>"; };
+		6504C3E724A21824005CE0CF /* VTDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDevice.h; sourceTree = "<group>"; };
+		6504C3E824A21824005CE0CF /* VTDevice.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTDevice.m; sourceTree = "<group>"; };
+		6504C40B24A9CEE9005CE0CF /* SVRadialGradientLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVRadialGradientLayer.m; sourceTree = "<group>"; };
+		6504C40C24A9CEE9005CE0CF /* SVIndefiniteAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVIndefiniteAnimatedView.h; sourceTree = "<group>"; };
+		6504C40D24A9CEE9005CE0CF /* SVProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressHUD.h; sourceTree = "<group>"; };
+		6504C40E24A9CEE9005CE0CF /* SVProgressAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressAnimatedView.m; sourceTree = "<group>"; };
+		6504C40F24A9CEE9005CE0CF /* SVProgressHUD-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SVProgressHUD-Prefix.pch"; sourceTree = "<group>"; };
+		6504C41024A9CEE9005CE0CF /* SVRadialGradientLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVRadialGradientLayer.h; sourceTree = "<group>"; };
+		6504C41124A9CEE9005CE0CF /* SVProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVProgressHUD.m; sourceTree = "<group>"; };
+		6504C41224A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SVIndefiniteAnimatedView.m; sourceTree = "<group>"; };
+		6504C41324A9CEE9005CE0CF /* SVProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SVProgressHUD.bundle; sourceTree = "<group>"; };
+		6504C41424A9CEE9005CE0CF /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
+		6504C42324A9EBA1005CE0CF /* VTMRealVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMRealVC.h; sourceTree = "<group>"; };
+		6504C42424A9EBA1005CE0CF /* VTMRealVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMRealVC.m; sourceTree = "<group>"; };
+		6570DEB124A09FBD00F80D5C /* VTMProductSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VTMProductSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6570DEB424A09FBD00F80D5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		6570DEB524A09FBD00F80D5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		6570DEBE24A09FBD00F80D5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		6570DEC024A09FC200F80D5C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6570DEC324A09FC200F80D5C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6570DEC524A09FC200F80D5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6570DEC624A09FC200F80D5C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6570DECC24A09FC300F80D5C /* VTMProductSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VTMProductSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6570DED024A09FC300F80D5C /* VTMProductSDKTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMProductSDKTests.m; sourceTree = "<group>"; };
+		6570DED224A09FC300F80D5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6570DED724A09FC300F80D5C /* VTMProductSDKUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VTMProductSDKUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6570DEDB24A09FC300F80D5C /* VTMProductSDKUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMProductSDKUITests.m; sourceTree = "<group>"; };
+		6570DEDD24A09FC300F80D5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6570DEEC24A0ADAA00F80D5C /* VTConnectVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTConnectVC.h; sourceTree = "<group>"; };
+		6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTConnectVC.m; sourceTree = "<group>"; };
+		7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VTMProductSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8B07EF6B25E51291001F97C5 /* VTPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTPrefixHeader.pch; sourceTree = "<group>"; };
+		8B07EF6C25E512A0001F97C5 /* VTMProductURATUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTMProductURATUtils.h; sourceTree = "<group>"; };
+		8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTMProductURATUtils.mm; sourceTree = "<group>"; };
+		8B07EF8325E513F7001F97C5 /* VTMProductLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VTMProductLib.framework; sourceTree = "<group>"; };
+		8B07EFA225E5151A001F97C5 /* VTMScaleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTMScaleUtils.h; sourceTree = "<group>"; };
+		8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTMScaleUtils.m; sourceTree = "<group>"; };
+		8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPEcgRealWaveformView.h; sourceTree = "<group>"; };
+		8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPEcgRealWaveformView.m; sourceTree = "<group>"; };
+		8B07EFC925E5EE5D001F97C5 /* VTMECGMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMECGMenuVC.h; sourceTree = "<group>"; };
+		8B07EFCA25E5EE5D001F97C5 /* VTMECGMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMECGMenuVC.m; sourceTree = "<group>"; };
+		8B07EFCB25E5EE5D001F97C5 /* VTMECGMenuVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VTMECGMenuVC.xib; sourceTree = "<group>"; };
+		8B07EFE325E600ED001F97C5 /* VTMBPMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMBPMenuVC.h; sourceTree = "<group>"; };
+		8B07EFE425E600ED001F97C5 /* VTMBPMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMBPMenuVC.m; sourceTree = "<group>"; };
+		8B07EFE525E600ED001F97C5 /* VTMBPMenuVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VTMBPMenuVC.xib; sourceTree = "<group>"; };
+		8B07EFF425E6019E001F97C5 /* VTMScaleMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMScaleMenuVC.h; sourceTree = "<group>"; };
+		8B07EFF525E6019E001F97C5 /* VTMScaleMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMScaleMenuVC.m; sourceTree = "<group>"; };
+		8B07EFF625E6019E001F97C5 /* VTMScaleMenuVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VTMScaleMenuVC.xib; sourceTree = "<group>"; };
+		8BDFB5B625E79257001AD6FE /* VTMECGConfigVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMECGConfigVC.h; sourceTree = "<group>"; };
+		8BDFB5B725E79257001AD6FE /* VTMECGConfigVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMECGConfigVC.m; sourceTree = "<group>"; };
+		8BDFB5B825E79257001AD6FE /* VTMECGConfigVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VTMECGConfigVC.xib; sourceTree = "<group>"; };
+		B44586BB746EE6FD9373D75C /* Pods-VTMProductSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VTMProductSDK.release.xcconfig"; path = "Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6570DEAE24A09FBD00F80D5C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B07EF8425E513F7001F97C5 /* VTMProductLib.framework in Frameworks */,
+				ABE489368AC56A8CE17C798D /* Pods_VTMProductSDK.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6570DEC924A09FC300F80D5C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6570DED424A09FC300F80D5C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1B016C0083C71F09F545F284 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8B07EF8325E513F7001F97C5 /* VTMProductLib.framework */,
+				7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		44EB4F75FDA48C4611BB93D4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				36568C35A55E7393D652D689 /* Pods-VTMProductSDK.debug.xcconfig */,
+				B44586BB746EE6FD9373D75C /* Pods-VTMProductSDK.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		6504C3E324A204EC005CE0CF /* VTBLE */ = {
+			isa = PBXGroup;
+			children = (
+				6504C3E424A20532005CE0CF /* VTBLEUtils.h */,
+				6504C3E524A20532005CE0CF /* VTBLEUtils.m */,
+				6504C3E724A21824005CE0CF /* VTDevice.h */,
+				6504C3E824A21824005CE0CF /* VTDevice.m */,
+			);
+			path = VTBLE;
+			sourceTree = "<group>";
+		};
+		6504C40A24A9CEE9005CE0CF /* SVProgressHUD */ = {
+			isa = PBXGroup;
+			children = (
+				6504C40B24A9CEE9005CE0CF /* SVRadialGradientLayer.m */,
+				6504C40C24A9CEE9005CE0CF /* SVIndefiniteAnimatedView.h */,
+				6504C40D24A9CEE9005CE0CF /* SVProgressHUD.h */,
+				6504C40E24A9CEE9005CE0CF /* SVProgressAnimatedView.m */,
+				6504C40F24A9CEE9005CE0CF /* SVProgressHUD-Prefix.pch */,
+				6504C41024A9CEE9005CE0CF /* SVRadialGradientLayer.h */,
+				6504C41124A9CEE9005CE0CF /* SVProgressHUD.m */,
+				6504C41224A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m */,
+				6504C41324A9CEE9005CE0CF /* SVProgressHUD.bundle */,
+				6504C41424A9CEE9005CE0CF /* SVProgressAnimatedView.h */,
+			);
+			path = SVProgressHUD;
+			sourceTree = "<group>";
+		};
+		6570DEA824A09FBD00F80D5C = {
+			isa = PBXGroup;
+			children = (
+				6570DEB324A09FBD00F80D5C /* VTMProductSDK */,
+				6570DECF24A09FC300F80D5C /* VTMProductSDKTests */,
+				6570DEDA24A09FC300F80D5C /* VTMProductSDKUITests */,
+				6570DEB224A09FBD00F80D5C /* Products */,
+				44EB4F75FDA48C4611BB93D4 /* Pods */,
+				1B016C0083C71F09F545F284 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6570DEB224A09FBD00F80D5C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6570DEB124A09FBD00F80D5C /* VTMProductSDK.app */,
+				6570DECC24A09FC300F80D5C /* VTMProductSDKTests.xctest */,
+				6570DED724A09FC300F80D5C /* VTMProductSDKUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6570DEB324A09FBD00F80D5C /* VTMProductSDK */ = {
+			isa = PBXGroup;
+			children = (
+				6504C40A24A9CEE9005CE0CF /* SVProgressHUD */,
+				6504C3E324A204EC005CE0CF /* VTBLE */,
+				6570DEB424A09FBD00F80D5C /* AppDelegate.h */,
+				6570DEB524A09FBD00F80D5C /* AppDelegate.m */,
+				8B07EFA225E5151A001F97C5 /* VTMScaleUtils.h */,
+				8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */,
+				8B07EF6B25E51291001F97C5 /* VTPrefixHeader.pch */,
+				8B07EF6C25E512A0001F97C5 /* VTMProductURATUtils.h */,
+				8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */,
+				6570DEEC24A0ADAA00F80D5C /* VTConnectVC.h */,
+				6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */,
+				8BDFB5BE25E79264001AD6FE /* ECG */,
+				8BDFB5BF25E79272001AD6FE /* BP */,
+				8BDFB5C025E79281001AD6FE /* Scale */,
+				6504C42324A9EBA1005CE0CF /* VTMRealVC.h */,
+				6504C42424A9EBA1005CE0CF /* VTMRealVC.m */,
+				8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */,
+				8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */,
+				6570DEBD24A09FBD00F80D5C /* Main.storyboard */,
+				6570DEC024A09FC200F80D5C /* Assets.xcassets */,
+				6570DEC224A09FC200F80D5C /* LaunchScreen.storyboard */,
+				6570DEC524A09FC200F80D5C /* Info.plist */,
+				6570DEC624A09FC200F80D5C /* main.m */,
+			);
+			path = VTMProductSDK;
+			sourceTree = "<group>";
+		};
+		6570DECF24A09FC300F80D5C /* VTMProductSDKTests */ = {
+			isa = PBXGroup;
+			children = (
+				6570DED024A09FC300F80D5C /* VTMProductSDKTests.m */,
+				6570DED224A09FC300F80D5C /* Info.plist */,
+			);
+			path = VTMProductSDKTests;
+			sourceTree = "<group>";
+		};
+		6570DEDA24A09FC300F80D5C /* VTMProductSDKUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6570DEDB24A09FC300F80D5C /* VTMProductSDKUITests.m */,
+				6570DEDD24A09FC300F80D5C /* Info.plist */,
+			);
+			path = VTMProductSDKUITests;
+			sourceTree = "<group>";
+		};
+		8BDFB5BE25E79264001AD6FE /* ECG */ = {
+			isa = PBXGroup;
+			children = (
+				8B07EFC925E5EE5D001F97C5 /* VTMECGMenuVC.h */,
+				8B07EFCA25E5EE5D001F97C5 /* VTMECGMenuVC.m */,
+				8B07EFCB25E5EE5D001F97C5 /* VTMECGMenuVC.xib */,
+				8BDFB5B625E79257001AD6FE /* VTMECGConfigVC.h */,
+				8BDFB5B725E79257001AD6FE /* VTMECGConfigVC.m */,
+				8BDFB5B825E79257001AD6FE /* VTMECGConfigVC.xib */,
+			);
+			path = ECG;
+			sourceTree = "<group>";
+		};
+		8BDFB5BF25E79272001AD6FE /* BP */ = {
+			isa = PBXGroup;
+			children = (
+				8B07EFE325E600ED001F97C5 /* VTMBPMenuVC.h */,
+				8B07EFE425E600ED001F97C5 /* VTMBPMenuVC.m */,
+				8B07EFE525E600ED001F97C5 /* VTMBPMenuVC.xib */,
+			);
+			path = BP;
+			sourceTree = "<group>";
+		};
+		8BDFB5C025E79281001AD6FE /* Scale */ = {
+			isa = PBXGroup;
+			children = (
+				8B07EFF425E6019E001F97C5 /* VTMScaleMenuVC.h */,
+				8B07EFF525E6019E001F97C5 /* VTMScaleMenuVC.m */,
+				8B07EFF625E6019E001F97C5 /* VTMScaleMenuVC.xib */,
+			);
+			path = Scale;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6570DEB024A09FBD00F80D5C /* VTMProductSDK */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6570DEE024A09FC300F80D5C /* Build configuration list for PBXNativeTarget "VTMProductSDK" */;
+			buildPhases = (
+				4C9E352100A2463AF47FB6B7 /* [CP] Check Pods Manifest.lock */,
+				6570DEAD24A09FBD00F80D5C /* Sources */,
+				6570DEAE24A09FBD00F80D5C /* Frameworks */,
+				6570DEAF24A09FBD00F80D5C /* Resources */,
+				B2F1D57A4090FAA649F8B3F4 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VTMProductSDK;
+			productName = VTMProductSDK;
+			productReference = 6570DEB124A09FBD00F80D5C /* VTMProductSDK.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6570DECB24A09FC300F80D5C /* VTMProductSDKTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6570DEE324A09FC300F80D5C /* Build configuration list for PBXNativeTarget "VTMProductSDKTests" */;
+			buildPhases = (
+				6570DEC824A09FC300F80D5C /* Sources */,
+				6570DEC924A09FC300F80D5C /* Frameworks */,
+				6570DECA24A09FC300F80D5C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6570DECE24A09FC300F80D5C /* PBXTargetDependency */,
+			);
+			name = VTMProductSDKTests;
+			productName = VTMProductSDKTests;
+			productReference = 6570DECC24A09FC300F80D5C /* VTMProductSDKTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6570DED624A09FC300F80D5C /* VTMProductSDKUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6570DEE624A09FC300F80D5C /* Build configuration list for PBXNativeTarget "VTMProductSDKUITests" */;
+			buildPhases = (
+				6570DED324A09FC300F80D5C /* Sources */,
+				6570DED424A09FC300F80D5C /* Frameworks */,
+				6570DED524A09FC300F80D5C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6570DED924A09FC300F80D5C /* PBXTargetDependency */,
+			);
+			name = VTMProductSDKUITests;
+			productName = VTMProductSDKUITests;
+			productReference = 6570DED724A09FC300F80D5C /* VTMProductSDKUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6570DEA924A09FBD00F80D5C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = viatom;
+				TargetAttributes = {
+					6570DEB024A09FBD00F80D5C = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+					6570DECB24A09FC300F80D5C = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = 6570DEB024A09FBD00F80D5C;
+					};
+					6570DED624A09FC300F80D5C = {
+						CreatedOnToolsVersion = 11.4.1;
+						TestTargetID = 6570DEB024A09FBD00F80D5C;
+					};
+				};
+			};
+			buildConfigurationList = 6570DEAC24A09FBD00F80D5C /* Build configuration list for PBXProject "VTMProductSDK" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6570DEA824A09FBD00F80D5C;
+			productRefGroup = 6570DEB224A09FBD00F80D5C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6570DEB024A09FBD00F80D5C /* VTMProductSDK */,
+				6570DECB24A09FC300F80D5C /* VTMProductSDKTests */,
+				6570DED624A09FC300F80D5C /* VTMProductSDKUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6570DEAF24A09FBD00F80D5C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B07EFF825E6019E001F97C5 /* VTMScaleMenuVC.xib in Resources */,
+				8BDFB5BA25E79257001AD6FE /* VTMECGConfigVC.xib in Resources */,
+				6570DEC424A09FC200F80D5C /* LaunchScreen.storyboard in Resources */,
+				8B07EFCD25E5EE5D001F97C5 /* VTMECGMenuVC.xib in Resources */,
+				6570DEC124A09FC200F80D5C /* Assets.xcassets in Resources */,
+				8B07EFE725E600ED001F97C5 /* VTMBPMenuVC.xib in Resources */,
+				6570DEBF24A09FBD00F80D5C /* Main.storyboard in Resources */,
+				6504C41924A9CEE9005CE0CF /* SVProgressHUD.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6570DECA24A09FC300F80D5C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6570DED524A09FC300F80D5C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4C9E352100A2463AF47FB6B7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-VTMProductSDK-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B2F1D57A4090FAA649F8B3F4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6570DEAD24A09FBD00F80D5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */,
+				8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */,
+				6504C41524A9CEE9005CE0CF /* SVRadialGradientLayer.m in Sources */,
+				6570DEB624A09FBD00F80D5C /* AppDelegate.m in Sources */,
+				8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */,
+				8B07EFE625E600ED001F97C5 /* VTMBPMenuVC.m in Sources */,
+				6504C41724A9CEE9005CE0CF /* SVProgressHUD.m in Sources */,
+				6504C3E924A21824005CE0CF /* VTDevice.m in Sources */,
+				8B07EFF725E6019E001F97C5 /* VTMScaleMenuVC.m in Sources */,
+				6570DEC724A09FC200F80D5C /* main.m in Sources */,
+				6504C41624A9CEE9005CE0CF /* SVProgressAnimatedView.m in Sources */,
+				6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */,
+				8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */,
+				8B07EFCC25E5EE5D001F97C5 /* VTMECGMenuVC.m in Sources */,
+				6570DEEE24A0ADAA00F80D5C /* VTConnectVC.m in Sources */,
+				8BDFB5B925E79257001AD6FE /* VTMECGConfigVC.m in Sources */,
+				6504C3E624A20532005CE0CF /* VTBLEUtils.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6570DEC824A09FC300F80D5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6570DED124A09FC300F80D5C /* VTMProductSDKTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6570DED324A09FC300F80D5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6570DEDC24A09FC300F80D5C /* VTMProductSDKUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6570DECE24A09FC300F80D5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6570DEB024A09FBD00F80D5C /* VTMProductSDK */;
+			targetProxy = 6570DECD24A09FC300F80D5C /* PBXContainerItemProxy */;
+		};
+		6570DED924A09FC300F80D5C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6570DEB024A09FBD00F80D5C /* VTMProductSDK */;
+			targetProxy = 6570DED824A09FC300F80D5C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6570DEBD24A09FBD00F80D5C /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6570DEBE24A09FBD00F80D5C /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		6570DEC224A09FC200F80D5C /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6570DEC324A09FC200F80D5C /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6570DEDE24A09FC300F80D5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VTMProductSDK/VTPrefixHeader.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		6570DEDF24A09FC300F80D5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VTMProductSDK/VTPrefixHeader.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6570DEE124A09FC300F80D5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 36568C35A55E7393D652D689 /* Pods-VTMProductSDK.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 84Z5TBSNUY;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VTMProductSDK/VTO2Communicate",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VTMProductSDK/VTPrefixHeader.pch";
+				INFOPLIST_FILE = VTMProductSDK/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6570DEE224A09FC300F80D5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B44586BB746EE6FD9373D75C /* Pods-VTMProductSDK.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 84Z5TBSNUY;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/VTMProductSDK/VTO2Communicate",
+					"$(PROJECT_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/VTMProductSDK/VTPrefixHeader.pch";
+				INFOPLIST_FILE = VTMProductSDK/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDK;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6570DEE424A09FC300F80D5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 84Z5TBSNUY;
+				INFOPLIST_FILE = VTMProductSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VTMProductSDK.app/VTMProductSDK";
+			};
+			name = Debug;
+		};
+		6570DEE524A09FC300F80D5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 84Z5TBSNUY;
+				INFOPLIST_FILE = VTMProductSDKTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDKTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VTMProductSDK.app/VTMProductSDK";
+			};
+			name = Release;
+		};
+		6570DEE724A09FC300F80D5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 84Z5TBSNUY;
+				INFOPLIST_FILE = VTMProductSDKUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDKUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VTMProductSDK;
+			};
+			name = Debug;
+		};
+		6570DEE824A09FC300F80D5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 84Z5TBSNUY;
+				INFOPLIST_FILE = VTMProductSDKUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDKUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = VTMProductSDK;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6570DEAC24A09FBD00F80D5C /* Build configuration list for PBXProject "VTMProductSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6570DEDE24A09FC300F80D5C /* Debug */,
+				6570DEDF24A09FC300F80D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6570DEE024A09FC300F80D5C /* Build configuration list for PBXNativeTarget "VTMProductSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6570DEE124A09FC300F80D5C /* Debug */,
+				6570DEE224A09FC300F80D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6570DEE324A09FC300F80D5C /* Build configuration list for PBXNativeTarget "VTMProductSDKTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6570DEE424A09FC300F80D5C /* Debug */,
+				6570DEE524A09FC300F80D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6570DEE624A09FC300F80D5C /* Build configuration list for PBXNativeTarget "VTMProductSDKUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6570DEE724A09FC300F80D5C /* Debug */,
+				6570DEE824A09FC300F80D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6570DEA924A09FBD00F80D5C /* Project object */;
+}

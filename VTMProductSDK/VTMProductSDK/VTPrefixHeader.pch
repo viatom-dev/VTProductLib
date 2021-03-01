@@ -1,0 +1,32 @@
+//
+//  VTPrefixHeader.pch
+//  VTMProductSDKDemo
+//
+//  Created by Viatom3 on 2021/2/22.
+//  Copyright © 2021 viatom. All rights reserved.
+//
+
+#ifndef VTPrefixHeader_pch
+#define VTPrefixHeader_pch
+#import <MBProgressHUD/MBProgressHUD.h>
+#import <VTMProductLib/VTMProductLib.h>
+#import "VTBLEUtils.h"
+#import "VTMProductURATUtils.h"
+
+//ECG
+#define ER1_ShowPre @"ER1 0286" //ER1
+#define VisualBeat_ShowPre @"VisualBeat " //VisualBeat
+#define ER2_ShowPre @"ER2 1213" //ER2
+#define DuoEK_ShowPre @"DuoEK " //DuoEK
+
+//BP
+#define BP2_ShowPre @"BP2" //BP2
+#define BP2A_ShowPre @"BP2A" //BP2A
+
+//Scale
+#define LeS1_ShowPre @"le S1-" //le S1
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif /* VTPrefixHeader_pch */
