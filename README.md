@@ -1,4 +1,4 @@
-#### 1. Viatom ECG SERIES iOS lib
+#### 1.VTProductLib
 
 * ##### 1.1 Changelog
 
@@ -6,54 +6,105 @@
 
 * ##### 1.2 Functions
 
-VTO2Lib is iOS lib for Viatom O2 SERIES. There are two part in this lib: Communicate function and Data analysis function.
-
-   1. Communicate function. Using this function, you can connect and download data from O2, and get real-time data from O2.
-   2. Data analysis function. Get measurements values form the files downloaded.
+VTProductLib is iOS framework for a part of Viatom's Product. There are two part in this lib: Communicate function and Data analysis function.
+&nbsp;&nbsp; 1. Communicate function.  You can get data from Viatom's Product, also sync parameters the product. 
+&nbsp;&nbsp; 2. Data analysis function. 用于解析通信获取后的各类数据，并返回相应的结构体供其他开发者使用。
 
 #### 2. Environment
-
-iOS 8.0 or later.
+&nbsp;&nbsp;&nbsp; iOS 9.0 or later.
 
 #### 3. Quick Start
-1. Config the `peripheral` property of `VTO2Communicate`.If the callback method
-that `serviceDeployed:` returns YES,  NECESSAYR!
+First of all, because `VTMURATUtils` does not use the singleton mode, you need to subclass a singleton, and subsequent use can avoid some unnecessary problems.
+Then, set the property `peripheral` and `VTMURATDeviceDelegate` proxy of `VTO2Communicate`, the SDK will configure services and features, and return YES through the callback method `utilDeployCompletion:`, that is, normal communication can be performed.
+Finally, set `VTMURATUtilsDelegate` on the page that needs to be communicated, send the corresponding command to get the data, and return the corresponding structure through the `VTMBLEParser`.
 
-2. Set `delegate` for `VTO2Communicate` any where you want get callback. At this step, you are able to communicate.
+#### 4. All methods the following is used communicate with product. Whether the product supports it, please refer to the protocol of the corresponding product.
 
-- get O2 info.    Note: the list of all files from O2 information
-
-```objective-c
-- (void)beginGetInfo;
+##### 4.1 Common
+- Request product info.
+```
+- (void)requestDeviceInfo;
 ```
 
-- sync parameters
-```objective-c
-- (void)beginToParamType:(VTParamType)paramType content:(NSString *)paramValue;
+- Request product current battery info.
+```
+- (void)requestBatteryInfo;
 ```
 
-- restore factory
-```objective-c
-- (void)beginFactory;
+- Sync product time.
+```
+- (void)syncTime:(NSDate * _Nullable)date;
 ```
 
-- read file from the peripheral 
-```objective-c
-- (void)beginReadFileWithFileName:(NSString *)fileName;
+- Request file list from product.
 ```
-- monitor peripheral RSSI
-```objective-c
-- (void)readRSSI;
-```
-- get real ppg data from the peripheral
-```objective-c
-- (void)beginGetRealPPG;
+- (void)requestFilelist;
 ```
 
-- information object `VTO2Lib/VTO2Info.h>`
-- O2 file object `<VTO2Lib/VTO2Object.h>`
-- O2 wave object `<VTO2Lib/VTO2WaveObject.h>`
-- O2 real-time or real-ppg object `<VTO2Lib/VTRealObject.h>`
-- oringinal data parser `<VTO2Lib/VTO2Parser.h>`
+- Prepare to read file by the file name from file list. 
+```
+- (void)prepareReadFile:(NSString * _Nonnull)fileName;
+```
 
+- Read the next package file by the offset length of the file, and return a certain number of file bytes each time.
+```
+- (void)readFile:(u_int)offset;
+```
+
+- End read file.
+```
+- (void)endReadFile;
+```
+
+- Restore factory.
+```
+- (void)factoryReset;
+```
+
+##### 4.2 ECG series related product specific command：
+- Request config info.
+```
+- (void)requestECGConfig;
+```
+
+- Request real data.
+```
+- (void)requestECGRealData;
+```
+
+- Sync config info, Struct supported by the reference protocol.
+```
+- (void)syncER1Config:(VTMER1Config)config;
+- (void)syncER2Config:(VTMER2Config)config;
+```
+
+##### 4.3 Blood pressure series related product specific command：
+- Request config info.
+```
+- (void)requestBPConfig;
+```
+
+- Set the buzzer switch.
+```
+- (void)syncBPSwitch:(BOOL)swi;
+```
+
+- Request real data.
+```
+- (void)requestBPRealData;
+```
+
+##### 4.4 S1 body scale series related product specific command:
+- Request real waveform.
+```
+- (void)requestScaleRealWve;
+```
+
+- Request real data.
+```
+- (void)requestScaleRealData;
+```
+
+#### 5. Parse the data.
+Parse the data through `VTMBLEParser`, Reference protocol document and the corresponding structure in `VTMBLEStruct.h`.
 

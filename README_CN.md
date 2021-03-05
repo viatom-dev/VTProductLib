@@ -1,54 +1,107 @@
 [TOC]
 
-#### 1. VTO2Lib
+#### 1. VTProductLib
 * ##### 1.1 版本变更日志
-    ##### [变更日志](https://github.com/viatom-dev/VTO2Lib/blob/master/ChangeLog.md)
+    ##### [变更日志](https://github.com/viatom-dev/VTProductLib/blob/main/ChangeLog.md)
 * ##### 1.2 功能描述
-   VTO2Lib是为源动健康O2系列产品开发的iOS版本的SDK。主要功能大致分为通信和解析两部分。
-   &nbsp;&nbsp; 1. 通信功能。 用于使用Bluetooth的iOS设备与作为外设的O2进行通信。 主要功能分为读取设备信息，下载数据，同步设备参数，恢复出厂和读取实时数据。
-   &nbsp;&nbsp; 2. 解析功能。 用于解析通信获取后的各类数据，并返回相应的模型供其他开发者使用。
+   VTProduct是为源动健康多款产品开发的iOS版本的SDK，目前主要支持部分心电系列产品以及S1体脂秤。主要功能大致分为通信和解析两部分。
+   &nbsp;&nbsp; 1. 通信功能。 用于使用Bluetooth的iOS设备与产品进行通信。 主要功能分为读取设备信息，下载数据，同步设备参数，恢复出厂和读取实时数据等。
+   &nbsp;&nbsp; 2. 解析功能。 用于解析通信获取后的各类数据，并返回相应的结构体供其他开发者使用。
 
 #### 2. 环境
-   &nbsp;&nbsp;&nbsp; iOS 8.0及以上
+   &nbsp;&nbsp;&nbsp; iOS 9.0及以上
 
 #### 3. 快速使用
-首先，配置`VTO2Communicate`的属性`peripheral`，sdk会进行服务和特征配置，如果回调方法`serviceDeployed:`返回YES，即可以正常通信。
-然后，在需要接收返回的地方设置`VTO2Communicate`的`delegate`，即可以正常接收各类请求回调。
+首先，由于`VTMURATUtils`未使用单例模式，需要子类化一个单例，后续使用可以避免一些不必要的问题。
+然后，设置`VTO2Communicate`的属性`peripheral`和`VTMURATDeviceDelegate`代理，SDK会进行服务和特征的配置，通过回调方法`utilDeployCompletion:`返回YES，即可以正常通信。
+最后，在需要通信的页面设置`VTMURATUtilsDelegate`，发送相应的指令获取数据，通过SDK解析器返回对应的结构体。
 
+#### 4. 以下均为获取数据的接口，设备是否支持，请参考对应设备的协议。
 
-- 读取O2相关的信息, 其中包含了可读取的文件列表
+##### 4.1 部分通用
+- 读取设备相关的信息
 ```
-- (void)beginGetInfo;
-```
-
-- 同步O2信息中包含的参数，参数种类根据设备类型动态变化
-```
-- (void)beginToParamType:(VTParamType)paramType content:(NSString *)paramValue;
+- (void)requestDeviceInfo;
 ```
 
-- 恢复出厂设置，所有参数恢复默认，并移除文件列表
+- 读取设备电池电量信息
 ```
-- (void)beginFactory;
-```
-
-- 读取O2上的文件
-```
-- (void)beginReadFileWithFileName:(NSString *)fileName;
+- (void)requestBatteryInfo;
 ```
 
-- 监听当前外设的RSSI值
+- 同步设备时间
 ```
-- (void)readRSSI;
-```
-
-- 获取实时的原始PPG
-```objective-c
-- (void)beginGetRealPPG;
+- (void)syncTime:(NSDate * _Nullable)date;
 ```
 
-- O2信息参考 `VTO2Lib/VTO2Info.h>`
-- O2文件参考 `<VTO2Lib/VTO2Object.h>`
-- O2文件中包含的波形参考 `<VTO2Lib/VTO2WaveObject.h>`
-- O2实时数据/PPG参考 `<VTO2Lib/VTRealObject.h>`
-- O2原始数据解析器参考 `<VTO2Lib/VTO2Parser.h>`
+- 读取设备存储的文件列表
+```
+- (void)requestFilelist;
+```
 
+- 准备读取指定文件，使用该命令可以获取文件的总长度
+```
+- (void)prepareReadFile:(NSString * _Nonnull)fileName;
+```
+
+- 通过文件的偏移长度来读取下一包文件， 每次会返回一定数量的文件字节数
+```
+- (void)readFile:(u_int)offset;
+```
+
+- 读取文件结束/终止，需要停止读取
+```
+- (void)endReadFile;
+```
+
+- 恢复出厂设置
+```
+- (void)factoryReset;
+```
+
+##### 4.2 以下为ECG系列相关产品特定指令：
+- 请求配置信息
+```
+- (void)requestECGConfig;
+```
+
+- 请求实时数据
+```
+- (void)requestECGRealData;
+```
+
+- 配置信息同步， 具体参考协议支持的结构体
+```
+- (void)syncER1Config:(VTMER1Config)config;
+- (void)syncER2Config:(VTMER2Config)config;
+```
+
+##### 4.3 以下为BP系列相关产品特定指令：
+- 请求配置信息
+```
+- (void)requestBPConfig;
+```
+
+- 设置蜂鸣器开关
+```
+- (void)syncBPSwitch:(BOOL)swi;
+```
+
+- 请求实时数据
+```
+- (void)requestBPRealData;
+```
+
+##### 4.4 以下为S1体脂秤特定指令:
+- 请求实时波形
+```
+- (void)requestScaleRealWve;
+```
+
+- 请求实时数据
+```
+- (void)requestScaleRealData;
+```
+
+#### 5. 数据解析
+数据解析通过解析器`VTMBLEParser`进行， 对应的返回同时参考协议文档与`VTMBLEStruct.h`中对应的结构体
