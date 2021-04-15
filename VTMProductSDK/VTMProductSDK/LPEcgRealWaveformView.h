@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) NSInteger hz;
 
+@property (nonatomic, assign) BOOL isBpWave;
+
 - (void)clearChache;
 
 @end

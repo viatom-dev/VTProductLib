@@ -83,6 +83,16 @@ static float rulerLevel = 1;
     
 }
 
+- (void)setIsBpWave:(BOOL)isBpWave {
+    _isBpWave = isBpWave;
+    
+    if (isBpWave) {
+        mm_per_mV1 = 1;
+        points_per_mm = 0.1/(25.4/163);
+        mm_per_value = 25.0/(125*0.1);   // 25 mm   125Hz  125 个点
+    }
+}
+
 - (void)setHz:(NSInteger)hz{
     mm_per_value = 25.0/(hz*1.0);
     points_per_value = points_per_mm*mm_per_value;
@@ -434,6 +444,7 @@ static float rulerLevel = 1;
     newPoint.x = point.x;
     int verticalGird = self.frame.size.height / points_per_mm / 5;
     newPoint.y = verticalGird/2*points_per_mm*5 - point.y*mm_per_mV1*points_per_mm;    // point.y  mV值
+    
     return newPoint;
 }
 
