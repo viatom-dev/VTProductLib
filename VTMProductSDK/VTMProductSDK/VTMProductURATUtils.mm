@@ -15,6 +15,7 @@ static VTMProductURATUtils *URATUtils = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         URATUtils = [[self alloc] init];
+        URATUtils.mtu = 20;
     });
     return URATUtils;
 }

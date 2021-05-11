@@ -9,6 +9,8 @@
 #import "VTMECGMenuVC.h"
 #import "VTMRealVC.h"
 #import "VTMECGConfigVC.h"
+#import <mach/mach.h>
+#import "SVProgressHUD.h"
 
 @interface VTMECGMenuVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATUtilsDelegate>
 
@@ -24,6 +26,11 @@
 static NSString *identifier = @"funcCell";
 
 @implementation VTMECGMenuVC
+{
+    uint64_t start;
+    uint64_t end;
+    u_int dataLength;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -192,6 +199,8 @@ static NSString *identifier = @"funcCell";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
+
+
 #pragma mark -- vt communicate
 - (void)util:(VTMURATUtils *)util commandCompletion:(u_char)cmdType deviceType:(VTMDeviceType)deviceType response:(NSData *)response{
     DLog(@"response:%@",response);
@@ -232,13 +241,17 @@ static NSString *identifier = @"funcCell";
             [downloadArr addObject:temp];
             [fileStr appendString:[NSString stringWithFormat:@"%@\n", temp]];
         }
-        [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:nil];
-        int fileIndex = 0;//Which one to download, eg:0,
-        if (downloadArr.count > 0){
-            [[VTMProductURATUtils sharedInstance] prepareReadFile:downloadArr[fileIndex]];
-        }else{
-            [self.progressHUD hideAnimated:YES];
-        }
+        __weak typeof(self) weakSelf = self;
+        [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:^(UIAlertAction *action) {
+            int fileIndex = arc4random()%(downloadArr.count);//Which one to download, eg:0,
+            [weakSelf.progressHUD hideAnimated:YES];
+            if (downloadArr.count > 0){
+                [[VTMProductURATUtils sharedInstance] prepareReadFile:downloadArr[fileIndex]];
+                [SVProgressHUD showProgress:0];
+            }else{
+                [weakSelf.progressHUD hideAnimated:YES];
+            }
+        }];
         
     }else if(cmdType == VTMBLECmdStartRead){
         _downloadLen = 0;
@@ -249,12 +262,16 @@ static NSString *identifier = @"funcCell";
         if (fsrr.file_size == 0) {
             [[VTMProductURATUtils sharedInstance] endReadFile];
         }else{
+            DLog(@"Start download the file");
+            start = mach_absolute_time();
+            dataLength = fsrr.file_size;
             [[VTMProductURATUtils sharedInstance] readFile:0];
         }
         
     }else if (cmdType == VTMBLECmdReadFile) {
         [_downloadData appendData:response];
         DLog(@"Download data length: %d",(int)_downloadData.length);
+        [SVProgressHUD showProgress:_downloadData.length*1.0/dataLength status:[NSString stringWithFormat:@"%ld/%ld", _downloadData.length, dataLength]];
         if (_downloadData.length == _downloadLen){
             [[VTMProductURATUtils sharedInstance] endReadFile];
         }else{
@@ -264,7 +281,19 @@ static NSString *identifier = @"funcCell";
     }else if(cmdType == VTMBLECmdEndRead){
         DLog(@"Download successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Download successfully" message:nil handler:nil];
+        [SVProgressHUD dismiss];
+        end = mach_absolute_time();
+        uint64_t elapsed = end - start;mach_timebase_info_data_t info;
+        if (mach_timebase_info (&info) != KERN_SUCCESS)
+        {
+            printf ("mach_timebase_info failed\n");
+        }
+        uint64_t nanosecs = elapsed * info.numer / info.denom;
+        uint64_t millisecs = nanosecs / 1000000;
+//        dataLength = dataLength/1024; // 换算成KB
+//        millisecs = millisecs/1000; // 换算成s
+        float rate = (dataLength / 1024.0) / (millisecs / 1000.0); // kb/s
+        [self showAlertWithTitle:@"Download successfully" message:[NSString stringWithFormat:@"总长度:%dByte\n总时长:%llums\n速率:%.2fKB/s", dataLength, millisecs, rate] handler:nil];
         
     }else if (cmdType == VTMBLECmdRestore) {
         DLog(@"Factory Settings restored successfully");
