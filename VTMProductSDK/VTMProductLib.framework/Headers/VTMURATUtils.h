@@ -98,10 +98,6 @@
 /// @brief 恢复出厂设置
 - (void)factoryReset;
 
-/// @brief 烧录出厂配置信息
-/// @param config 出厂配置
-- (void)factorySet:(VTMConfig)config;
-
 @end
 
 @interface VTMURATUtils (ECG)

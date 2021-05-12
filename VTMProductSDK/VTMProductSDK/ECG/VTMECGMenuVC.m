@@ -29,9 +29,9 @@ static NSString *identifier = @"funcCell";
     [super viewDidLoad];
     self.title = [NSString stringWithFormat:@"%@ connected", [VTBLEUtils sharedInstance].device.advName];
     if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER1_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:VisualBeat_ShowPre]) {
-        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Burn SN&Code",@"Get Config",@"ECG Real-time Data",@"Sync Config", nil];
+        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Get Config",@"ECG Real-time Data",@"Sync Config", nil];
     }else{
-        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Burn SN&Code",@"Get Config",@"ECG Real-time Data",@"Heartbeat switch", nil];
+        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Get Config",@"ECG Real-time Data",@"Heartbeat switch", nil];
     }
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
@@ -110,70 +110,6 @@ static NSString *identifier = @"funcCell";
         //CallBack cmdType:VTMBLECmdRestore
         [[VTMProductURATUtils sharedInstance] factoryReset];
         [self.progressHUD showAnimated:YES];
-        
-    }else if ([textStr isEqualToString:@"Burn SN&Code"]){
-        
-        UIAlertController *inputAlert = [UIAlertController alertControllerWithTitle:@"Enter Config" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [inputAlert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"SN：（length>=10,length<=18）";
-            textField.tag = 100;
-        }];
-        [inputAlert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"Hardware version：A/B/C/D";
-            textField.tag = 101;
-        }];
-        [inputAlert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"brachCode：(length==8)"; //8 digits
-            textField.tag = 102;
-        }];
-        UIAlertAction *cancelAa = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
-        UIAlertAction *sureAa = [UIAlertAction actionWithTitle:@"Sure" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            VTMConfig config;
-            for (UITextField *t in inputAlert.textFields) {
-                if (t.tag == 100) {
-                    if (t.text.length >= 10 && t.text.length <= 18) {
-                        config.burn_flag |= (1 << 0);
-                        config.sn.len = t.text.length;
-                        for (int i = 0; i < t.text.length; i ++) {
-                            config.sn.serial_num[i] = [t.text characterAtIndex:i];
-                        }
-                    }else{
-                        // error
-                    }
-                }else if (t.tag == 101) {
-                    if ([t.text isEqualToString:@"A"] ||
-                        [t.text isEqualToString:@"B"] ||
-                        [t.text isEqualToString:@"C"] ||
-                        [t.text isEqualToString:@"D"]) {
-                        config.burn_flag |= (1 << 1);
-                        config.hw_version = [t.text characterAtIndex:0];
-                    }else{
-                        // error
-                    }
-                }else{
-                    if (t.text.length == 8) {
-                        config.burn_flag |= (1 << 2);
-                        for (int i = 0; i < t.text.length; i ++) {
-                            config.branch_code[i] = [t.text characterAtIndex:i];
-                        }
-                    }else{
-                        // error
-                    }
-                }
-            }
-            if (config.burn_flag != 0) {
-                //CallBack cmdType:VTMBLECmdRestoreInfo
-                [self.progressHUD showAnimated:YES];
-                [[VTMProductURATUtils sharedInstance] factorySet:config];
-            }else{
-                
-            }
-        }];
-        [inputAlert addAction:cancelAa];
-        [inputAlert addAction:sureAa];
-        [self presentViewController:inputAlert animated:YES completion:^{
-            
-        }];
         
     }else if ([textStr isEqualToString:@"Get Config"]){
         

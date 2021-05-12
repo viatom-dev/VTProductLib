@@ -13,7 +13,6 @@
 // 对齐方式 首字节对齐
 #pragma pack(1)
 /// @brief start update firmware . EqulTo  StartFirmwareUpdate.
-
 struct
 VTMStartFirmwareUpdate {
     u_char device_type;
