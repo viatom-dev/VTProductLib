@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>.DS_Store</key>
+		<data>
+		KAUWPm/OYL+3b+rWO7uSX3Mqk8Q=
+		</data>
 		<key>Headers/VTMBLEEnum.h</key>
 		<data>
 		ftodpdbqP/lnJ4Tzzg3ZAbLNY1E=
@@ -26,11 +30,11 @@
 		</data>
 		<key>Headers/VTMURATUtils.h</key>
 		<data>
-		Oy+bgwrd6erqOoUTUyW4tJZ41Is=
+		16XIHodF5Z1Qfd6DfgyR+CCyQW4=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		wpAMfAeMyPP1n3yt/b/VyOrdiPA=
+		DPytkBCvIQudnfRHG6llpasKdrc=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -98,11 +102,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			Oy+bgwrd6erqOoUTUyW4tJZ41Is=
+			16XIHodF5Z1Qfd6DfgyR+CCyQW4=
 			</data>
 			<key>hash2</key>
 			<data>
-			ksavDdpXz9gAVqn8kPqJV3e/V7j3jFyolEnrDBlI3a8=
+			4GIuWaPEYBaU7Lkd8NT7r89YThoc9rhqFMQJ6rWPt64=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

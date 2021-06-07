@@ -128,6 +128,7 @@
                     }
                 }
                 NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
+                _waveformView.isBpWave = YES;
                 _waveformView.receiveArray = filterArr;
             }
         }
