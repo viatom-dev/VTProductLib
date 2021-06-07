@@ -95,8 +95,6 @@
     DLog(@"Connected：%@",device.rawPeripheral.name);
     CBPeripheral *rawPeripheral = device.rawPeripheral;
     [VTMProductURATUtils sharedInstance].peripheral = rawPeripheral;
-    NSUInteger mtu = [rawPeripheral maximumWriteValueLengthForType:CBCharacteristicWriteWithoutResponse];
-    [[VTMProductURATUtils sharedInstance] setMtu:mtu];
 }
 
 /// @brief This device has been disconnected. Note: If error == nil ，user manually disconnect.

@@ -57,9 +57,7 @@
 /// @brief 连接成功的设备
 @property (nonatomic, strong) CBPeripheral * _Nonnull peripheral;
 
-/// @brief MTU.  Default is 20.  Range of 20 to 247.
-/// @warning The mtu change only support a part of devices.
-@property (nonatomic, assign) NSUInteger mtu;
+@property (nonatomic, assign, readonly) VTMDeviceType currentType;
 
 /// @brief 初始化添加设备并设置代理
 /// @param device  连接的设备

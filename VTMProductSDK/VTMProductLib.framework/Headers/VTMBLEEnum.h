@@ -86,6 +86,7 @@ typedef enum : u_char {
 } VTMSCALECmd;
 
 typedef enum : NSUInteger {
+    VTMDeviceTypeUnknown,
     VTMDeviceTypeECG,  // ER1/ER2/VBeat/DuoEK
     VTMDeviceTypeBP,  // BP2/BP2A
     VTMDeviceTypeScale, // S1
