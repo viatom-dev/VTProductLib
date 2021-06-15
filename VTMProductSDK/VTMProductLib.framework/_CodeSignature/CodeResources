@@ -8,21 +8,9 @@
 		<data>
 		5/2FN61U+wCy++n0K7wkOo3hkHs=
 		</data>
-		<key>Headers/VTMBLEParser+BP.h</key>
-		<data>
-		IPQRz10pSOwdRTCMTCIZ2mHuJog=
-		</data>
-		<key>Headers/VTMBLEParser+ECG.h</key>
-		<data>
-		HqLpXKy6BecEWRfdnRtkU8v6YD0=
-		</data>
-		<key>Headers/VTMBLEParser+Scale.h</key>
-		<data>
-		yRbsRPLJr/hnqLY5Mj6Ks5CmgM0=
-		</data>
 		<key>Headers/VTMBLEParser.h</key>
 		<data>
-		97eVXmmNoPMaUTYlSLoBFnD8xjg=
+		TiISYKQGY2LY/bev1e4z2aCs78I=
 		</data>
 		<key>Headers/VTMBLEStruct.h</key>
 		<data>
@@ -34,7 +22,7 @@
 		</data>
 		<key>Headers/VTMProductLib.h</key>
 		<data>
-		C5qVu4rVAF0ciKUeUDW3b9B8BE4=
+		asgY89cK3ws7KJ9DESegCsjuk6g=
 		</data>
 		<key>Headers/VTMURATUtils.h</key>
 		<data>
@@ -42,7 +30,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		yzYLnF7dh9ADLJC6D7nHd3wZ3wo=
+		c5lRg7GEzhkUhdPeXiyh8vcj43I=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -62,48 +50,15 @@
 			oYACxyef5jQWwWzGyjpSkk0MnxAe/9g4zdj7Q+8WXh0=
 			</data>
 		</dict>
-		<key>Headers/VTMBLEParser+BP.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			IPQRz10pSOwdRTCMTCIZ2mHuJog=
-			</data>
-			<key>hash2</key>
-			<data>
-			1+fXKeHRLPCbhBPhZFkiy5KsH1UbAaWxwXRg6/pFYVU=
-			</data>
-		</dict>
-		<key>Headers/VTMBLEParser+ECG.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			HqLpXKy6BecEWRfdnRtkU8v6YD0=
-			</data>
-			<key>hash2</key>
-			<data>
-			SLyFzd+KfRLfSPQiCJDjx3fmjh8a0ZEG7xj6aGpht0E=
-			</data>
-		</dict>
-		<key>Headers/VTMBLEParser+Scale.h</key>
-		<dict>
-			<key>hash</key>
-			<data>
-			yRbsRPLJr/hnqLY5Mj6Ks5CmgM0=
-			</data>
-			<key>hash2</key>
-			<data>
-			nrbnWPusk00xM6tHYsXno8zYtja0MB4JShgtjqTeYjc=
-			</data>
-		</dict>
 		<key>Headers/VTMBLEParser.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			97eVXmmNoPMaUTYlSLoBFnD8xjg=
+			TiISYKQGY2LY/bev1e4z2aCs78I=
 			</data>
 			<key>hash2</key>
 			<data>
-			0nsHk3Lv2BHToeVq7ZUAV/SaF3qV49CS97f5swcTLF0=
+			fWEu3KH8r4RpqolPQYqY5+T8+rAJLhGR0+oYXOKcU3k=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEStruct.h</key>
@@ -132,11 +87,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			C5qVu4rVAF0ciKUeUDW3b9B8BE4=
+			asgY89cK3ws7KJ9DESegCsjuk6g=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZEusEDbAlDKyPdKcNBuNIogP32JFt0Z0inejZaOa8Ac=
+			m0oXSAhCyi/RTkbsPKvzNEgpiVkzPddO/IccWRzrXv8=
 			</data>
 		</dict>
 		<key>Headers/VTMURATUtils.h</key>
