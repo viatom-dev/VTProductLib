@@ -15,6 +15,7 @@
 @property (nonatomic, assign) NSInteger funcRow;
 @property (nonatomic, assign) u_int downloadLen;
 @property (nonatomic, strong) NSMutableData *downloadData;
+@property (nonatomic, copy) NSString *downloadName;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 @end
 
@@ -149,12 +150,15 @@ static NSString *identifier = @"funcCell";
             [downloadArr addObject:temp];
             [fileStr appendString:[NSString stringWithFormat:@"%@\n", temp]];
         }
-        [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:nil];
-        if (downloadArr.count > 0) {
-            [[VTMProductURATUtils sharedInstance] prepareReadFile:downloadArr[0]];
-        }else{
-            [self.progressHUD hideAnimated:YES];
-        }
+        [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:^(UIAlertAction *action) {
+            if (downloadArr.count > 0) {
+                self.downloadName = downloadArr[arc4random() % downloadArr.count];
+                [[VTMProductURATUtils sharedInstance] prepareReadFile:self.downloadName];
+            }else{
+                [self.progressHUD hideAnimated:YES];
+            }
+        }];
+        
         
     }else if(cmdType == VTMBLECmdStartRead){
         _downloadLen = 0;
@@ -180,7 +184,23 @@ static NSString *identifier = @"funcCell";
     }else if(cmdType == VTMBLECmdEndRead){
         DLog(@"Download successfully");
         [self.progressHUD hideAnimated:YES];
+        Byte *b = _downloadData.mutableBytes;
+        int type = b[1]; // BP2 -- ECG/BP ; BP2A -- BP
+        if (type == 2) { //   ECG
+            VTMBPECGResult result = [VTMBLEParser parseECGResult:[_downloadData subdataWithRange:NSMakeRange(0, sizeof(VTMBPECGResult))]];
+            DLog(@"fileName:%@\tHeart Rate: %d", self.downloadName,result.hr);
+            NSArray *ecgWaveArr = [VTMBLEParser parseBPPoints:[_downloadData subdataWithRange:NSMakeRange(sizeof(VTMBPECGResult), _downloadData.length - sizeof(VTMBPECGResult))]];
+            
+        }else if (type == 1){ // BP
+            VTMBPBPResult result = [VTMBLEParser parseBPResult:_downloadData];
+            DLog(@"fileName:%@\tDIA: %d\tSYS: %d\tMAP: %d\tPR: %d", self.downloadName,result.diastolic_pressure, result.systolic_pressure, result.mean_pressure, result.pulse_rate);
+        }else {
+            DLog(@"Error");
+        }
+        
         [self showAlertWithTitle:@"Download successfully" message:nil handler:^(UIAlertAction *action) {
+            
+            
         }];
         
     }else if (cmdType == VTMBLECmdRestore) {
