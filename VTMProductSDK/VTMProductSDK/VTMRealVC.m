@@ -9,6 +9,20 @@
 #import "VTMRealVC.h"
 #import "LPEcgRealWaveformView.h"
 #import "VTMScaleUtils.h"
+
+
+typedef enum : NSUInteger {
+    DeviceStatusSleep = 0,
+    DeviceStatusMemery,
+    DeviceStatusCharge,
+    DeviceStatusReady,
+    DeviceStatusBPMeasuring,
+    DeviceStatusBPMeasureEnd,
+    DeviceStatusECGMeasuring,
+    DeviceStatusECGMeasureEnd,
+} DeviceStatus;
+
+
 @interface VTMRealVC ()<VTMURATUtilsDelegate>
 @property (nonatomic, strong) UILabel *descLab;
 @property (nonatomic, copy) NSArray *array;
@@ -119,6 +133,57 @@
             if (cmdType == VTMBPCmdGetRealData) {
                 VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
                 DLog(@"run_status:%hhu",bpData.run_status);
+                switch (bpData.run_status.status) {
+                    case DeviceStatusSleep:
+                        break;
+                    case DeviceStatusMemery:
+                        break;
+                    case DeviceStatusReady:
+                        break;
+                    case DeviceStatusBPMeasuring:{
+                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
+                        VTMBPMeasuringData measuringData = [VTMBLEParser parseBPMeasuringData:data];
+                        if (measuringData.is_deflating_2) {
+                            // Plot the pulse wave
+                            for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
+                                short val = bpData.rt_wav.wav.wave_data[i];
+                            }
+                        }
+                    }
+                        break;
+                    case DeviceStatusBPMeasureEnd:{
+                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
+                        VTMBPEndMeasureData endMeasureData = [VTMBLEParser parseBPEndMeasureData:data];
+                        if (endMeasureData.state_code == 0 ||
+                            endMeasureData.state_code == 0x0E) {
+                            // Display the result
+                        }else {
+                            // Measure failed. View state_code.
+                        }
+                    }
+                        break;
+                    case DeviceStatusECGMeasuring:{
+                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
+                        VTMECGMeasuringData ecgMeasuringData = [VTMBLEParser parseECGMeasuringData:data];
+                        NSMutableArray *tempArray = [NSMutableArray array];
+                        
+                        for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
+                            if (bpData.rt_wav.wav.wave_data[i] != 0x7FFF) {
+                                float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
+                            }
+                        }
+                        
+                    }
+                        break;
+                    case DeviceStatusECGMeasureEnd:{
+                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
+                        VTMECGEndMeasureData ecgEndMeasueData = [VTMBLEParser parseECGEndMeasureData:data];
+        
+                    }
+                        break;
+                    default:
+                        break;
+                }
                 NSMutableArray *tempArray = [NSMutableArray array];
                 VTMRealTimeWF wf = bpData.rt_wav.wav;
                 for (int i = 0; i < wf.sampling_num; i ++) {
