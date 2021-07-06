@@ -172,7 +172,9 @@ typedef enum : NSUInteger {
                                 float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
                             }
                         }
-                        
+                        NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
+                        _waveformView.isBpWave = YES;
+                        _waveformView.receiveArray = filterArr;
                     }
                         break;
                     case DeviceStatusECGMeasureEnd:{
@@ -184,17 +186,7 @@ typedef enum : NSUInteger {
                     default:
                         break;
                 }
-                NSMutableArray *tempArray = [NSMutableArray array];
-                VTMRealTimeWF wf = bpData.rt_wav.wav;
-                for (int i = 0; i < wf.sampling_num; i ++) {
-                    short mv = wf.wave_data[i];
-                    if (wf.wave_data[i] != 0x7FFF) {
-                        [tempArray addObject:@([VTMBLEParser mVFromShort:mv])];
-                    }
-                }
-                NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
-                _waveformView.isBpWave = YES;
-                _waveformView.receiveArray = filterArr;
+                
             }
         }
             break;
