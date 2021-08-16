@@ -9,7 +9,6 @@
 #import "VTMECGMenuVC.h"
 #import "VTMRealVC.h"
 #import "VTMECGConfigVC.h"
-#import <mach/mach.h>
 #import "SVProgressHUD.h"
 
 @interface VTMECGMenuVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATUtilsDelegate>
@@ -20,6 +19,7 @@
 @property (nonatomic, assign) NSInteger funcRow;
 @property (nonatomic, assign) u_int downloadLen;
 @property (nonatomic, strong) NSMutableData *downloadData;
+@property (nonatomic, copy) NSString *downloadFileName;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
@@ -27,8 +27,6 @@ static NSString *identifier = @"funcCell";
 
 @implementation VTMECGMenuVC
 {
-    uint64_t start;
-    uint64_t end;
     u_int dataLength;
 }
 
@@ -182,7 +180,8 @@ static NSString *identifier = @"funcCell";
             int fileIndex = arc4random()%(downloadArr.count);//Which one to download, eg:0,
             [weakSelf.progressHUD hideAnimated:YES];
             if (downloadArr.count > 0){
-                [[VTMProductURATUtils sharedInstance] prepareReadFile:downloadArr[fileIndex]];
+                _downloadFileName = downloadArr[fileIndex];
+                [[VTMProductURATUtils sharedInstance] prepareReadFile:_downloadFileName];
                 [SVProgressHUD showProgress:0];
             }else{
                 [weakSelf.progressHUD hideAnimated:YES];
@@ -199,7 +198,6 @@ static NSString *identifier = @"funcCell";
             [[VTMProductURATUtils sharedInstance] endReadFile];
         }else{
             DLog(@"Start download the file");
-            start = mach_absolute_time();
             dataLength = fsrr.file_size;
             [[VTMProductURATUtils sharedInstance] readFile:0];
         }
@@ -218,18 +216,17 @@ static NSString *identifier = @"funcCell";
         DLog(@"Download successfully");
         [self.progressHUD hideAnimated:YES];
         [SVProgressHUD dismiss];
-        end = mach_absolute_time();
-        uint64_t elapsed = end - start;mach_timebase_info_data_t info;
-        if (mach_timebase_info (&info) != KERN_SUCCESS)
-        {
-            printf ("mach_timebase_info failed\n");
-        }
-        uint64_t nanosecs = elapsed * info.numer / info.denom;
-        uint64_t millisecs = nanosecs / 1000000;
-//        dataLength = dataLength/1024; // 换算成KB
-//        millisecs = millisecs/1000; // 换算成s
-        float rate = (dataLength / 1024.0) / (millisecs / 1000.0); // kb/s
-        [self showAlertWithTitle:@"Download successfully" message:[NSString stringWithFormat:@"总长度:%dByte\n总时长:%llums\n速率:%.2fKB/s", dataLength, millisecs, rate] handler:nil];
+        [self showAlertWithTitle:@"Download successfully" message:nil handler:^(UIAlertAction *action) {
+            if ([self->_downloadFileName hasPrefix:@"a"]) {
+                [VTMBLEParser parseFileA:self->_downloadData result:^(VTMDuoEKFileAHead head, VTMDuoEKFileAResult * _Nonnull results) {
+                    
+                }];
+            }else{
+                [VTMBLEParser parseWaveHeadAndTail:self->_downloadData result:^(VTMFileHead head, VTMER2FileTail tail) {
+                    
+                }];
+            }
+        }];
         
     }else if (cmdType == VTMBLECmdRestore) {
         DLog(@"Factory Settings restored successfully");

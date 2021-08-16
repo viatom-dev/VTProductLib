@@ -1,5 +1,13 @@
 # 2021/06/15
 
+## v1.7
+
+1. DuoEK下载数据中A文件的解析
+
+## v1.7
+
+1. Add support --- Parse the a-file download from DuoEK.
+
 ## v1.6
 
 1. BP2/BP2A下载数据解析的使用示例

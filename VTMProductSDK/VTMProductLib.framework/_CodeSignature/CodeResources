@@ -10,11 +10,11 @@
 		</data>
 		<key>Headers/VTMBLEParser.h</key>
 		<data>
-		TiISYKQGY2LY/bev1e4z2aCs78I=
+		0W2jiYxdBAWZ/LP3mk/ftuTOMAQ=
 		</data>
 		<key>Headers/VTMBLEStruct.h</key>
 		<data>
-		rcJUs3rT0pOqfHsXILrC/gIdd0M=
+		FfmZlb4MgVoDAHz8AVSbO5b7nas=
 		</data>
 		<key>Headers/VTMFilter.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		yzYLnF7dh9ADLJC6D7nHd3wZ3wo=
+		EWp6g3RsJ38nvuZ2PWUEDwkQmp8=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -54,22 +54,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TiISYKQGY2LY/bev1e4z2aCs78I=
+			0W2jiYxdBAWZ/LP3mk/ftuTOMAQ=
 			</data>
 			<key>hash2</key>
 			<data>
-			fWEu3KH8r4RpqolPQYqY5+T8+rAJLhGR0+oYXOKcU3k=
+			m+8sJ3zb+4RsoUQ+K5Zxr9gIbQ1SCVCvAQwTM5zugp0=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEStruct.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			rcJUs3rT0pOqfHsXILrC/gIdd0M=
+			FfmZlb4MgVoDAHz8AVSbO5b7nas=
 			</data>
 			<key>hash2</key>
 			<data>
-			ZXwMMtA6AU15Xay2c3pBv37h14CF8HmFkX6o/POlgw0=
+			Qb790oHKxzNG46JbPdZ4lbapeaGhu0TVUqsCu0YLbc8=
 			</data>
 		</dict>
 		<key>Headers/VTMFilter.h</key>

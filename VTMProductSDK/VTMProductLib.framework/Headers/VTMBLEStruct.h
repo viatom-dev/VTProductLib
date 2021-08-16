@@ -304,6 +304,28 @@ VTMER2FileTail {
 };
 typedef struct CG_BOXABLE VTMER2FileTail VTMER2FileTail;
 
+/// @brief a-file head of DuoEK.
+struct
+VTMDuoEKFileAHead {
+    u_char file_version;         //文件版本 e.g.  0x01 :  V1
+    u_char reserved0[9];         // 预留
+    u_int recording_time;        //同波形文件recording_time
+    u_char reserved1[66];        //预留
+};
+typedef struct CG_BOXABLE VTMDuoEKFileAHead VTMDuoEKFileAHead;
+
+/// @brief a-file result of DuoEK.
+struct
+VTMDuoEKFileAResult {
+    u_int  result;              //诊断结果，见诊断结果表[诊断结果表
+    u_short hr;                 //心率 单位：bpm
+    u_short qrs;                //QRS 单位：ms
+    u_short pvcs;               //PVC个数
+    u_short qtc;                //QTc 单位：ms
+    u_char reserved[20];        //预留
+};
+typedef struct CG_BOXABLE VTMDuoEKFileAResult VTMDuoEKFileAResult;
+
 #pragma mark --- BP2/BP2A
 /// @brief ecg result of bp2/bp2a.  EqulTo ECGResult.
 struct

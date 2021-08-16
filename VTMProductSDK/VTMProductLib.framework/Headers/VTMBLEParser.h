@@ -32,8 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VTMBLEParser (ECG)
 
-// All ecg product.
-+ (void)parseWaveHeadAndTail:(NSData *)data result:(void(^)(VTMFileHead head, VTMER2FileTail tail))finished;
+
 
 + (float)mVFromShort:(short)n;
 
@@ -53,6 +52,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray *)parsePoints:(NSData *)pointData;
 
 + (NSArray *)parseOrignalPoints:(NSData *)pointData;
+
+#pragma mark --- Besides DuoEK's a-file
++ (void)parseWaveHeadAndTail:(NSData *)data result:(void(^)(VTMFileHead head, VTMER2FileTail tail))finished;
+#pragma mark --- DuoEK a-file
++ (void)parseFileA:(NSData *)data result:(void(^)(VTMDuoEKFileAHead head, VTMDuoEKFileAResult * results))finished;
 
 #pragma mark --- VBeat
 
