@@ -44,10 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (VTMRealTimeData)parseRealTimeData:(NSData *)data;
 
+
+
 #pragma mark -- Wave
+
++ (NSData *)pointDataFromOriginalData:(NSData *)data;
 #pragma mark --- ER1/DuoEK/ER2
 
-+ (NSData *)parseWaveData:(NSData *)data;
++ (NSData *)parseWaveData:(NSData *)pointData;
 
 + (NSArray *)parsePoints:(NSData *)pointData;
 

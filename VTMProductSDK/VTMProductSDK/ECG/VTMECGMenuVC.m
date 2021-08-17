@@ -225,6 +225,9 @@ static NSString *identifier = @"funcCell";
                 [VTMBLEParser parseWaveHeadAndTail:self->_downloadData result:^(VTMFileHead head, VTMER2FileTail tail) {
                     
                 }];
+                NSData *wavePointsData = [VTMBLEParser pointDataFromOriginalData:self->_downloadData];
+                NSArray *originalWaveArr = [VTMBLEParser parseOrignalPoints:wavePointsData];
+                NSArray *mVWaveArr = [VTMBLEParser parsePoints:wavePointsData];
             }
         }];
         
