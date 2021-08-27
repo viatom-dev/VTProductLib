@@ -1,5 +1,9 @@
 # 2021/06/15
 
+## v1.9
+1. 修复实时数据返回结构体可变数组长度错误的bug
+1. Fix the bug that the real-time waveform length may be out of range.
+
 ## v1.8
 1. 增加心电系列下载文件解析成波形点的示例
 1. Operation: Get wave data from original data, and parse the wave data through VTMBLEParser.
