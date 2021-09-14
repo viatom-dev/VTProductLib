@@ -1,5 +1,9 @@
 # 2021/06/15
 
+## v2.0
+1. 增加BP2/BP2A实时数据解析
+1. Parse realtime data from BP2/BP2A
+
 ## v1.9
 1. 修复实时数据返回结构体可变数组长度错误的bug
 1. Fix the bug that the real-time waveform length may be out of range.

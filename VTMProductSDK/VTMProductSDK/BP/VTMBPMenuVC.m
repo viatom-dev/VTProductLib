@@ -9,6 +9,19 @@
 #import "VTMBPMenuVC.h"
 #import "VTMRealVC.h"
 
+typedef enum : NSUInteger {
+    DeviceStatusSleep = 0,
+    DeviceStatusMemery,
+    DeviceStatusCharge,
+    DeviceStatusReady,
+    DeviceStatusBPMeasuring,
+    DeviceStatusBPMeasureEnd,
+    DeviceStatusECGMeasuring,
+    DeviceStatusECGMeasureEnd,
+    DeviceStatusDisconnected,
+} DeviceStatus;
+
+
 @interface VTMBPMenuVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATUtilsDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (nonatomic, strong) NSMutableArray *funcArray;
@@ -128,6 +141,61 @@ static NSString *identifier = @"funcCell";
         VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
         VTMBatteryInfo info = bpData.run_status.battery;
         DLog(@"state:%hhu,percent:%hhu,voltage:%hhu",info.state,info.percent,info.voltage);
+        VTMBPRunStatus status = bpData.run_status;
+        VTMBPRealTimeWaveform waveform = bpData.rt_wav;
+        switch (status.status) {
+            case DeviceStatusSleep:{
+            }
+                break;
+            case DeviceStatusMemery:{
+                
+            }
+                break;
+            case DeviceStatusCharge:{
+                
+            }
+                break;
+            case DeviceStatusReady:{
+            }
+                break;
+            case DeviceStatusBPMeasuring:{
+                NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                VTMBPMeasuringData measuringData = [VTMBLEParser parseBPMeasuringData:tempData];
+                if (measuringData.is_deflating_2) {
+                    for (int i = 0; i < waveform.wav.sampling_num ; i++) {
+                        short prWave = waveform.wav.wave_data[i];
+                    }
+                }
+            }
+                break;
+            case DeviceStatusBPMeasureEnd:{
+                NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                VTMBPEndMeasureData endMeasureData = [VTMBLEParser parseBPEndMeasureData:tempData];
+
+            }
+                break;
+            case DeviceStatusECGMeasuring:{
+    
+                NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                VTMECGMeasuringData ecgMeasuringData = [VTMBLEParser parseECGMeasuringData:tempData];
+                for (int i = 0; i < waveform.wav.sampling_num ; i++) {
+                    if (waveform.wav.wave_data[i] != 0x7FFF) {
+                        float mV = [VTMBLEParser bpMvFromShort:waveform.wav.wave_data[i]];
+                    }
+                }
+            }
+                break;
+            case DeviceStatusECGMeasureEnd:{
+                NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                VTMECGEndMeasureData ecgEndMeasueData = [VTMBLEParser parseECGEndMeasureData:tempData];
+
+            }
+                break;
+            default:
+
+                break;
+        }
+        
         [self.progressHUD hideAnimated:YES];
         [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"percent:%hhu%%", info.percent] handler:nil];
         
