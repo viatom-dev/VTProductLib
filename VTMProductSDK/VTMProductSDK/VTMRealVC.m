@@ -100,6 +100,21 @@ typedef enum : NSUInteger {
                 }
                 NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];
                 _waveformView.receiveArray = filterArr;
+                
+                // MARK: heart rate
+                NSLog(@"heart rate: %d", rd.run_para.hr);
+                // MARK: recording time
+                NSLog(@"recording time: %d s", rd.run_para.record_time);
+                // MARK: battery
+                NSLog(@"battery: %d %%", rd.run_para.percent);
+                // MARK: battery status  0x00-normal  0x01-charging  0x02-full 0x03-low
+                NSLog(@"battery status: %d", (rd.run_para.sys_flag >> 6)&0x03);
+                // MARK: run status 0x00-standby  0x01-prepare  0x02-recording 0x03-saving 0x04-saved 0x05-record time less than 30s 0x06-
+                NSLog(@"run status: %d", rd.run_para.run_status&0x0F);
+                // MARK: reinitialize
+                NSLog(@"reinitialize: %d", (rd.run_para.sys_flag >> 1)&0x01);
+                // MARK: weak signal
+                NSLog(@"weak signal: %d", (rd.run_para.sys_flag >> 2)&0x01);
             }
         }
             break;
