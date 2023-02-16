@@ -19,4 +19,5 @@ FOUNDATION_EXPORT const unsigned char VTMProductLibVersionString[];
 #import <VTMProductLib/VTMBLEParser.h>
 #import <VTMProductLib/VTMBLEEnum.h>
 #import <VTMProductLib/VTMBLEStruct.h>
+#import <VTMProductLib/VTMCalibrate.H>
 

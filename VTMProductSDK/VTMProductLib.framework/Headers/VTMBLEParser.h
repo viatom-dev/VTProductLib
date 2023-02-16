@@ -27,11 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //+ (VTMUserList)parseUserList:(NSData *)data;
 
-
 @end
 
 @interface VTMBLEParser (ECG)
-
 
 
 + (float)mVFromShort:(short)n;
@@ -76,9 +74,31 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (VTMER2Config)parseER2Config:(NSData *)data;
 
+//MARK: - ER3
+
++ (VTMER3Config)parseER3Config:(NSData *)data;
+
++ (VTMER3RealTimeData)parseER3RealTimeData:(NSData *)data;
+
++ (CGFloat)er3MvFromShort:(short)n;
+
+/// 解压实时波形数据
+/// @param data 波形数据
+/// @param cable 导联类型
++ (NSData *)parseER3WaveData:(NSData *)data withCable:(VTMER3Cable)cable;
+
+/// 解压原始文件数据
+/// @param fileData 原始文件数据
+/// @param head 文件头
+/// @param fragment 解压后数据片段
+/// @param tail 文件尾
++ (void)parseER3OriginFile:(NSData *)fileData head:(void(^)(VTMER3FileHead head))head fragment:(void(^)(NSData *subData))fragment tail:(void(^)(VTMER3FileTail tail))tail;
+
 @end
 
 @interface VTMBLEParser (BP)
+
++ (float)bpMvFromShort:(short)n;
 
 + (VTMRealTimePressure)parseBPRealTimePressure:(NSData *)data;
 
@@ -100,11 +120,18 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (VTMECGEndMeasureData)parseECGEndMeasureData:(NSData *)data;
 
-+ (float)bpMvFromShort:(short)n;
-
 + (NSArray *)parseBPPoints:(NSData *)data;
 
 + (NSArray *)parseBPOrignalPoints:(NSData *)pointData;
+
+
++ (NSArray *)parseWiFiList:(NSData *)data;
+
++ (VTMWiFiInfo)parseWiFiInfo:(NSData *)data;
+
++ (VTMWiFiConfig)parseWiFiConfig:(NSData *)data;
+
++ (NSData *)getByteWithWiFiConfig:(VTMWiFiConfig)config;
 
 @end
 

@@ -44,12 +44,13 @@ static NSString *identifier = @"funcCell";
     _myTableView.dataSource = self;
     [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     
+    [VTMProductURATUtils sharedInstance].delegate = self;
+    [VTBLEUtils sharedInstance].delegate = self;
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [VTMProductURATUtils sharedInstance].delegate = self;
-    [VTBLEUtils sharedInstance].delegate = self;
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
@@ -83,7 +84,9 @@ static NSString *identifier = @"funcCell";
 }
 -(void)syncHeartbeatSwitch:(UISwitch *)swi{
     [self.progressHUD showAnimated:YES];
-    [[VTMProductURATUtils sharedInstance] syncBPSwitch:swi.on];
+    
+//    VTMBPConfig config;
+//    [[VTMProductURATUtils sharedInstance] syncBPConfig:<#(VTMBPConfig)#>];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;

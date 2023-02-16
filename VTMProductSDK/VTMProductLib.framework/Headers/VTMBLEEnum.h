@@ -55,6 +55,8 @@ typedef enum : u_char {
     VTMBLECmdDeleteFile = 0xF8,
     VTMBLECmdGetUserList = 0xF9,
     VTMBLECmdEnterDFU = 0xFA,
+    
+    VTMBLECmdSyncTimeZone = 0xC0    // 同步时间时区
 } VTMBLECmd;
 
 typedef enum : u_char {
@@ -63,6 +65,10 @@ typedef enum : u_char {
     VTMECGCmdGetRunStatus = 0x02, // 获取运行状态
     VTMECGCmdGetRealData = 0x03, // 获取实时数据
     VTMECGCmdSetConfig = 0x04, // 设置参数
+    
+    VTMER3ECGCmdGetRealData = 0x03, //  ER3获取实时数据
+    VTMER3ECGCmdExitMeasure = 0x07,  // ER3退出测量模式
+    VTMER3ECGCmdStartMeasure = 0x08,  // ER3启动测量模式
 } VTMECGCmd;
 
 typedef enum : u_char {
@@ -76,6 +82,13 @@ typedef enum : u_char {
     VTMBPCmdSwiRunStatus = 0x09,
     VTMBPCmdStartMeasure = 0x0A,
     VTMBPCmdSetConfig = 0x0B,
+    /** BP2 WiFi  */
+    VTMBPCmdScanWiFiList = 0x11,
+    VTMBPCmdSetWiFiConfig = 0x12,
+    VTMBPCmdGetWiFiConfig = 0x13,
+    VTMBPCmdGetCRCUserList = 0x30,     // 获取用户列表校验
+    VTMBPCmdGetCRCECGList = 0x31,
+    VTMBPCmdGetCRCBPList = 0x32
 } VTMBPCmd;
 
 typedef enum : u_char {
@@ -90,7 +103,14 @@ typedef enum : NSUInteger {
     VTMDeviceTypeECG,  // ER1/ER2/VBeat/DuoEK
     VTMDeviceTypeBP,  // BP2/BP2A
     VTMDeviceTypeScale, // S1
+    VTMDeviceTypeER3,    // 多通道心电 ER3
 } VTMDeviceType;
+
+
+
+//typedef enum : u_char {
+//    VTMBPD
+//} VTMBP;
 
 
 #endif /* VTMBLEEnum_h */

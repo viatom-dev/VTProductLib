@@ -28,6 +28,12 @@
 @protocol VTMURATUtilsDelegate <NSObject>
 
 @optional
+
+/// @brief 发送指令失败
+/// @param util util
+/// @param errorCode 发送失败原因  0: peripheral == nil  1: txcharacteristic == nil  2:peripheral.state != connected
+- (void)util:(VTMURATUtils * _Nonnull)util commandSendFailed:(u_char)errorCode;
+
 - (void)util:(VTMURATUtils * _Nonnull)util commandCompletion:(u_char)cmdType deviceType:(VTMDeviceType)deviceType response:(NSData * _Nullable)response;
 
 - (void)util:(VTMURATUtils * _Nonnull)util commandFailed:(u_char)cmdType deviceType:(VTMDeviceType)deviceType failedType:(VTMBLEPkgType)type;
@@ -79,6 +85,10 @@
 /// @param date  任意时间点，默认为当前时间
 - (void)syncTime:(NSDate * _Nullable)date;
 
+/// @brief 同步时间与时区
+/// @param date  任意时间点，默认为当前时间
+- (void)syncTimeZone:(NSDate * _Nullable)date;
+
 /// @brief 获取文件列表
 - (void)requestFilelist;
 
@@ -92,6 +102,22 @@
 
 /// @brief 结束文件读取
 - (void)endReadFile;
+
+///
+- (void)writeFile:(NSString * _Nonnull)fileName withData:(NSData * _Nonnull)data;
+
+/// @brief 准备写入文件
+/// @param writeFile  文件名称
+- (void)prepareWriteFile:(VTMWriteFileReturn)writeFile;
+
+/// @brief 写入文件
+/// @param data 文件数据
+- (void)writeFile:(NSData * _Nonnull)data;
+
+/// @brief 结束文件写入
+- (void)endWriteFile;
+
+- (void)deleteFile;
 
 /// @brief 恢复出厂设置
 - (void)factoryReset;
@@ -118,15 +144,33 @@
 
 @interface VTMURATUtils (BP)
 
-/// @brief 请求BP2/BP2A配置信息
+/// @brief 请求改变BP设备当前运行状态
+/// @param state   0 :- 进入血压测量 1 :-  进入心电测量 2 :- 进入历史 3 :- 进入开机 4 :- 关机
+- (void)requestChangeBPState:(u_char)state;
+
+/// @brief 请求BP2/BP2A/BP2W配置信息
 - (void)requestBPConfig;
 
-/// @brief 声音开关
-/// @param swi 开关
-- (void)syncBPSwitch:(BOOL)swi;
+/// @brief 同步BP2/BP2A/BP2W配置信息
+/// @param config  配置信息
+- (void)syncBPConfig:(VTMBPConfig)config;
 
 /// @brief 请求BP系列实时数据
 - (void)requestBPRealData;
+
+/// @brief 请求扫描 BP Wi-FI 列表
+- (void)requestScanWiFiList;
+
+/// @brief 请求配置 BP Wi-Fi 设置
+- (void)requestBPConfigureWiFi:(VTMWiFiConfig)wifiConfig;
+
+/// @brief 请求获取 BP Wi-F 配置
+- (void)requestBPWiFiConfiguration;
+
+
+- (void)requestCRCFromBPWUserList;
+
+- (void)requestBPUserList;
 
 @end
 
@@ -140,6 +184,24 @@
 
 /// @brief 请求体脂秤实时数据
 - (void)requestScaleRealData;
+
+@end
+
+@interface VTMURATUtils (ER3)
+
+/// @brief 请求ECG系列相关配置信息
+- (void)requestER3Config;
+
+- (void)syncER3Config:(VTMER3Config)config;
+
+/// @brief 请求ER3实时数据
+- (void)requestER3ECGRealData;
+
+/// @brief 退出测量
+- (void)exitER3MeasurementMode;
+
+/// @brief 开启测量
+- (void)startER3MeasurementMode;
 
 @end
 
