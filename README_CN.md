@@ -13,7 +13,7 @@
 
 #### 3. 快速使用
 首先，由于`VTMURATUtils`未使用单例模式，需要子类化一个单例，后续使用可以避免一些不必要的问题。
-然后，设置`VTO2Communicate`的属性`peripheral`和`VTMURATDeviceDelegate`代理，SDK会进行服务和特征的配置，通过回调方法`utilDeployCompletion:`返回YES，即可以正常通信。
+然后，设置`VTMURATUtils`的属性`peripheral`和`VTMURATDeviceDelegate`代理，SDK会进行服务和特征的配置，通过回调方法`utilDeployCompletion:`返回YES，即可以正常通信。
 最后，在需要通信的页面设置`VTMURATUtilsDelegate`，发送相应的指令获取数据，通过SDK解析器返回对应的结构体。
 
 #### 4. 以下均为获取数据的接口，设备是否支持，请参考对应设备的协议。
@@ -34,6 +34,11 @@
 - (void)syncTime:(NSDate * _Nullable)date;
 ```
 
+- 同步设备时间与时区
+```
+- (void)syncTimeZone:(NSDate * _Nullable)date;
+```
+
 - 读取设备存储的文件列表
 ```
 - (void)requestFilelist;
@@ -52,6 +57,26 @@
 - 读取文件结束/终止，需要停止读取
 ```
 - (void)endReadFile;
+```
+
+- 准备写入文件
+```
+- (void)prepareWriteFile:(VTMWriteFileReturn)writeFile;
+```
+
+- 写入文件 
+```
+- (void)writeFile:(NSData * _Nonnull)data;
+```
+
+- 写入文件结束/终止，需要关闭写入
+```
+- (void)endWriteFile;
+```
+
+- 删除设备文件
+```
+- (void)deleteFile;
 ```
 
 - 恢复出厂设置
@@ -77,20 +102,46 @@
 ```
 
 ##### 4.3 以下为BP系列相关产品特定指令：
+-  改变BP设备状态
+```
+- (void)requestChangeBPState:(u_char)state;
+```
+
 - 请求配置信息
 ```
 - (void)requestBPConfig;
 ```
 
-- 设置蜂鸣器开关
+- 配置信息同步
 ```
-- (void)syncBPSwitch:(BOOL)swi;
+- (void)syncBPConfig:(VTMBPConfig)config;
 ```
 
 - 请求实时数据
 ```
 - (void)requestBPRealData;
 ```
+
+- 扫描WiFi列表 
+```
+- (void)requestScanWiFiList;
+```
+
+- 获取BP Wi-Fi 配置信息
+```
+- (void)requestBPWiFiConfiguration;
+```
+
+- 配置设备 Wi-Fi 模块信息
+```
+- (void)requestBPConfigureWiFi:(VTMWiFiConfig)wifiConfig;
+```
+
+- 获取用户列表文件CRC32校验
+```
+- (void)requestCRCFromBPWUserList;
+```
+
 
 ##### 4.4 以下为S1体脂秤特定指令:
 - 请求实时波形
