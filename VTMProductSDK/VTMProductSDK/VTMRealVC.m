@@ -76,7 +76,8 @@ typedef enum : NSUInteger {
     DLog(@"Request real-time data");
     if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre]) {
         [[VTMProductURATUtils sharedInstance]requestScaleRealData];
-    }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre]){
+    }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre] ||
+              [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2W_ShowPre]){
         [[VTMProductURATUtils sharedInstance]requestBPRealData];
     }else{
         [[VTMProductURATUtils sharedInstance]requestECGRealData];
@@ -185,10 +186,11 @@ typedef enum : NSUInteger {
                         for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
                             if (bpData.rt_wav.wav.wave_data[i] != 0x7FFF) {
                                 float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
+                                [tempArray addObject:@(mV)];
                             }
                         }
                         NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
-                        _waveformView.isBpWave = YES;
+//                        _waveformView.isBpWave = YES;
                         _waveformView.receiveArray = filterArr;
                     }
                         break;
