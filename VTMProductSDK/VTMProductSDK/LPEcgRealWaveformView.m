@@ -87,9 +87,9 @@ static float rulerLevel = 1;
     _isBpWave = isBpWave;
     
     if (isBpWave) {
-        mm_per_mV1 = 1;
-        points_per_mm = 0.1/(25.4/163);
-        mm_per_value = 25.0/(125*0.1);   // 25 mm   125Hz  125 个点
+//        mm_per_mV1 = 1;
+//        points_per_mm = 0.1/(25.4/163);
+        mm_per_value = 25.0/(250*1.0);   // 25 mm   125Hz  125 个点
     }
 }
 
