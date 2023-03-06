@@ -9,6 +9,14 @@
 #define VTMBLEEnum_h
 
 typedef enum : u_char {
+    VTMDeviceTypeUnknown,
+    VTMDeviceTypeECG,  // ER1/ER2/VBeat/DuoEK
+    VTMDeviceTypeBP,  // BP2/BP2A
+    VTMDeviceTypeScale, // S1
+    VTMDeviceTypeER3,    // 多通道心电 ER3
+} VTMDeviceType;
+
+typedef enum : u_char {
     VTMBLEHeaderDefault = 0xA5,
 } VTMBLEHeader;
 
@@ -49,9 +57,9 @@ typedef enum : u_char {
     VTMBLECmdStartRead = 0xF2,  // 读文件开始
     VTMBLECmdReadFile = 0xF3, // 读文件
     VTMBLECmdEndRead = 0xF4, // 读文件结束
-    VTMBLECmdStartWrite = 0xF5,  //
-    VTMBLECmdWriteData = 0xF6,
-    VTMBLECmdEndWrite = 0xF7,
+    VTMBLECmdStartWrite = 0xF5,  // 写文件开始
+    VTMBLECmdWriteData = 0xF6,   // 写文件
+    VTMBLECmdEndWrite = 0xF7,   // 写文件结束
     VTMBLECmdDeleteFile = 0xF8,
     VTMBLECmdGetUserList = 0xF9,
     VTMBLECmdEnterDFU = 0xFA,
@@ -98,19 +106,12 @@ typedef enum : u_char {
     VTMSCALECmdGetRealData = 0x03,
 } VTMSCALECmd;
 
-typedef enum : NSUInteger {
-    VTMDeviceTypeUnknown,
-    VTMDeviceTypeECG,  // ER1/ER2/VBeat/DuoEK
-    VTMDeviceTypeBP,  // BP2/BP2A
-    VTMDeviceTypeScale, // S1
-    VTMDeviceTypeER3,    // 多通道心电 ER3
-} VTMDeviceType;
-
-
-
-//typedef enum : u_char {
-//    VTMBPD
-//} VTMBP;
-
+typedef enum : u_char {
+    VTMBPTargetStatusBP = 0,
+    VTMBPTargetStatusECG = 1,
+    VTMBPTargetStatusHistory = 2,
+    VTMBPTargetStatusStart = 3,
+    VTMBPTargetStatusEnd = 4
+} VTMBPTargetStatus;
 
 #endif /* VTMBLEEnum_h */

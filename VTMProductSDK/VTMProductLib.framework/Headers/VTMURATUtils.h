@@ -11,6 +11,8 @@
 #import <VTMProductLib/VTMBLEEnum.h>
 #import <VTMProductLib/VTMBLEStruct.h>
 
+int const protocol_data_max_len = 240;
+
 @class VTMURATUtils;
 @protocol VTMURATDeviceDelegate <NSObject>
 
@@ -124,6 +126,7 @@
 
 @end
 
+
 @interface VTMURATUtils (ECG)
 
 /// @brief 请求ECG系列相关配置信息
@@ -141,6 +144,7 @@
 - (void)syncER2Config:(VTMER2Config)config;
 
 @end
+
 
 @interface VTMURATUtils (BP)
 
@@ -167,12 +171,11 @@
 /// @brief 请求获取 BP Wi-F 配置
 - (void)requestBPWiFiConfiguration;
 
-
+/// @brief 请求获取 用户文件的CRC32校验码
 - (void)requestCRCFromBPWUserList;
 
-- (void)requestBPUserList;
-
 @end
+
 
 @interface VTMURATUtils (Scale)
 
@@ -186,6 +189,7 @@
 - (void)requestScaleRealData;
 
 @end
+
 
 @interface VTMURATUtils (ER3)
 

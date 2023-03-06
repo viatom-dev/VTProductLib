@@ -125,6 +125,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSArray *)parseBPOrignalPoints:(NSData *)pointData;
 
 
++ (VTMBPWBPFileData)parseBPWBPFileData:(NSData *)data;
+
++ (VTMBPWECGFileData)parseBPWECGFileData:(NSData *)data;
+
+
 + (NSArray *)parseWiFiList:(NSData *)data;
 
 + (VTMWiFiInfo)parseWiFiInfo:(NSData *)data;

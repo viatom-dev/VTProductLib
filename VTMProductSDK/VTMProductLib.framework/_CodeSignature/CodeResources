@@ -6,11 +6,11 @@
 	<dict>
 		<key>Headers/VTMBLEEnum.h</key>
 		<data>
-		/FGiR5JU2g0A05IUDagVkFwFU5A=
+		EYkQu1G+2DvPKKYcoNjnCxU2xo4=
 		</data>
 		<key>Headers/VTMBLEParser.h</key>
 		<data>
-		VEDZBxxw806chNvYGiVxVwuykRE=
+		OPR0hpvSQriwZWHmZcvSKnTcrGE=
 		</data>
 		<key>Headers/VTMBLEStruct.h</key>
 		<data>
@@ -18,7 +18,7 @@
 		</data>
 		<key>Headers/VTMCalibrate.h</key>
 		<data>
-		TJED3U+hAJosp9I/ekJ022QTxiQ=
+		/+68kAiPL3UkxwjkbnCf0iqJneg=
 		</data>
 		<key>Headers/VTMFilter.h</key>
 		<data>
@@ -30,11 +30,11 @@
 		</data>
 		<key>Headers/VTMURATUtils.h</key>
 		<data>
-		1vAUo+7XugyWUGEnXsF8c5vTSiQ=
+		3jWwwHVLY4eBqGQUYwyvQNlew1Q=
 		</data>
 		<key>Info.plist</key>
 		<data>
-		JiJPVhDEQuj1s7aNJIVgFMmfZKA=
+		HRMxbxNA36Zv3rZvjqemdQAtzOM=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -47,22 +47,22 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			/FGiR5JU2g0A05IUDagVkFwFU5A=
+			EYkQu1G+2DvPKKYcoNjnCxU2xo4=
 			</data>
 			<key>hash2</key>
 			<data>
-			CLClnfF+tJvJz4Z63pZ0XBqMcMoate6uqG1NVpZ//eQ=
+			TPKvzeHt7E+XebUrTnOYRRaYIVRK5Ps59DLvlcRK3yk=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEParser.h</key>
 		<dict>
 			<key>hash</key>
 			<data>
-			VEDZBxxw806chNvYGiVxVwuykRE=
+			OPR0hpvSQriwZWHmZcvSKnTcrGE=
 			</data>
 			<key>hash2</key>
 			<data>
-			uQY3FBDeC1M1nAP9s18KS5DolPeY7StH16OKHA2boLo=
+			Xhav+menNSHoiLxhNxhvVJGKVUFOLL/JXAXTuTxMWLg=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEStruct.h</key>
@@ -80,11 +80,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			TJED3U+hAJosp9I/ekJ022QTxiQ=
+			/+68kAiPL3UkxwjkbnCf0iqJneg=
 			</data>
 			<key>hash2</key>
 			<data>
-			T2x2btbPnag4P4fImw4PddJGvOZyERqMlMnOuR46yJw=
+			W36nF5HXjNJ9pasRP/pgxPh60WXHDAMMr4Xd6JviS4c=
 			</data>
 		</dict>
 		<key>Headers/VTMFilter.h</key>
@@ -113,11 +113,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			1vAUo+7XugyWUGEnXsF8c5vTSiQ=
+			3jWwwHVLY4eBqGQUYwyvQNlew1Q=
 			</data>
 			<key>hash2</key>
 			<data>
-			/aGPOVVqSTLXzCYQFW0Eg/6n8emOom39tIdEyOR+fxs=
+			7CtJzCGWvFrPYs3T1Oi1g4tvCsC2koZ15YxU8f0y+dE=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

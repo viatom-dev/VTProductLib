@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (uint8_t)calCRC8:(u_char *)RP_ByteData bufSize:(u_int)Buffer_Size;
 
-+(char)crc8_maxin_checkWithChars:(u_char *)chars length:(int)len;
++ (char)crc8_maxin_checkWithChars:(u_char *)chars length:(int)len;
 
 uint32_t crc32_computes(uint8_t const *p_data, uint32_t size, uint32_t const *p_crc);
 
