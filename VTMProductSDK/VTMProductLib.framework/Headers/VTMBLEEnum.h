@@ -106,6 +106,7 @@ typedef enum : u_char {
     VTMSCALECmdGetRealData = 0x03,
 } VTMSCALECmd;
 
+
 typedef enum : u_char {
     VTMBPTargetStatusBP = 0,
     VTMBPTargetStatusECG = 1,
@@ -113,5 +114,22 @@ typedef enum : u_char {
     VTMBPTargetStatusStart = 3,
     VTMBPTargetStatusEnd = 4
 } VTMBPTargetStatus;
+
+typedef enum : u_char {
+    VTMBPStatusSleep = 0,        // 关机
+    VTMBPStatusMemery,           // 数据回顾
+    VTMBPStatusCharge,           // 充电
+    VTMBPStatusReady,            // 开机预备状态
+    VTMBPStatusBPMeasuring,      //血压测量中
+    VTMBPStatusBPMeasureEnd,     //血压测量结束
+    VTMBPStatusECGMeasuring,     //心电测量中
+    VTMBPStatusECGMeasureEnd,    //心电测量结束
+
+    VTMBPStatusBPAVGMeasure = 15,       //BP2WIFI血压测量x3中
+    VTMBPStatusBPAVGMeasureWait = 16,   //BP2WIFI血压测量x3等待开始状态
+    VTMBPStatusBPAVGMeasureEnd = 17,    //BP2WIFI血压测量x3结束
+//    STATUS_VEN = 20,                  //BP2理疗 理疗模式中
+
+} VTMBPStatus;
 
 #endif /* VTMBLEEnum_h */

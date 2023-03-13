@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/VTMBLEEnum.h</key>
 		<data>
-		EYkQu1G+2DvPKKYcoNjnCxU2xo4=
+		GYkmXJeoyEu9hIpX+iCzx8SEAa0=
 		</data>
 		<key>Headers/VTMBLEParser.h</key>
 		<data>
@@ -30,7 +30,7 @@
 		</data>
 		<key>Headers/VTMURATUtils.h</key>
 		<data>
-		3jWwwHVLY4eBqGQUYwyvQNlew1Q=
+		flO7titEaZbF3SriwW16We5Br+4=
 		</data>
 		<key>Info.plist</key>
 		<data>
@@ -47,11 +47,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			EYkQu1G+2DvPKKYcoNjnCxU2xo4=
+			GYkmXJeoyEu9hIpX+iCzx8SEAa0=
 			</data>
 			<key>hash2</key>
 			<data>
-			TPKvzeHt7E+XebUrTnOYRRaYIVRK5Ps59DLvlcRK3yk=
+			f1SeOwfGgK4MCGv2z//7QjYCc5gyYLwE61vFrEhMp0k=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEParser.h</key>
@@ -113,11 +113,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			3jWwwHVLY4eBqGQUYwyvQNlew1Q=
+			flO7titEaZbF3SriwW16We5Br+4=
 			</data>
 			<key>hash2</key>
 			<data>
-			7CtJzCGWvFrPYs3T1Oi1g4tvCsC2koZ15YxU8f0y+dE=
+			jvQzAExvPMZZBDZGP7OeYvPqUJzccf9j1DfRjoyEz6A=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

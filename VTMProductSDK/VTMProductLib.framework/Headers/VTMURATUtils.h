@@ -11,8 +11,6 @@
 #import <VTMProductLib/VTMBLEEnum.h>
 #import <VTMProductLib/VTMBLEStruct.h>
 
-int const protocol_data_max_len = 240;
-
 @class VTMURATUtils;
 @protocol VTMURATDeviceDelegate <NSObject>
 
@@ -106,7 +104,7 @@ int const protocol_data_max_len = 240;
 - (void)endReadFile;
 
 ///
-- (void)writeFile:(NSString * _Nonnull)fileName withData:(NSData * _Nonnull)data;
+- (void)writeFile:(NSData * _Nonnull)data withName:(NSString * _Nonnull)fileName;
 
 /// @brief 准备写入文件
 /// @param writeFile  文件名称
