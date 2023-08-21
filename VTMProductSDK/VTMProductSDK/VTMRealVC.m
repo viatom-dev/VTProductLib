@@ -52,7 +52,15 @@ typedef enum : NSUInteger {
     if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre]) {
         [self.view addSubview:self.weightLabel];
     }
-    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(requestRealtimeData) userInfo:nil repeats:YES];
+    
+    // correct interval of request real-data.
+    float interval = 0.5;
+    if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeECG) {
+        interval = 0.5;
+    } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeBP) {
+        interval = 0.2;
+    }
+    _timer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(requestRealtimeData) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer
                                  forMode:NSRunLoopCommonModes];
 }
@@ -190,6 +198,7 @@ typedef enum : NSUInteger {
                             }
                         }
                         NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
+                        NSLog(@"%@", tempArray);
                         _waveformView.isBpWave = YES;
                         _waveformView.receiveArray = filterArr;
                     }

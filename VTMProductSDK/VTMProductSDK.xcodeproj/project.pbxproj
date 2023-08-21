@@ -24,7 +24,6 @@
 		6570DEDC24A09FC300F80D5C /* VTMProductSDKUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEDB24A09FC300F80D5C /* VTMProductSDKUITests.m */; };
 		6570DEEE24A0ADAA00F80D5C /* VTConnectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */; };
 		8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */; };
-		8B07EF8425E513F7001F97C5 /* VTMProductLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8B07EF8325E513F7001F97C5 /* VTMProductLib.framework */; };
 		8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */; };
 		8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */; };
 		8B07EFCC25E5EE5D001F97C5 /* VTMECGMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFCA25E5EE5D001F97C5 /* VTMECGMenuVC.m */; };
@@ -93,7 +92,6 @@
 		8B07EF6B25E51291001F97C5 /* VTPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTPrefixHeader.pch; sourceTree = "<group>"; };
 		8B07EF6C25E512A0001F97C5 /* VTMProductURATUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTMProductURATUtils.h; sourceTree = "<group>"; };
 		8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTMProductURATUtils.mm; sourceTree = "<group>"; };
-		8B07EF8325E513F7001F97C5 /* VTMProductLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = VTMProductLib.framework; sourceTree = "<group>"; };
 		8B07EFA225E5151A001F97C5 /* VTMScaleUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTMScaleUtils.h; sourceTree = "<group>"; };
 		8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTMScaleUtils.m; sourceTree = "<group>"; };
 		8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPEcgRealWaveformView.h; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B07EF8425E513F7001F97C5 /* VTMProductLib.framework in Frameworks */,
 				ABE489368AC56A8CE17C798D /* Pods_VTMProductSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +140,6 @@
 		1B016C0083C71F09F545F284 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8B07EF8325E513F7001F97C5 /* VTMProductLib.framework */,
 				7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */,
 			);
 			name = Frameworks;
@@ -674,7 +670,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",
@@ -713,7 +709,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.1;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-framework",

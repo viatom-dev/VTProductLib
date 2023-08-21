@@ -30,6 +30,9 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSMutableData *downloadData;
 @property (nonatomic, copy) NSString *downloadName;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
+
+@property (nonatomic, copy) NSData *configData;
+
 @end
 
 static NSString *identifier = @"funcCell";
@@ -84,9 +87,10 @@ static NSString *identifier = @"funcCell";
 }
 -(void)syncHeartbeatSwitch:(UISwitch *)swi{
     [self.progressHUD showAnimated:YES];
-    
-//    VTMBPConfig config;
-//    [[VTMProductURATUtils sharedInstance] syncBPConfig:<#(VTMBPConfig)#>];
+    VTMBPConfig bpConfig = [VTMBLEParser parseBPConfig:self.configData];
+    bpConfig.device_switch = swi.isOn;
+    [[VTMProductURATUtils sharedInstance] syncBPConfig:bpConfig];
+    //[[VTMProductURATUtils sharedInstance] syncBPSwitch:swi.on];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
@@ -293,6 +297,7 @@ static NSString *identifier = @"funcCell";
         [self.progressHUD hideAnimated:YES];
         VTMBPConfig  bpConfig =  [VTMBLEParser parseBPConfig:response];
         [self showAlertWithTitle:@"Get Config successfully" message:nil handler:nil];
+        self.configData = response;
         
     }else if (cmdType == VTMBPCmdSetConfig){
         DLog(@"Set Config successfully");

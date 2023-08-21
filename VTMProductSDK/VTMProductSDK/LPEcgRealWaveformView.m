@@ -72,7 +72,7 @@ static float rulerLevel = 1;
     mm_per_mV1 = 10;
     points_per_mm = 1/(25.4/163);
     mm_per_value = 25.0/(125*1.0);   // 25 mm   125Hz  125 个点
-
+    _hz = 125;
     points_per_value = points_per_mm*mm_per_value;
     _poolArray = [NSMutableArray array];
     _fliterPool = [NSMutableArray array];
@@ -87,16 +87,15 @@ static float rulerLevel = 1;
     _isBpWave = isBpWave;
     
     if (isBpWave) {
-//        mm_per_mV1 = 1;
-//        points_per_mm = 0.1/(25.4/163);
-        mm_per_value = 25.0/(250*1.0);   // 25 mm   125Hz  125 个点
+        _hz = 250;
+        mm_per_mV1 = 10;
+        points_per_mm = 1.0/(25.4/163);
+        mm_per_value = 25.0/(250*1.0);   // 25 mm   250  250 个点
+        points_per_value = points_per_mm*mm_per_value;
+        [self setNeedsDisplay];
     }
 }
 
-- (void)setHz:(NSInteger)hz{
-    mm_per_value = 25.0/(hz*1.0);
-    points_per_value = points_per_mm*mm_per_value;
-}
 
 - (void)setReceiveArray:(NSArray *)receiveArray{
 
@@ -305,13 +304,13 @@ static float rulerLevel = 1;
 }
 
 - (void)refreshWave{
-//    NSLog(@"剩余:%lu",(unsigned long)_fliterPool.count);
+
     
     NSMutableArray *tempArr = [NSMutableArray array];
-    if (_fliterPool.count >= 128*0.5) {
-        refreshPoint = 9;   // 9 - 4
-    }else{
-        refreshPoint = 5;   // 5 - 2
+    if (_fliterPool.count >= _hz * 0.5) {
+        refreshPoint = ceil(_hz / 14.0) ;
+    } else{
+        refreshPoint = floor(_hz / 25.0) ;
     }
     
     if (_fliterPool.count >= refreshPoint) {

@@ -11,11 +11,23 @@
 #### 2. 环境
    &nbsp;&nbsp;&nbsp; iOS 9.0及以上
 
-#### 3. 快速使用
+#### 3. 集成
+
+* ##### 3.1 使用cocoapods集成
+
+> 使用cocoapods进行集成，如下：
+>
+> ```pod 'VTProductLib'```
+
+* ##### 3.2 直接导入.xcframework
+
+> 查看 [VTProductLib](https://git.lepudev.com/lepusdk/vtproductlib) 并下载，然后放到你的项目中。
+
 首先，由于`VTMURATUtils`未使用单例模式，需要子类化一个单例，后续使用可以避免一些不必要的问题。
 然后，设置`VTMURATUtils`的属性`peripheral`和`VTMURATDeviceDelegate`代理，SDK会进行服务和特征的配置，通过回调方法`utilDeployCompletion:`返回YES，即可以正常通信。
 最后，在需要通信的页面设置`VTMURATUtilsDelegate`，发送相应的指令获取数据，通过SDK解析器返回对应的结构体。
 
+<<<<<<< HEAD
 #### 4. 以下均为获取数据的接口，设备是否支持，请参考对应设备的协议。
 
 ##### 4.1 部分通用
@@ -156,3 +168,7 @@
 
 #### 5. 数据解析
 数据解析通过解析器`VTMBLEParser`进行， 对应的返回同时参考协议文档与`VTMBLEStruct.h`中对应的结构体
+=======
+#### 4.快速开始
+> 查看 [README](https://git.lepudev.com/lepusdk/vtproductlib/-/blob/master/README.md)
+>>>>>>> develop
