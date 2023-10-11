@@ -22,8 +22,8 @@ VTProductLib is iOS framework for a part of Viatom's Product. There are two part
 
 * ##### 3.2 Installation with .xcframework
 
-> You can visit [VTProductLib](https://git.lepudev.com/lepusdk/vtproductlib) and download, than move VTProductLib.xcframework to your Xcode project.
+> You can visit [VTProductLib](https://github.com/Viatom-iOS/VTProductLib_Pods) and download, than move VTProductLib.xcframework to your Xcode project.
 
 #### 4. Quick start
-> Visit [README](https://git.lepudev.com/lepusdk/vtproductlib/-/blob/master/README.md)
+> Visit [README](https://github.com/Viatom-iOS/VTProductLib_Pods/blob/master/README.md)
 
