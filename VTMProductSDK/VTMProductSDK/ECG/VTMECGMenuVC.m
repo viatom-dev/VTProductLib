@@ -11,6 +11,8 @@
 #import "VTMECGConfigVC.h"
 #import "SVProgressHUD.h"
 
+#import "VTMProductSDK-Swift.h"
+
 @interface VTMECGMenuVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATUtilsDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -228,6 +230,12 @@ static NSString *identifier = @"funcCell";
                 NSData *wavePointsData = [VTMBLEParser pointDataFromOriginalData:self->_downloadData];
                 NSArray *originalWaveArr = [VTMBLEParser parseOrignalPoints:wavePointsData];
                 NSArray *mVWaveArr = [VTMBLEParser parsePoints:wavePointsData];
+                NSArray *filterArr = [[VTMFilter shared] offlineFilterPoints:mVWaveArr];
+                VTRecordEcgController *vc = [[VTRecordEcgController alloc] init];
+                vc.ecgPoints = filterArr;
+                vc.title = self->_downloadFileName;
+                [self.navigationController pushViewController:vc animated:YES];
+                
             }
         }];
         

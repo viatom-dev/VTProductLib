@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,8 @@
 		6570DED124A09FC300F80D5C /* VTMProductSDKTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DED024A09FC300F80D5C /* VTMProductSDKTests.m */; };
 		6570DEDC24A09FC300F80D5C /* VTMProductSDKUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEDB24A09FC300F80D5C /* VTMProductSDKUITests.m */; };
 		6570DEEE24A0ADAA00F80D5C /* VTConnectVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */; };
+		65E95D6B2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */; };
+		65E95D6D2B4EBC3E004CE6B6 /* VTRecordEcgController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E95D6C2B4EBC3E004CE6B6 /* VTRecordEcgController.swift */; };
 		8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */; };
 		8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */; };
 		8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */; };
@@ -88,6 +90,9 @@
 		6570DEDD24A09FC300F80D5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6570DEEC24A0ADAA00F80D5C /* VTConnectVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTConnectVC.h; sourceTree = "<group>"; };
 		6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTConnectVC.m; sourceTree = "<group>"; };
+		65E95D692B4D4AEC004CE6B6 /* VTMProductSDK-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VTMProductSDK-Bridging-Header.h"; sourceTree = "<group>"; };
+		65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTRecordEcgWave.swift; sourceTree = "<group>"; };
+		65E95D6C2B4EBC3E004CE6B6 /* VTRecordEcgController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTRecordEcgController.swift; sourceTree = "<group>"; };
 		7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VTMProductSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B07EF6B25E51291001F97C5 /* VTPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTPrefixHeader.pch; sourceTree = "<group>"; };
 		8B07EF6C25E512A0001F97C5 /* VTMProductURATUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTMProductURATUtils.h; sourceTree = "<group>"; };
@@ -223,11 +228,14 @@
 				6504C42424A9EBA1005CE0CF /* VTMRealVC.m */,
 				8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */,
 				8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */,
+				65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */,
+				65E95D6C2B4EBC3E004CE6B6 /* VTRecordEcgController.swift */,
 				6570DEBD24A09FBD00F80D5C /* Main.storyboard */,
 				6570DEC024A09FC200F80D5C /* Assets.xcassets */,
 				6570DEC224A09FC200F80D5C /* LaunchScreen.storyboard */,
 				6570DEC524A09FC200F80D5C /* Info.plist */,
 				6570DEC624A09FC200F80D5C /* main.m */,
+				65E95D692B4D4AEC004CE6B6 /* VTMProductSDK-Bridging-Header.h */,
 			);
 			path = VTMProductSDK;
 			sourceTree = "<group>";
@@ -354,6 +362,7 @@
 				TargetAttributes = {
 					6570DEB024A09FBD00F80D5C = {
 						CreatedOnToolsVersion = 11.4.1;
+						LastSwiftMigration = 1500;
 					};
 					6570DECB24A09FC300F80D5C = {
 						CreatedOnToolsVersion = 11.4.1;
@@ -464,6 +473,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				65E95D6D2B4EBC3E004CE6B6 /* VTRecordEcgController.swift in Sources */,
 				6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */,
 				8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */,
 				6504C41524A9CEE9005CE0CF /* SVRadialGradientLayer.m in Sources */,
@@ -477,6 +487,7 @@
 				6504C41624A9CEE9005CE0CF /* SVProgressAnimatedView.m in Sources */,
 				6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */,
 				8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */,
+				65E95D6B2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift in Sources */,
 				8B07EFCC25E5EE5D001F97C5 /* VTMECGMenuVC.m in Sources */,
 				6570DEEE24A0ADAA00F80D5C /* VTConnectVC.m in Sources */,
 				8BDFB5B925E79257001AD6FE /* VTMECGConfigVC.m in Sources */,
@@ -654,6 +665,7 @@
 			baseConfigurationReference = 36568C35A55E7393D652D689 /* Pods-VTMProductSDK.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84Z5TBSNUY;
 				ENABLE_BITCODE = NO;
@@ -684,6 +696,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "VTMProductSDK/VTMProductSDK-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -693,6 +708,7 @@
 			baseConfigurationReference = B44586BB746EE6FD9373D75C /* Pods-VTMProductSDK.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84Z5TBSNUY;
 				ENABLE_BITCODE = NO;
@@ -723,6 +739,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.viatom.VTMProductSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "VTMProductSDK/VTMProductSDK-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -730,6 +748,7 @@
 		6570DEE424A09FC300F80D5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84Z5TBSNUY;
@@ -750,6 +769,7 @@
 		6570DEE524A09FC300F80D5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84Z5TBSNUY;
@@ -770,6 +790,7 @@
 		6570DEE724A09FC300F80D5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84Z5TBSNUY;
 				INFOPLIST_FILE = VTMProductSDKUITests/Info.plist;
@@ -788,6 +809,7 @@
 		6570DEE824A09FC300F80D5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 84Z5TBSNUY;
 				INFOPLIST_FILE = VTMProductSDKUITests/Info.plist;

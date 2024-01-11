@@ -16,7 +16,7 @@
 //ECG
 #define ER1_ShowPre @"ER1 " //ER1
 #define VisualBeat_ShowPre @"VisualBeat " //VisualBeat
-#define ER2_ShowPre @"ER2 " //ER2
+#define ER2_ShowPre @"ER2" //ER2
 #define DuoEK_ShowPre @"DuoEK " //DuoEK
 
 //BP
