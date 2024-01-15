@@ -180,6 +180,7 @@ typedef enum : NSUInteger {
                         if (endMeasureData.state_code == 0 ||
                             endMeasureData.state_code == 0x0E) {
                             // Display the result
+                            NSLog(@"%d. %d", endMeasureData.diastolic_pressure , endMeasureData.systolic_pressure);
                         }else {
                             // Measure failed. View state_code.
                         }

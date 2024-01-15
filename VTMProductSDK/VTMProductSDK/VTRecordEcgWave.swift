@@ -14,14 +14,10 @@ class VTRecordEcgWave: UIView {
             refresh()
         }
     }
-    public var sampleRate: Int! {
-        get {
-            return 125
-        }
-        
-        set {
-            mmPerVal = 25.0 / Double(newValue)
-            
+    public var sampleRate: Int = 125 {
+        didSet {
+            mmPerVal = Double(rate) / Double(sampleRate)
+            ptPerVal = ptPerMm * mmPerVal
         }
     }
     
@@ -32,23 +28,9 @@ class VTRecordEcgWave: UIView {
     let gridLower = 5 * 2
     let ptPerMm: Double = 6.4
     let rate = 25
-    var mmPerVal: Double! {
-        get {
-            return 0.2
-        }
-        set {
-            ptPerVal = ptPerMm * newValue
-        }
-    }
-    var ptPerVal: Double! {
-        get {
-            return ptPerMm * mmPerVal
-        }
-        set {
-            refresh()
-        }
-    }
-    var offset: Double = 0.0
+    var mmPerVal: Double! = 0.2
+    var ptPerVal: Double! = 3.2
+    var offset: Double! = 0.0
     
     lazy var waveLayer: CAShapeLayer = {
         waveLayer = CAShapeLayer.init()
