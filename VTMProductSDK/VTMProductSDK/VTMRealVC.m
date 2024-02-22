@@ -29,6 +29,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) LPEcgRealWaveformView *waveformView;
 @property (nonatomic, strong) UILabel *weightLabel;
 
+@property (nonatomic, strong) UIButton *measureButton;
+
 @end
 
 @implementation VTMRealVC
@@ -86,7 +88,9 @@ typedef enum : NSUInteger {
         [[VTMProductURATUtils sharedInstance]requestScaleRealData];
     }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre]){
         [[VTMProductURATUtils sharedInstance]requestBPRealData];
-    }else{
+    } else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER3_ShowPre]) {
+        [[VTMProductURATUtils sharedInstance] requestER3ECGRealData];
+    } else{
         [[VTMProductURATUtils sharedInstance]requestECGRealData];
     }
 }
@@ -216,10 +220,59 @@ typedef enum : NSUInteger {
             }
         }
             break;
+        case VTMDeviceTypeER3: {
+            if (cmdType == VTMER3ECGCmdGetRealData) {
+                NSMutableArray *tempArray = [NSMutableArray array];
+                // 1、Parsing real-time data
+                VTMER3RealTimeData rd = [VTMBLEParser parseER3RealTimeData:response];
+                VTMER3RunParams runParams = rd.run_params;
+                /* Notes
+                 /// @brief er3. RealTimeParameters
+                 typedef  struct {
+                     unsigned char run_status;           ///< Running status 0: Idle, 1: Detecting leads, 2: Preparing for measurement, 3: Recording
+                     VTMER3UTCTime start_time;           ///< Measurement start time
+                     unsigned int record_time;           ///< Recorded duration unit: second
+                     unsigned char battery_state;        ///< Battery status 0: normal use, 1: charging, 2: fully charged, 3: low battery
+                     unsigned char battery_percent;      ///< Battery power e.g. 100: 100%
+                     unsigned char reserved[6];          ///< reserved
+                     // ECG
+                     unsigned char ecg_cable_state;      ///< Cable status
+                     VTMER3Cable cable_type;             ///< Cable type
+                     unsigned short electrodes_state;    ///< Electrode status bit0-9 RA LA LL RL V1 V2 V3 V4 V5 V6     (0:ON  1:OFF)
+                     unsigned short ecg_hr;              ///< heart rate
+                     unsigned char ecg_flag;             ///< Real-time running mark bit0: R wave identification
+                     unsigned char ecg_resp_rate;        ///< respiratory rate
+                     ....
+                 } CG_BOXABLE VTMER3RunParams;
+                 */
+                if (runParams.run_status == 1) {
+                    self.measureButton.hidden = YES;
+                } else {
+                    self.measureButton.hidden = NO;
+                    if (runParams.run_status == 0) {
+                        self.measureButton.selected = NO;
+                    } else {
+                        self.measureButton.selected = YES;
+                    }
+                }
+                
+                // 2、Intercept waveform data
+                NSUInteger loc = sizeof(VTMER3RealTimeData);
+                NSData *waveData = [response subdataWithRange:NSMakeRange(loc, response.length - loc)];
+                // 3、All waveform points for all 12 leads。VTMER3ShowLead_I, VTMER3ShowLead_II, .., VTMER3ShowLead_V6
+                NSArray<NSArray *> *leadsPoints = [VTMBLEParser parseER3RealWaveData:waveData withCable:runParams.cable_type andState:runParams.electrodes_state];
+                // 4、Draw one of the leads。eg VTMER3ShowLead_II
+                _waveformView.receiveArray = leadsPoints[VTMER3ShowLead_II];
+            } else if (cmdType == VTMER3ECGCmdExitMeasure) {
+                DLog(@"Exit Measure");
+            } else if (cmdType == VTMER3ECGCmdStartMeasure) {
+                DLog(@"Start Measure");
+            }
+        }
+            break;
         default:
             break;
     }
-   
 }
 
 
@@ -240,5 +293,33 @@ typedef enum : NSUInteger {
     return _weightLabel;
 }
 
+
+- (UIButton *)measureButton {
+    if (!_measureButton) {
+        _measureButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _measureButton.frame = CGRectMake((self.view.frame.size.width - 100) * 0.5, CGRectGetMaxY(self.waveformView.frame) + 20, 100, 34.0);
+        [_measureButton setTitle:@"Start" forState:UIControlStateNormal];
+        [_measureButton setTitleColor:[UIColor colorWithRed:82/255.f green:211/255.f blue:106/255.f alpha:1] forState:UIControlStateNormal];
+
+        [_measureButton setTitle:@"Stop" forState:UIControlStateSelected];
+        [_measureButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        
+        _measureButton.layer.borderWidth = 0.5;
+        _measureButton.layer.borderColor = [UIColor blackColor].CGColor;
+        [self.view addSubview:_measureButton];
+        [_measureButton addTarget:self action:@selector(clickMeasureButton:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _measureButton;
+}
+
+- (void)clickMeasureButton:(UIButton *)sender {
+    if (sender.isSelected) {
+        // stop measure
+        [[VTMProductURATUtils sharedInstance] exitER3MeasurementMode];
+    } else {
+        // start measure
+        [[VTMProductURATUtils sharedInstance] startER3MeasurementMode];
+    }
+}
 
 @end

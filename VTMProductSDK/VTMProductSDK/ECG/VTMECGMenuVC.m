@@ -37,7 +37,10 @@ static NSString *identifier = @"funcCell";
     self.title = [NSString stringWithFormat:@"%@ connected", [VTBLEUtils sharedInstance].device.advName];
     if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER1_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:VisualBeat_ShowPre]) {
         _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Get Config",@"ECG Real-time Data",@"Sync Config", nil];
-    }else{
+    } else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER3_ShowPre]) {
+        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info", @"Battery Info", @"Sync time" , @"Factory Reset", @"ECG Real-time Data", nil];
+
+    } else{
         _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Get Config",@"ECG Real-time Data",@"Heartbeat switch", nil];
     }
     _myTableView.delegate = self;
