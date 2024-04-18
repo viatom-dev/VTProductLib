@@ -9,6 +9,7 @@ target 'VTMProductSDK' do
 
   pod 'MBProgressHUD'
   pod 'VTMProductLib'
+  pod 'Masonry'
 
 end
 

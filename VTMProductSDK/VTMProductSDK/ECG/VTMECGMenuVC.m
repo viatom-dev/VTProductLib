@@ -35,10 +35,10 @@ static NSString *identifier = @"funcCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = [NSString stringWithFormat:@"%@ connected", [VTBLEUtils sharedInstance].device.advName];
-    if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER1_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:VisualBeat_ShowPre]) {
+    if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeECG) {
         _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Get Config",@"ECG Real-time Data",@"Sync Config", nil];
-    } else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER3_ShowPre]) {
-        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info", @"Battery Info", @"Sync time" , @"Factory Reset", @"ECG Real-time Data", nil];
+    } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeER3) {
+        _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info", @"Battery Info", @"Sync time" , @"Factory Reset", @"ECG Real-time Data", @"Parse file", nil];
 
     } else{
         _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time" , @"Download file",@"Factory Reset",@"Get Config",@"ECG Real-time Data",@"Heartbeat switch", nil];
@@ -77,7 +77,7 @@ static NSString *identifier = @"funcCell";
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     NSString *str = _funcArray[indexPath.section];
     cell.textLabel.text = str;
-    if (([[VTBLEUtils sharedInstance].device.advName hasSuffix:ER2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasSuffix:DuoEK_ShowPre]) && [str isEqualToString:@"Heartbeat switch"]) {
+    if ([str isEqualToString:@"Heartbeat switch"]) {
         UISwitch *swi  = [[UISwitch alloc]init];
         cell.accessoryView = swi;
         [swi addTarget:self action:@selector(syncER2ConfigSwitch:) forControlEvents:UIControlEventTouchUpInside];
@@ -133,8 +133,29 @@ static NSString *identifier = @"funcCell";
         
         VTMECGConfigVC *vc = [[VTMECGConfigVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
+    } else if ([textStr isEqualToString:@"Parse file"]) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"W20240111145412_ER3" ofType:@""];
+        NSData *data = [[NSData alloc] initWithContentsOfFile:path];
+        DLog(@"start parse");
+        [VTMBLEParser parseER3OriginFile:data head:^(VTMER3FileHead head) {
+            
+        } leadFragments:^(NSArray<NSData *> * _Nonnull leadDatas) {
+            // for example
+            // LEAD I
+            NSData *IData = leadDatas[VTMER3ShowLead_I];
+            short *vals = (short *)data.bytes;
+            for (int i = 0 ; i < data.length / 2; i ++) {
+                short val = vals[i];
+                double mV = [VTMBLEParser er3MvFromShort:val];
+                // use it draw ecg waveform 
+            }
+            
+        } tail:^(VTMER3FileTail tail) {
+            
+        }];
+        DLog(@"done");
+        
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -147,7 +168,7 @@ static NSString *identifier = @"funcCell";
         VTMDeviceInfo info = [VTMBLEParser parseDeviceInfo:response];
         DLog(@"hw_version:%hhu,fw_version:%hhu,sn:%s,branch_code:%s",info.hw_version,info.fw_version,info.sn.serial_num,info.branch_code);
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"sn:%s", info.sn.serial_num] handler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"hw_version:%hhu\nfw_version:%hhu\nsn:%s\nmore infomation view struct 'VTMDeviceInfo'",info.hw_version, info.fw_version,info.sn.serial_num] handler:^(UIAlertAction *action) {
             
         }];
         

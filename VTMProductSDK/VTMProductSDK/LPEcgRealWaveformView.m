@@ -52,7 +52,7 @@ static float rulerLevel = 1;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        [self via_initParams];
+//        [self via_initParams];
     }
     return self;
 }
@@ -63,6 +63,11 @@ static float rulerLevel = 1;
         
     }
     return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    [self via_initParams];
 }
 
 - (void)via_initParams

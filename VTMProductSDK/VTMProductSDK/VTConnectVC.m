@@ -116,11 +116,11 @@
     [self showAlertWithTitle:@"Completion" message:nil handler:^(UIAlertAction *action) {
         AppDelegate *appDelagete = [UIApplication sharedApplication].delegate;
         
-       if([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre]){
+       if(util.currentType == VTMDeviceTypeBP){
             VTMBPMenuVC *vc = [[VTMBPMenuVC alloc]init];
            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
            appDelagete.window.rootViewController = nav;
-        }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre] ){
+        }else if (util.currentType == VTMDeviceTypeScale){
             VTMScaleMenuVC *vc = [[VTMScaleMenuVC alloc]init];
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
             appDelagete.window.rootViewController = nav;

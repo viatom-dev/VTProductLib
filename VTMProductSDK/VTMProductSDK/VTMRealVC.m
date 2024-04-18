@@ -10,6 +10,8 @@
 #import "LPEcgRealWaveformView.h"
 #import "VTMScaleUtils.h"
 
+#import "VTMProductSDK-Swift.h"
+
 
 typedef enum : NSUInteger {
     DeviceStatusSleep = 0,
@@ -31,6 +33,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) UIButton *measureButton;
 
+@property (nonatomic, assign) VTMER3ShowLead showLead;
+
 @end
 
 @implementation VTMRealVC
@@ -51,7 +55,7 @@ typedef enum : NSUInteger {
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.waveformView];
     self.title = @"Real-time data";
-    if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre]) {
+    if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeScale) {
         [self.view addSubview:self.weightLabel];
     }
     
@@ -62,6 +66,7 @@ typedef enum : NSUInteger {
     } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeBP) {
         interval = 0.2;
     }
+    _showLead = VTMER3ShowLead_II;
     _timer = [NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(requestRealtimeData) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:_timer
                                  forMode:NSRunLoopCommonModes];
@@ -84,13 +89,17 @@ typedef enum : NSUInteger {
 
 - (void)requestRealtimeData{
     DLog(@"Request real-time data");
-    if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre]) {
+    if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeScale) {
         [[VTMProductURATUtils sharedInstance]requestScaleRealData];
-    }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre]){
+    } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeBP){
         [[VTMProductURATUtils sharedInstance]requestBPRealData];
-    } else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:ER3_ShowPre]) {
+    } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeER3) {
         [[VTMProductURATUtils sharedInstance] requestER3ECGRealData];
-    } else{
+    } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeWOxi) {
+        [[VTMProductURATUtils sharedInstance] woxi_requestWOxiRealData];
+    } else if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeFOxi) {
+        //
+    }else{
         [[VTMProductURATUtils sharedInstance]requestECGRealData];
     }
 }
@@ -188,6 +197,9 @@ typedef enum : NSUInteger {
                         }else {
                             // Measure failed. View state_code.
                         }
+                        
+                        [VTSwiftParser swift_parseBPEndMeasureDataWithResponse:data];
+                        
                     }
                         break;
                     case DeviceStatusECGMeasuring:{
@@ -256,13 +268,47 @@ typedef enum : NSUInteger {
                     }
                 }
                 
+                NSArray *titleArr = [VTMBLEParser showTitlesWithCable:runParams.cable_type];
+                NSArray *typeArr = [VTMBLEParser showTypesWithCable:runParams.cable_type];
+                VTMER3LeadState leadState = [VTMBLEParser parseCable:runParams.cable_type state:runParams.electrodes_state];
+                if (self.view.subviews.count <= 2) {
+                    for (int i = 0; i < titleArr.count; i ++) {
+                        UIButton *btn = [[UIButton alloc] init];
+                        btn.tag = 100 + i;
+                        [btn setTitle:titleArr[i] forState:UIControlStateNormal];
+                        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+                        [btn setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+                        [btn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+                        [btn addTarget:self action:@selector(changeLead:) forControlEvents:UIControlEventTouchUpInside];
+                        [self.view addSubview:btn];
+                        int row = i / 6;
+                        int col = i % 6;
+                        [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                            make.left.equalTo(self.view).with.offset(20 + col * (50 + 8));
+                            make.top.equalTo(self.measureButton.mas_bottom).with.offset(40 + row * (50 + 8));
+                            make.width.mas_equalTo(50);
+                            make.height.mas_equalTo(50);
+                        }];
+                    }
+                }
+                
+                for (int i = 0; i < titleArr.count; i ++) {
+                    UIButton *btn = (UIButton *)[self.view viewWithTag:i+100];
+                    btn.enabled = !((leadState.value >> i ) & 0x01);
+                    if (i == _showLead) {
+                        [btn setSelected:YES];
+                    }
+                }
+                
+                
                 // 2、Intercept waveform data
                 NSUInteger loc = sizeof(VTMER3RealTimeData);
                 NSData *waveData = [response subdataWithRange:NSMakeRange(loc, response.length - loc)];
                 // 3、All waveform points for all 12 leads。VTMER3ShowLead_I, VTMER3ShowLead_II, .., VTMER3ShowLead_V6
                 NSArray<NSArray *> *leadsPoints = [VTMBLEParser parseER3RealWaveData:waveData withCable:runParams.cable_type andState:runParams.electrodes_state];
                 // 4、Draw one of the leads。eg VTMER3ShowLead_II
-                _waveformView.receiveArray = leadsPoints[VTMER3ShowLead_II];
+                _waveformView.isBpWave = YES;
+                _waveformView.receiveArray = leadsPoints[_showLead];
             } else if (cmdType == VTMER3ECGCmdExitMeasure) {
                 DLog(@"Exit Measure");
             } else if (cmdType == VTMER3ECGCmdStartMeasure) {
@@ -273,6 +319,13 @@ typedef enum : NSUInteger {
         default:
             break;
     }
+}
+
+- (void)changeLead:(UIButton *)sender {
+    UIButton *preBtn = [self.view viewWithTag:_showLead + 100];
+    preBtn.selected = NO;
+    sender.selected = !sender.selected;
+    _showLead = sender.tag - 100;
 }
 
 

@@ -12,6 +12,7 @@
 #import <VTMProductLib/VTMProductLib.h>
 #import "VTBLEUtils.h"
 #import "VTMProductURATUtils.h"
+#import <Masonry/Masonry.h>
 
 //ECG
 #define ER1_ShowPre @"ER1 " //ER1
