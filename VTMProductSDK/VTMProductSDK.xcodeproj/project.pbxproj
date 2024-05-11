@@ -15,6 +15,14 @@
 		6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C41224A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m */; };
 		6504C41924A9CEE9005CE0CF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6504C41324A9CEE9005CE0CF /* SVProgressHUD.bundle */; };
 		6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C42424A9EBA1005CE0CF /* VTMRealVC.m */; };
+		653184752BEDF5A500CE8C4D /* VTRealDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6531846D2BEDF5A500CE8C4D /* VTRealDataViewController.m */; };
+		653184762BEDF5A500CE8C4D /* VTSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6531846F2BEDF5A500CE8C4D /* VTSettingsTableViewController.m */; };
+		653184772BEDF5A500CE8C4D /* VTDataDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653184722BEDF5A500CE8C4D /* VTDataDetailTableViewController.m */; };
+		653184782BEDF5A500CE8C4D /* VTDataListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653184742BEDF5A500CE8C4D /* VTDataListTableViewController.m */; };
+		6531847B2BEDF5ED00CE8C4D /* VTCOMMPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6531847A2BEDF5ED00CE8C4D /* VTCOMMPresenter.m */; };
+		6531847F2BEDFD7700CE8C4D /* VTRealParamsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6531847D2BEDFD7600CE8C4D /* VTRealParamsView.xib */; };
+		653184802BEDFD7700CE8C4D /* VTRealParamsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6531847E2BEDFD7600CE8C4D /* VTRealParamsView.m */; };
+		653184842BEF1F1400CE8C4D /* Pulsewave.m in Sources */ = {isa = PBXBuildFile; fileRef = 653184832BEF1F1400CE8C4D /* Pulsewave.m */; };
 		6570DEB624A09FBD00F80D5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEB524A09FBD00F80D5C /* AppDelegate.m */; };
 		6570DEBF24A09FBD00F80D5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEBD24A09FBD00F80D5C /* Main.storyboard */; };
 		6570DEC124A09FC200F80D5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEC024A09FC200F80D5C /* Assets.xcassets */; };
@@ -76,6 +84,21 @@
 		6504C41424A9CEE9005CE0CF /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
 		6504C42324A9EBA1005CE0CF /* VTMRealVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMRealVC.h; sourceTree = "<group>"; };
 		6504C42424A9EBA1005CE0CF /* VTMRealVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMRealVC.m; sourceTree = "<group>"; };
+		6531846D2BEDF5A500CE8C4D /* VTRealDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTRealDataViewController.m; sourceTree = "<group>"; };
+		6531846E2BEDF5A500CE8C4D /* VTSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTSettingsTableViewController.h; sourceTree = "<group>"; };
+		6531846F2BEDF5A500CE8C4D /* VTSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTSettingsTableViewController.m; sourceTree = "<group>"; };
+		653184702BEDF5A500CE8C4D /* VTDataListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTDataListTableViewController.h; sourceTree = "<group>"; };
+		653184712BEDF5A500CE8C4D /* VTRealDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTRealDataViewController.h; sourceTree = "<group>"; };
+		653184722BEDF5A500CE8C4D /* VTDataDetailTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTDataDetailTableViewController.m; sourceTree = "<group>"; };
+		653184732BEDF5A500CE8C4D /* VTDataDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTDataDetailTableViewController.h; sourceTree = "<group>"; };
+		653184742BEDF5A500CE8C4D /* VTDataListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTDataListTableViewController.m; sourceTree = "<group>"; };
+		653184792BEDF5ED00CE8C4D /* VTCOMMPresenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTCOMMPresenter.h; sourceTree = "<group>"; };
+		6531847A2BEDF5ED00CE8C4D /* VTCOMMPresenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTCOMMPresenter.m; sourceTree = "<group>"; };
+		6531847C2BEDFD7600CE8C4D /* VTRealParamsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTRealParamsView.h; sourceTree = "<group>"; };
+		6531847D2BEDFD7600CE8C4D /* VTRealParamsView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VTRealParamsView.xib; sourceTree = "<group>"; };
+		6531847E2BEDFD7600CE8C4D /* VTRealParamsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTRealParamsView.m; sourceTree = "<group>"; };
+		653184822BEF1F1400CE8C4D /* Pulsewave.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pulsewave.h; sourceTree = "<group>"; };
+		653184832BEF1F1400CE8C4D /* Pulsewave.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pulsewave.m; sourceTree = "<group>"; };
 		6570DEB124A09FBD00F80D5C /* VTMProductSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VTMProductSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6570DEB424A09FBD00F80D5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6570DEB524A09FBD00F80D5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -191,6 +214,36 @@
 			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
+		653184622BEDB28000CE8C4D /* Oxygen */ = {
+			isa = PBXGroup;
+			children = (
+				653184732BEDF5A500CE8C4D /* VTDataDetailTableViewController.h */,
+				653184722BEDF5A500CE8C4D /* VTDataDetailTableViewController.m */,
+				653184702BEDF5A500CE8C4D /* VTDataListTableViewController.h */,
+				653184742BEDF5A500CE8C4D /* VTDataListTableViewController.m */,
+				653184712BEDF5A500CE8C4D /* VTRealDataViewController.h */,
+				6531846D2BEDF5A500CE8C4D /* VTRealDataViewController.m */,
+				6531846E2BEDF5A500CE8C4D /* VTSettingsTableViewController.h */,
+				6531846F2BEDF5A500CE8C4D /* VTSettingsTableViewController.m */,
+			);
+			path = Oxygen;
+			sourceTree = "<group>";
+		};
+		653184812BEDFDDA00CE8C4D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */,
+				8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */,
+				653184822BEF1F1400CE8C4D /* Pulsewave.h */,
+				653184832BEF1F1400CE8C4D /* Pulsewave.m */,
+				65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */,
+				6531847C2BEDFD7600CE8C4D /* VTRealParamsView.h */,
+				6531847E2BEDFD7600CE8C4D /* VTRealParamsView.m */,
+				6531847D2BEDFD7600CE8C4D /* VTRealParamsView.xib */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		6570DEA824A09FBD00F80D5C = {
 			isa = PBXGroup;
 			children = (
@@ -225,17 +278,18 @@
 				8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */,
 				6570DEEC24A0ADAA00F80D5C /* VTConnectVC.h */,
 				6570DEED24A0ADAA00F80D5C /* VTConnectVC.m */,
-				8BDFB5BE25E79264001AD6FE /* ECG */,
-				8BDFB5BF25E79272001AD6FE /* BP */,
-				8BDFB5C025E79281001AD6FE /* Scale */,
 				6504C42324A9EBA1005CE0CF /* VTMRealVC.h */,
 				6504C42424A9EBA1005CE0CF /* VTMRealVC.m */,
 				657B049B2B567A6500C32E18 /* VTSwiftParser.swift */,
-				8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */,
-				8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */,
-				65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */,
 				65E95D6C2B4EBC3E004CE6B6 /* VTRecordEcgController.swift */,
+				653184792BEDF5ED00CE8C4D /* VTCOMMPresenter.h */,
+				6531847A2BEDF5ED00CE8C4D /* VTCOMMPresenter.m */,
 				65D75E0F2BD116D700E65EA1 /* W20240111145412_ER3 */,
+				8BDFB5BE25E79264001AD6FE /* ECG */,
+				8BDFB5BF25E79272001AD6FE /* BP */,
+				8BDFB5C025E79281001AD6FE /* Scale */,
+				653184622BEDB28000CE8C4D /* Oxygen */,
+				653184812BEDFDDA00CE8C4D /* View */,
 				6570DEBD24A09FBD00F80D5C /* Main.storyboard */,
 				6570DEC024A09FC200F80D5C /* Assets.xcassets */,
 				6570DEC224A09FC200F80D5C /* LaunchScreen.storyboard */,
@@ -405,6 +459,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6531847F2BEDFD7700CE8C4D /* VTRealParamsView.xib in Resources */,
 				8B07EFF825E6019E001F97C5 /* VTMScaleMenuVC.xib in Resources */,
 				8BDFB5BA25E79257001AD6FE /* VTMECGConfigVC.xib in Resources */,
 				6570DEC424A09FC200F80D5C /* LaunchScreen.storyboard in Resources */,
@@ -481,10 +536,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				65E95D6D2B4EBC3E004CE6B6 /* VTRecordEcgController.swift in Sources */,
+				653184772BEDF5A500CE8C4D /* VTDataDetailTableViewController.m in Sources */,
 				6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */,
 				657B049C2B567A6500C32E18 /* VTSwiftParser.swift in Sources */,
 				8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */,
 				6504C41524A9CEE9005CE0CF /* SVRadialGradientLayer.m in Sources */,
+				653184802BEDFD7700CE8C4D /* VTRealParamsView.m in Sources */,
 				6570DEB624A09FBD00F80D5C /* AppDelegate.m in Sources */,
 				8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */,
 				8B07EFE625E600ED001F97C5 /* VTMBPMenuVC.m in Sources */,
@@ -493,11 +550,16 @@
 				8B07EFF725E6019E001F97C5 /* VTMScaleMenuVC.m in Sources */,
 				6570DEC724A09FC200F80D5C /* main.m in Sources */,
 				6504C41624A9CEE9005CE0CF /* SVProgressAnimatedView.m in Sources */,
+				653184752BEDF5A500CE8C4D /* VTRealDataViewController.m in Sources */,
 				6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */,
 				8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */,
+				653184842BEF1F1400CE8C4D /* Pulsewave.m in Sources */,
+				653184782BEDF5A500CE8C4D /* VTDataListTableViewController.m in Sources */,
+				653184762BEDF5A500CE8C4D /* VTSettingsTableViewController.m in Sources */,
 				65E95D6B2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift in Sources */,
 				8B07EFCC25E5EE5D001F97C5 /* VTMECGMenuVC.m in Sources */,
 				6570DEEE24A0ADAA00F80D5C /* VTConnectVC.m in Sources */,
+				6531847B2BEDF5ED00CE8C4D /* VTCOMMPresenter.m in Sources */,
 				8BDFB5B925E79257001AD6FE /* VTMECGConfigVC.m in Sources */,
 				6504C3E624A20532005CE0CF /* VTBLEUtils.m in Sources */,
 			);

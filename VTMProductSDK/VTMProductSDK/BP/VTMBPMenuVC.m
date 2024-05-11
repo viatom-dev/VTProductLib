@@ -33,6 +33,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, copy) NSData *configData;
 
+@property (nonatomic, strong) NSIndexPath *curIdxPath;
+
 @end
 
 static NSString *identifier = @"funcCell";
@@ -42,7 +44,7 @@ static NSString *identifier = @"funcCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = [NSString stringWithFormat:@"%@ connected", [VTBLEUtils sharedInstance].device.advName];
-    _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time", @"Download file",@"Factory Reset",@"Get Config",@"BP Real-time Data", @"Heartbeat switch",nil];
+    _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time", @"Download file",@"Factory Reset",@"Get Config",@"BP Real-time Data", @"Heartbeat switch", @"delete first file", nil];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -97,7 +99,7 @@ static NSString *identifier = @"funcCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
+    _curIdxPath = indexPath;
     NSString *textStr = _funcArray[indexPath.section];
     if ([textStr isEqualToString:@"Device info"]) {
         
@@ -129,6 +131,9 @@ static NSString *identifier = @"funcCell";
     }else if ([textStr isEqualToString:@"BP Real-time Data"]){
         VTMRealVC *vc = [[VTMRealVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
+    } else if ([textStr isEqualToString:@"delete first file"]) {
+        [[VTMProductURATUtils sharedInstance] requestFilelist];
+        [self.progressHUD showAnimated:YES];
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -224,15 +229,22 @@ static NSString *identifier = @"funcCell";
             [downloadArr addObject:temp];
             [fileStr appendString:[NSString stringWithFormat:@"%@\n", temp]];
         }
-        [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:^(UIAlertAction *action) {
-            if (downloadArr.count > 0) {
-                self.downloadName = downloadArr[arc4random() % downloadArr.count];
-                [[VTMProductURATUtils sharedInstance] prepareReadFile:self.downloadName];
-            }else{
-                [self.progressHUD hideAnimated:YES];
-            }
-        }];
-        
+        NSString *textStr = _funcArray[_curIdxPath.section];
+        if ([textStr isEqual:@"Download file"]) {
+            [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:^(UIAlertAction *action) {
+                if (downloadArr.count > 0) {
+                    self.downloadName = downloadArr[arc4random() % downloadArr.count];
+                    [[VTMProductURATUtils sharedInstance] prepareReadFile:self.downloadName];
+                }else{
+                    [self.progressHUD hideAnimated:YES];
+                }
+            }];
+        } else {
+            if (!downloadArr.count) return;
+            NSString *firstFile = downloadArr[0];
+            [[VTMProductURATUtils sharedInstance] deleteFile:firstFile];
+            [self.progressHUD showAnimated:YES];
+        }
         
     }else if(cmdType == VTMBLECmdStartRead){
         _downloadLen = 0;
@@ -303,6 +315,9 @@ static NSString *identifier = @"funcCell";
         [self.progressHUD hideAnimated:YES];
         [self showAlertWithTitle:@"Set Config successfully" message:nil handler:nil];
         
+    } else if (cmdType == VTMBLECmdDeleteFile) {
+        [self.progressHUD hideAnimated:YES];
+        [self showAlertWithTitle:@"Deleted" message:nil handler:nil];
     }
 }
 

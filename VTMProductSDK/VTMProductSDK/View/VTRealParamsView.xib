@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21679"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="VTRealParamsView">
+            <rect key="frame" x="0.0" y="0.0" width="393" height="754"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qc6-kn-iSK">
+                    <rect key="frame" x="64" y="75" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LrL-0h-4rs">
+                    <rect key="frame" x="337" y="119" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVT-js-w64">
+                    <rect key="frame" x="120" y="75" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zk2-8d-SLi">
+                    <rect key="frame" x="8" y="119" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AY9-aJ-ryM">
+                    <rect key="frame" x="72" y="119" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NEd-dO-AR0">
+                    <rect key="frame" x="8" y="75" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lkn-SD-RZO">
+                    <rect key="frame" x="337" y="75" width="48" height="24"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="NEd-dO-AR0" firstAttribute="top" secondItem="Qc6-kn-iSK" secondAttribute="top" id="1mg-IP-khP"/>
+                <constraint firstItem="NEd-dO-AR0" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="F2I-HB-bR5"/>
+                <constraint firstItem="LrL-0h-4rs" firstAttribute="top" secondItem="Zk2-8d-SLi" secondAttribute="top" id="N3v-Qz-Hfk"/>
+                <constraint firstItem="AY9-aJ-ryM" firstAttribute="top" secondItem="Zk2-8d-SLi" secondAttribute="top" id="VBV-mw-78R"/>
+                <constraint firstItem="Qc6-kn-iSK" firstAttribute="leading" secondItem="NEd-dO-AR0" secondAttribute="trailing" constant="8" id="bIU-mZ-6Kx"/>
+                <constraint firstItem="Qc6-kn-iSK" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="16" id="dTr-gO-uUO"/>
+                <constraint firstItem="QVT-js-w64" firstAttribute="top" secondItem="Qc6-kn-iSK" secondAttribute="top" id="eZz-yE-3F4"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="LrL-0h-4rs" secondAttribute="trailing" constant="8" id="hQS-od-XYI"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Lkn-SD-RZO" secondAttribute="trailing" constant="8" id="j4U-TS-8rj"/>
+                <constraint firstItem="QVT-js-w64" firstAttribute="leading" secondItem="Qc6-kn-iSK" secondAttribute="trailing" constant="8" symbolic="YES" id="mKT-Zb-wbL"/>
+                <constraint firstItem="AY9-aJ-ryM" firstAttribute="leading" secondItem="Zk2-8d-SLi" secondAttribute="trailing" constant="16" id="n14-lZ-7tK"/>
+                <constraint firstItem="Lkn-SD-RZO" firstAttribute="top" secondItem="Qc6-kn-iSK" secondAttribute="top" id="pIA-mf-27Q"/>
+                <constraint firstItem="Zk2-8d-SLi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="pgL-3B-xaE"/>
+                <constraint firstItem="Zk2-8d-SLi" firstAttribute="top" secondItem="Qc6-kn-iSK" secondAttribute="bottom" constant="20" id="xYp-4g-FkG"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="batteryLabel" destination="Qc6-kn-iSK" id="xg6-Rs-1PS"/>
+                <outlet property="batteryStaLabel" destination="QVT-js-w64" id="ahx-Qo-JPt"/>
+                <outlet property="param1Label" destination="Zk2-8d-SLi" id="mGb-Zu-nUF"/>
+                <outlet property="param2Label" destination="AY9-aJ-ryM" id="IQL-j4-v93"/>
+                <outlet property="runStaLabel" destination="Lkn-SD-RZO" id="Lgm-gR-mU8"/>
+                <outlet property="timeLabel" destination="LrL-0h-4rs" id="3pU-8r-gsJ"/>
+            </connections>
+            <point key="canvasLocation" x="136.64122137404578" y="54.929577464788736"/>
+        </view>
+    </objects>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

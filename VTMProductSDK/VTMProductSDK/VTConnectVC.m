@@ -115,8 +115,11 @@
     
     [self showAlertWithTitle:@"Completion" message:nil handler:^(UIAlertAction *action) {
         AppDelegate *appDelagete = [UIApplication sharedApplication].delegate;
-        
-       if(util.currentType == VTMDeviceTypeBP){
+        if (util.currentType == VTMDeviceTypeWOxi || util.currentType == VTMDeviceTypeFOxi) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+            UITabBarController *tabBarController = [storyboard instantiateViewControllerWithIdentifier:@"myTabBarController"];
+            appDelagete.window.rootViewController = tabBarController;
+        } else if (util.currentType == VTMDeviceTypeBP){
             VTMBPMenuVC *vc = [[VTMBPMenuVC alloc]init];
            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
            appDelagete.window.rootViewController = nav;

@@ -7,6 +7,16 @@
 //
 
 //#import "VTMURATUtils.h"
+typedef enum : NSUInteger {
+    BPStateInactive = 0,
+    BPStateMemory,
+    BPStateCharging,
+    BPStateReady,
+    BPStateBPMeasuring,
+    BPStateBPMeasureEnd,
+    BPStateECGMeasuring,
+    BPStateECGMeasureEnd,
+} BPState;
 
 NS_ASSUME_NONNULL_BEGIN
 
