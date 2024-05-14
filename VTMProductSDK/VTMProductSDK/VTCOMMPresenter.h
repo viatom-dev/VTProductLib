@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 // MARK: Dashboard
 - (void)requestRealDataHandle:(void(^)(NSData *_Nonnull realdata, VTMDeviceType type))handle;
 
+// MARK: -- Finger clip oximeter Dashboard --
+- (void)requestWaveDataHandle:(void(^)(NSData *_Nonnull wavedata))waveHandle workModeHandle:(void(^)(NSData *_Nonnull workModeData))modeHandle;
 
 // MARK: settings
 - (void)requestDeviceConfigHandle:(void(^)(NSData *configData, VTMDeviceType type))handle;

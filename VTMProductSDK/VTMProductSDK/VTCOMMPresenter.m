@@ -18,6 +18,8 @@
 @property (nonatomic, copy) void (^ConfigHandle)(NSData *configData, VTMDeviceType type);
 @property (nonatomic, copy) void (^InfoHandle)(VTMDeviceInfo info);
 @property (nonatomic, copy) void (^SyncResponse)(BOOL);
+@property (nonatomic, copy) void (^WorkModeHandle)(NSData * _Nonnull);
+@property (nonatomic, copy) void (^WavedataHandle)(NSData * _Nonnull);
 
 @property (nonatomic, strong, readonly) VTMProductURATUtils *utils;
 
@@ -111,6 +113,22 @@ static VTCOMMPresenter *_instance = nil;
     } FOxiHandle:nil];
 }
 
+- (void)requestWaveDataHandle:(void (^)(NSData * _Nonnull))waveHandle workModeHandle:(void (^)(NSData * _Nonnull))modeHandle {
+    [self startTaskScaleHandle:^{
+        
+    } BPHandle:^{
+       
+    } ECGHandle:^{
+       
+    } ER3Handle:^{
+        
+    } WOxiHandle:^{
+       
+    } FOxiHandle:^{
+        self.WavedataHandle = waveHandle;
+        self.WorkModeHandle = modeHandle;
+    }];
+}
 
 
 - (void)requestDeviceConfigHandle:(void (^)(NSData *configData, VTMDeviceType type))handle {
@@ -323,17 +341,21 @@ static VTCOMMPresenter *_instance = nil;
         }
     } FOxiHandle:^{
         if (cmdType == VTMFOxiCmdWaveResp) {
-            
+            if (self.WavedataHandle) self.WavedataHandle(response);
         } else if (cmdType == VTMFOxiCmdInfoResp) {
-            
-        } else if (cmdType == VTMWOxiCmdGetConfig) {
+            if (self.RealDataHandle) {
+                self.RealDataHandle(response, deviceType);
+            }
+        } else if (cmdType == VTMFOxiCmdGetConfig) {
             if (self.ConfigHandle) {
                 self.ConfigHandle(response, deviceType);
             }
-        } else if (cmdType == VTMWOxiCmdSetConfig) {
+        } else if (cmdType == VTMFOxiCmdSetConfig) {
             if (self.SyncResponse) {
                 self.SyncResponse(YES);
             }
+        } else if (cmdType == VTMFOxiCmdWorkMode) {
+            if (self.WorkModeHandle) self.WorkModeHandle(response);
         }
     }];
 }
