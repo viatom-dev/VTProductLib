@@ -9,6 +9,8 @@
 #import "VTMBPMenuVC.h"
 #import "VTMRealVC.h"
 
+#import "VTMProductSDK-Swift.h"
+
 typedef enum : NSUInteger {
     DeviceStatusSleep = 0,
     DeviceStatusMemery,
@@ -276,6 +278,11 @@ static NSString *identifier = @"funcCell";
             VTMBPECGResult result = [VTMBLEParser parseECGResult:[_downloadData subdataWithRange:NSMakeRange(0, sizeof(VTMBPECGResult))]];
             DLog(@"fileName:%@\tHeart Rate: %d", self.downloadName,result.hr);
             NSArray *ecgWaveArr = [VTMBLEParser parseBPPoints:[_downloadData subdataWithRange:NSMakeRange(sizeof(VTMBPECGResult), _downloadData.length - sizeof(VTMBPECGResult))]];
+            VTRecordEcgController *vc = [[VTRecordEcgController alloc] init];
+            NSArray *filterArr = [[VTMFilter shared] offlineFilterPoints:ecgWaveArr];
+            vc.ecgPoints = filterArr;
+            vc.title = self->_downloadName;
+            [self.navigationController pushViewController:vc animated:YES];
             
         }else if (type == 1){ // BP
             VTMBPBPResult result = [VTMBLEParser parseBPResult:_downloadData];

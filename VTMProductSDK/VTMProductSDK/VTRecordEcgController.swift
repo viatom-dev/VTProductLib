@@ -14,29 +14,42 @@ import UIKit
     
     
     lazy var ecgWave: VTRecordEcgWave = {
-        ecgWave = VTRecordEcgWave(frame: self.view.bounds)
+        ecgWave = VTRecordEcgWave()
+        ecgWave.layer.masksToBounds = true
         view.addSubview(ecgWave)
+        ecgWave.mas_makeConstraints { (make) in
+            if #available(iOS 11.0, *) {
+                make?.top.equalTo()(view.mas_safeAreaLayoutGuideTop)
+                make?.bottom.equalTo()(view.mas_safeAreaLayoutGuideBottom)
+            } else {
+                // Fallback on earlier versions
+                make?.top.equalTo()(view)
+                make?.bottom.equalTo()(view)
+            }
+            make?.left.equalTo()(view)
+            make?.right.equalTo()(view)
+        }
         return ecgWave
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        view.backgroundColor = .white
         if ecgPoints != nil {
+            ecgWave.startTime = removeLettersFromString(title!)
+            ecgWave.sampleRate = 125
             ecgWave.ecgPoints = ecgPoints!
         }
         
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func removeLettersFromString(_ str: String) -> String {
+        let lettersSet = CharacterSet.letters
+        let stringWithoutLetters = str.components(separatedBy: lettersSet).joined()
+        return stringWithoutLetters
     }
-    */
+
+
 
 }
