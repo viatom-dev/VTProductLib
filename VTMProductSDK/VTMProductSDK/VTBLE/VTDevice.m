@@ -32,7 +32,8 @@
             ![peripheral.name hasPrefix:LeS1_ShowPre]&&
             ![peripheral.name hasPrefix:LeS1_ShowPre]&&
             ![peripheral.name hasPrefix:ER3_ShowPre] &&
-            ![peripheral.name hasPrefix:O2RingS]) {
+            ![peripheral.name hasPrefix:O2RingS] &&
+            ![peripheral.name hasPrefix:SA8W]) {
             return nil;
         }
     }

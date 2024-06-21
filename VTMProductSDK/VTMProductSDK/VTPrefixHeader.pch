@@ -32,6 +32,7 @@
 #define ER3_ShowPre @"Lepod" //ER3
 
 #define O2RingS @"O2Ring S" // II O2Ring
+#define SA8W @"SA-8W" 
 
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
