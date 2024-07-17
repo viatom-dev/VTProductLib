@@ -11,6 +11,7 @@ import UIKit
 @objcMembers class VTRecordEcgController: UIViewController {
     
     public var ecgPoints: [Double]?
+    public var sampleRate: Int = 125
     
     
     lazy var ecgWave: VTRecordEcgWave = {
@@ -23,6 +24,7 @@ import UIKit
         super.viewDidLoad()
         
         if ecgPoints != nil {
+            ecgWave.sampleRate = sampleRate
             ecgWave.ecgPoints = ecgPoints!
         }
         

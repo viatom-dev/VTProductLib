@@ -8,6 +8,7 @@
 
 #import "VTMBPMenuVC.h"
 #import "VTMRealVC.h"
+#import "VTMProductSDK-Swift.h"
 
 typedef enum : NSUInteger {
     DeviceStatusSleep = 0,
@@ -276,7 +277,11 @@ static NSString *identifier = @"funcCell";
             VTMBPECGResult result = [VTMBLEParser parseECGResult:[_downloadData subdataWithRange:NSMakeRange(0, sizeof(VTMBPECGResult))]];
             DLog(@"fileName:%@\tHeart Rate: %d", self.downloadName,result.hr);
             NSArray *ecgWaveArr = [VTMBLEParser parseBPPoints:[_downloadData subdataWithRange:NSMakeRange(sizeof(VTMBPECGResult), _downloadData.length - sizeof(VTMBPECGResult))]];
-            
+            VTRecordEcgController *vc = [[VTRecordEcgController alloc] init];
+            vc.ecgPoints = ecgWaveArr;
+            vc.title = self->_downloadName;
+//            vc.sampleRate = 250;
+            [self.navigationController pushViewController:vc animated:YES];
         }else if (type == 1){ // BP
             VTMBPBPResult result = [VTMBLEParser parseBPResult:_downloadData];
             DLog(@"fileName:%@\tDIA: %d\tSYS: %d\tMAP: %d\tPR: %d", self.downloadName,result.diastolic_pressure, result.systolic_pressure, result.mean_pressure, result.pulse_rate);
