@@ -1,6 +1,0 @@
-framework module VTO2Lib {
-  umbrella header "VTO2Lib.h"
-
-  export *
-  module * { export * }
-}
