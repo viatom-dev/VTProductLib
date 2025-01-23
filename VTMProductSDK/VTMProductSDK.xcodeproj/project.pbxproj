@@ -15,6 +15,7 @@
 		6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C41224A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m */; };
 		6504C41924A9CEE9005CE0CF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6504C41324A9CEE9005CE0CF /* SVProgressHUD.bundle */; };
 		6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C42424A9EBA1005CE0CF /* VTMRealVC.m */; };
+		6508A5CC2D41D2C6001661DC /* VTMProductLib.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6508A5CB2D41D2C6001661DC /* VTMProductLib.xcframework */; };
 		653184752BEDF5A500CE8C4D /* VTRealDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6531846D2BEDF5A500CE8C4D /* VTRealDataViewController.m */; };
 		653184762BEDF5A500CE8C4D /* VTSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6531846F2BEDF5A500CE8C4D /* VTSettingsTableViewController.m */; };
 		653184772BEDF5A500CE8C4D /* VTDataDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 653184722BEDF5A500CE8C4D /* VTDataDetailTableViewController.m */; };
@@ -84,6 +85,7 @@
 		6504C41424A9CEE9005CE0CF /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
 		6504C42324A9EBA1005CE0CF /* VTMRealVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMRealVC.h; sourceTree = "<group>"; };
 		6504C42424A9EBA1005CE0CF /* VTMRealVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMRealVC.m; sourceTree = "<group>"; };
+		6508A5CB2D41D2C6001661DC /* VTMProductLib.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = VTMProductLib.xcframework; sourceTree = "<group>"; };
 		6531846D2BEDF5A500CE8C4D /* VTRealDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTRealDataViewController.m; sourceTree = "<group>"; };
 		6531846E2BEDF5A500CE8C4D /* VTSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTSettingsTableViewController.h; sourceTree = "<group>"; };
 		6531846F2BEDF5A500CE8C4D /* VTSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VTSettingsTableViewController.m; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABE489368AC56A8CE17C798D /* Pods_VTMProductSDK.framework in Frameworks */,
+				6508A5CC2D41D2C6001661DC /* VTMProductLib.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,6 +175,7 @@
 		1B016C0083C71F09F545F284 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6508A5CB2D41D2C6001661DC /* VTMProductLib.xcframework */,
 				7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */,
 			);
 			name = Frameworks;

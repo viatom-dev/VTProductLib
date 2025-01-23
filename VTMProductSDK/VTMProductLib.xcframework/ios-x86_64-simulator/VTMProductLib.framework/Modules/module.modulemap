@@ -1,0 +1,6 @@
+framework module VTMProductLib {
+  umbrella header "VTMProductLib.h"
+  export *
+
+  module * { export * }
+}
