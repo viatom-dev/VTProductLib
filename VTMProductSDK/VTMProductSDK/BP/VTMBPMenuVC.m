@@ -19,6 +19,11 @@ typedef enum : NSUInteger {
     DeviceStatusECGMeasuring,
     DeviceStatusECGMeasureEnd,
     DeviceStatusDisconnected,
+    DeviceStatusBPAVGMeasurementRest = 10,
+    DeviceStatusBPAVGMeasuring = 15,
+    DeviceStatusBPAVGMeasureEnd = 16,
+    DeviceStatusBPAVGMeasureThreeEnd = 17,
+    DeviceStatusPhy = 20, 
 } DeviceStatus;
 
 
