@@ -22,7 +22,7 @@
             [peripheral setValue:self.advName forKey:@"name"];
         }
         self.rawPeripheral = peripheral;
-        DLog(@"scan device:%@",peripheral.name);
+//        DLog(@"scan device:%@",peripheral.name);
         if (![peripheral.name hasPrefix:ER1_ShowPre] &&
             ![peripheral.name hasPrefix:VisualBeat_ShowPre] &&
             ![peripheral.name hasPrefix:ER2_ShowPre] &&
@@ -30,7 +30,8 @@
             ![peripheral.name hasPrefix:BP2_ShowPre]&&
             ![peripheral.name hasPrefix:BP2A_ShowPre]&&
             ![peripheral.name hasPrefix:BP2W_ShowPre]&&
-            ![peripheral.name hasPrefix:LeS1_ShowPre]) {
+            ![peripheral.name hasPrefix:LeS1_ShowPre]&&
+            ![peripheral.name hasPrefix:BP3_ShowPre]) {
             return nil;
         }
     }

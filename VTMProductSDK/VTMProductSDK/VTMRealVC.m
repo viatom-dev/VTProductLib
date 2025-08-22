@@ -10,20 +10,8 @@
 #import "LPEcgRealWaveformView.h"
 #import "VTMScaleUtils.h"
 
+@interface VTMRealVC () <VTMURATUtilsDelegate>
 
-typedef enum : NSUInteger {
-    DeviceStatusSleep = 0,
-    DeviceStatusMemery,
-    DeviceStatusCharge,
-    DeviceStatusReady,
-    DeviceStatusBPMeasuring,
-    DeviceStatusBPMeasureEnd,
-    DeviceStatusECGMeasuring,
-    DeviceStatusECGMeasureEnd,
-} DeviceStatus;
-
-
-@interface VTMRealVC ()<VTMURATUtilsDelegate>
 @property (nonatomic, strong) UILabel *descLab;
 @property (nonatomic, copy) NSArray *array;
 @property (nonatomic, strong) LPEcgRealWaveformView *waveformView;
@@ -46,12 +34,11 @@ typedef enum : NSUInteger {
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:self.waveformView];
     self.title = @"Real-time data";
-    if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre]) {
-        [self.view addSubview:self.weightLabel];
-    }
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    [self.view addSubview:self.waveformView];
+    [self.view addSubview:self.weightLabel];
     
     // correct interval of request real-data.
     float interval = 0.5;
@@ -80,15 +67,15 @@ typedef enum : NSUInteger {
     _type = type;
 }
 
-- (void)requestRealtimeData{
+- (void)requestRealtimeData {
     DLog(@"Request real-time data");
     if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre]) {
         [[VTMProductURATUtils sharedInstance]requestScaleRealData];
     }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre] ||
-              [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2W_ShowPre]){
-        [[VTMProductURATUtils sharedInstance]requestBPRealData];
+              [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2W_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP3_ShowPre]){
+        [[VTMProductURATUtils sharedInstance] requestBPRealData];
     }else{
-        [[VTMProductURATUtils sharedInstance]requestECGRealData];
+        [[VTMProductURATUtils sharedInstance] requestECGRealData];
     }
 }
 #pragma mark -- vt communicate
@@ -156,17 +143,18 @@ typedef enum : NSUInteger {
         case VTMDeviceTypeBP:{
             if (cmdType == VTMBPCmdGetRealData) {
                 VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
-                DLog(@"run_status:%hhu",bpData.run_status);
+                VTMBPRealTimeWaveform waveform = bpData.rt_wav;
+                DLog(@"run_status: %hhu", bpData.run_status.status);
                 switch (bpData.run_status.status) {
-                    case DeviceStatusSleep:
+                    case VTMBPStatusReady: {
+                        self.weightLabel.text = @"";
+                    }
                         break;
-                    case DeviceStatusMemery:
-                        break;
-                    case DeviceStatusReady:
-                        break;
-                    case DeviceStatusBPMeasuring:{
+                    case VTMBPStatusBPMeasuring :
+                    case VTMBPStatusBPAVGMeasure: {
                         NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
                         VTMBPMeasuringData measuringData = [VTMBLEParser parseBPMeasuringData:data];
+                        self.weightLabel.text = [NSString stringWithFormat:@"pressure: %d", measuringData.pressure/100];
                         if (measuringData.is_deflating_2) {
                             // Plot the pulse wave
                             for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
@@ -175,22 +163,22 @@ typedef enum : NSUInteger {
                         }
                     }
                         break;
-                    case DeviceStatusBPMeasureEnd:{
+                    case VTMBPStatusBPMeasureEnd: {
                         NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
                         VTMBPEndMeasureData endMeasureData = [VTMBLEParser parseBPEndMeasureData:data];
-                        if (endMeasureData.state_code == 0 ||
-                            endMeasureData.state_code == 0x0E) {
+                        if (endMeasureData.state_code == 0 || endMeasureData.state_code == 0x0E) {
                             // Display the result
+                            DLog(@"SYS: %d ~ DIA: %d", endMeasureData.systolic_pressure, endMeasureData.diastolic_pressure);
                         }else {
                             // Measure failed. View state_code.
                         }
                     }
                         break;
-                    case DeviceStatusECGMeasuring:{
+                    case VTMBPStatusECGMeasuring: {
                         NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
                         VTMECGMeasuringData ecgMeasuringData = [VTMBLEParser parseECGMeasuringData:data];
+                        self.weightLabel.text = ecgMeasuringData.pulse_rate != 0xffff ? [NSString stringWithFormat:@"pulse_rate: %d", ecgMeasuringData.pulse_rate] : @"";
                         NSMutableArray *tempArray = [NSMutableArray array];
-                        
                         for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
                             if (bpData.rt_wav.wav.wave_data[i] != 0x7FFF) {
                                 float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
@@ -203,10 +191,61 @@ typedef enum : NSUInteger {
                         _waveformView.receiveArray = filterArr;
                     }
                         break;
-                    case DeviceStatusECGMeasureEnd:{
+                    case VTMBPStatusECGMeasureEnd:{
                         NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
                         VTMECGEndMeasureData ecgEndMeasueData = [VTMBLEParser parseECGEndMeasureData:data];
-        
+                        
+                    }
+                        break;
+                    case VTMBPStatusBPMeasuringBP3:
+                    case VTMBPStatusECGMeasuringBP3:{
+                        NSData *data = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                        if (waveform.type == 0) {
+                            VTMBP3RealDataType0 measuringData ;
+                            [data getBytes:&measuringData length:20];
+                            self.weightLabel.text = [NSString stringWithFormat:@"pressure: %d", measuringData.pressure/100];
+                        } else if (waveform.type == 2) {
+                            VTMBP3RealDataType2 measuringData ;
+                            [data getBytes:&measuringData length:20];
+                            self.weightLabel.text = measuringData.hr_rate != 0xffff ? [NSString stringWithFormat:@"pulse_rate: %d", measuringData.hr_rate] : @"";
+                            NSMutableArray *tempArray = [NSMutableArray array];
+                            for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
+                                if (bpData.rt_wav.wav.wave_data[i] != 0x7FFF) {
+                                    float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
+                                    [tempArray addObject:@(mV)];
+                                }
+                            }
+                            NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
+                            NSLog(@"%@", tempArray);
+                            _waveformView.isBpWave = YES;
+                            _waveformView.receiveArray = filterArr;
+                        } else if (waveform.type == 4) {
+                            VTMBP3RealDataType4 measuringData ;
+                            [data getBytes:&measuringData length:20];
+                            self.weightLabel.text = [NSString stringWithFormat:@"pressure: %d pulse_rate: %d", measuringData.pressure/100, measuringData.hr_rate != 0xffff ? measuringData.hr_rate : 0];
+                            NSMutableArray *tempArray = [NSMutableArray array];
+                            for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
+                                if (bpData.rt_wav.wav.wave_data[i] != 0x7FFF) {
+                                    float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
+                                    [tempArray addObject:@(mV)];
+                                }
+                            }
+                            NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
+                            NSLog(@"%@", tempArray);
+                            _waveformView.isBpWave = YES;
+                            _waveformView.receiveArray = filterArr;
+                        }
+                    }
+                        break;
+                    case VTMBPStatusECGMeasureEndBP3:
+                    case VTMBPStatusBPMeasureEndBP3: {
+                        if (waveform.type == 1) {
+                            NSData *data = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                            VTMBPEndMeasureData resultData = [VTMBLEParser parseBPEndMeasureData:data];
+                        } else if (waveform.type == 3) {
+                            NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
+                            VTMECGEndMeasureData measuredData = [VTMBLEParser parseECGEndMeasureData:tempData];
+                        }
                     }
                         break;
                     default:

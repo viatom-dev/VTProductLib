@@ -26,9 +26,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"Scaner";
-    [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:54 green:216 blue:192 alpha:1]];
     [VTBLEUtils sharedInstance].delegate = self;
+    [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -44,6 +43,13 @@
         _deviceListArray = [NSMutableArray arrayWithCapacity:10];
     }
     return _deviceListArray;
+}
+
+- (NSMutableArray *)deviceIDArray {
+    if (!_deviceIDArray) {
+        _deviceIDArray = [NSMutableArray arrayWithCapacity:10];
+    }
+    return _deviceIDArray;
 }
 
 #pragma mark --  tableView
@@ -78,7 +84,7 @@
 
 - (void)didDiscoverDevice:(VTDevice *)device{
     NSUUID *identifier = [device.rawPeripheral identifier];
-    if ([_deviceIDArray containsObject:identifier]) {
+    if ([self.deviceIDArray containsObject:identifier]) {
         NSUInteger index = [_deviceIDArray indexOfObject:identifier];
         [_deviceListArray replaceObjectAtIndex:index withObject:device];
         [_myTableView beginUpdates];
@@ -117,7 +123,7 @@
         AppDelegate *appDelagete = [UIApplication sharedApplication].delegate;
         
        if([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre] ||
-          [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2W_ShowPre]){
+          [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2W_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP3_ShowPre]){
             VTMBPMenuVC *vc = [[VTMBPMenuVC alloc]init];
            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
            appDelagete.window.rootViewController = nav;

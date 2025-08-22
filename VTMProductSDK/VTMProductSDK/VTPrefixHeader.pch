@@ -23,6 +23,7 @@
 #define BP2_ShowPre @"BP2" //BP2
 #define BP2A_ShowPre @"BP2A" //BP2A
 #define BP2W_ShowPre @"LP-BP2W" //BP2W
+#define BP3_ShowPre @"BP3" //BP3
 
 //Scale
 #define LeS1_ShowPre @"le S1-" //le S1

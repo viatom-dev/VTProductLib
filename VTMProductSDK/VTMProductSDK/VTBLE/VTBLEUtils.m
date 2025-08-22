@@ -110,6 +110,7 @@ static VTBLEUtils *_utils = nil;
     if (!device) {
         return;
     }
+    DLog(@"scan device:%@", device.advName);
     if (_delegate && [_delegate respondsToSelector:@selector(didDiscoverDevice:)]) {
         [_delegate didDiscoverDevice:device];
     }
