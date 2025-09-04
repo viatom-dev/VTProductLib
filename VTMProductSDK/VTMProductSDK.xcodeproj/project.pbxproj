@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,7 @@
 		6504C41824A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C41224A9CEE9005CE0CF /* SVIndefiniteAnimatedView.m */; };
 		6504C41924A9CEE9005CE0CF /* SVProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6504C41324A9CEE9005CE0CF /* SVProgressHUD.bundle */; };
 		6504C42524A9EBA1005CE0CF /* VTMRealVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C42424A9EBA1005CE0CF /* VTMRealVC.m */; };
+		6570087E2E680F82001FC74F /* VTMBabyMonitorMenuVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570087D2E680F82001FC74F /* VTMBabyMonitorMenuVC.m */; };
 		6570DEB624A09FBD00F80D5C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6570DEB524A09FBD00F80D5C /* AppDelegate.m */; };
 		6570DEBF24A09FBD00F80D5C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEBD24A09FBD00F80D5C /* Main.storyboard */; };
 		6570DEC124A09FC200F80D5C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6570DEC024A09FC200F80D5C /* Assets.xcassets */; };
@@ -72,6 +73,8 @@
 		6504C41424A9CEE9005CE0CF /* SVProgressAnimatedView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SVProgressAnimatedView.h; sourceTree = "<group>"; };
 		6504C42324A9EBA1005CE0CF /* VTMRealVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMRealVC.h; sourceTree = "<group>"; };
 		6504C42424A9EBA1005CE0CF /* VTMRealVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMRealVC.m; sourceTree = "<group>"; };
+		6570087C2E680F82001FC74F /* VTMBabyMonitorMenuVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMBabyMonitorMenuVC.h; sourceTree = "<group>"; };
+		6570087D2E680F82001FC74F /* VTMBabyMonitorMenuVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMBabyMonitorMenuVC.m; sourceTree = "<group>"; };
 		6570DEB124A09FBD00F80D5C /* VTMProductSDK.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VTMProductSDK.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6570DEB424A09FBD00F80D5C /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6570DEB524A09FBD00F80D5C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -182,6 +185,15 @@
 			path = SVProgressHUD;
 			sourceTree = "<group>";
 		};
+		6570087B2E67E320001FC74F /* BabyMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				6570087C2E680F82001FC74F /* VTMBabyMonitorMenuVC.h */,
+				6570087D2E680F82001FC74F /* VTMBabyMonitorMenuVC.m */,
+			);
+			path = BabyMonitor;
+			sourceTree = "<group>";
+		};
 		6570DEA824A09FBD00F80D5C = {
 			isa = PBXGroup;
 			children = (
@@ -219,6 +231,7 @@
 				8BDFB5BE25E79264001AD6FE /* ECG */,
 				8BDFB5BF25E79272001AD6FE /* BP */,
 				8BDFB5C025E79281001AD6FE /* Scale */,
+				6570087B2E67E320001FC74F /* BabyMonitor */,
 				6504C42324A9EBA1005CE0CF /* VTMRealVC.h */,
 				6504C42424A9EBA1005CE0CF /* VTMRealVC.m */,
 				8B07EFAB25E5152F001F97C5 /* LPEcgRealWaveformView.h */,
@@ -448,9 +461,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -468,6 +485,7 @@
 				8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */,
 				6504C41524A9CEE9005CE0CF /* SVRadialGradientLayer.m in Sources */,
 				6570DEB624A09FBD00F80D5C /* AppDelegate.m in Sources */,
+				6570087E2E680F82001FC74F /* VTMBabyMonitorMenuVC.m in Sources */,
 				8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */,
 				8B07EFE625E600ED001F97C5 /* VTMBPMenuVC.m in Sources */,
 				6504C41724A9CEE9005CE0CF /* SVProgressHUD.m in Sources */,

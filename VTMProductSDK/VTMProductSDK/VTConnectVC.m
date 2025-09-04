@@ -11,13 +11,16 @@
 #import "VTMECGMenuVC.h"
 #import "VTMBPMenuVC.h"
 #import "VTMScaleMenuVC.h"
+#import "VTMBabyMonitorMenuVC.h"
 #import "AppDelegate.h"
 
-@interface VTConnectVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATDeviceDelegate,VTMURATUtilsDelegate>
+@interface VTConnectVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATDeviceDelegate,VTMURATUtilsDelegate, VTMURATDeviceExtension>
+
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (nonatomic, strong) NSMutableArray *deviceListArray;
 @property (nonatomic, strong) NSMutableArray *deviceIDArray;
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
+
 @end
 
 @implementation VTConnectVC
@@ -32,6 +35,7 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [VTMProductURATUtils sharedInstance].deviceDelegate = self;
+    [VTMProductURATUtils sharedInstance].extension = self;
 }
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
@@ -125,19 +129,33 @@
        if([[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2A_ShowPre] ||
           [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP2W_ShowPre] || [[VTBLEUtils sharedInstance].device.advName hasPrefix:BP3_ShowPre]){
             VTMBPMenuVC *vc = [[VTMBPMenuVC alloc]init];
-           UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+           UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
            appDelagete.window.rootViewController = nav;
-        }else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre] ){
+        } else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:LeS1_ShowPre] ){
             VTMScaleMenuVC *vc = [[VTMScaleMenuVC alloc]init];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             appDelagete.window.rootViewController = nav;
-        }else{
+        } else if ([[VTBLEUtils sharedInstance].device.advName hasPrefix:BabyPatch] ){
+            VTMBabyMonitorMenuVC *vc = [[VTMBabyMonitorMenuVC alloc]init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
+            appDelagete.window.rootViewController = nav;
+        } else {
             VTMECGMenuVC *vc =  [[VTMECGMenuVC alloc]init];
-            UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             appDelagete.window.rootViewController = nav;
             
         }
     }];
+}
+
+- (NSArray<NSString *> *)extensionNamePrefixsWithType:(VTMDeviceType)deviceType {
+    switch (deviceType) {
+        case VTMDeviceTypeBabyPatch:
+            return @[BabyPatch];
+        default:
+            return @[];
+            break;
+    }
 }
 
 #pragma mark --
