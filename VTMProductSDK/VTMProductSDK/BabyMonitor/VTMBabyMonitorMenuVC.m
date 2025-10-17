@@ -215,6 +215,12 @@
             DLog(@"%d", config.alarm_led);
         }
             break;
+        case VTMBabyCmdGetRunParams: {
+            VTMBabyRunParams runpara = [VTMBLEParser baby_parseRunParams:response];
+            DLog(@"Gyros Status: %d Respiratory rate: %d temp: %.01f", runpara.attitude_status, runpara.rr, runpara.cur_temperature / 10.0);
+            [self.progressHUD hideAnimated:YES];
+        }
+            break;
         default:
             break;
     }
