@@ -223,17 +223,21 @@ static float rulerLevel = 1;
 - (void)drawThinLines {
     UIBezierPath *path = [UIBezierPath bezierPath];
     
-    //纵细线
+    //纵细线：铺满整个 view 高度
     for (float i = points_per_mm; i <= self.frame.size.width; i += points_per_mm) {
         CGPoint verticalPointStart = CGPointMake(i, 0);
-//        CGPoint verticalPointEnd = CGPointMake(verticalPointStart.x, self.height);
-        CGPoint verticalPointEnd = CGPointMake(verticalPointStart.x, 40*points_per_mm);
+        CGPoint verticalPointEnd = CGPointMake(verticalPointStart.x, self.frame.size.height);
         [path moveToPoint:verticalPointStart];
         [path addLineToPoint:verticalPointEnd];
     }
-    //横细线
-//    for (float i = points_per_mm; i <= self.height; i += points_per_mm) {
-    for (float i = points_per_mm; i <= 40*points_per_mm; i += points_per_mm) {
+    //横细线：从中线分别向下、向上铺，保证网格与基线对齐
+    for (float i = self.frame.size.height*0.5; i <= self.frame.size.height; i += points_per_mm) {
+        CGPoint horizonPointStart = CGPointMake(0, i);
+        CGPoint horizonPointEnd = CGPointMake(self.frame.size.width, horizonPointStart.y);
+        [path moveToPoint:horizonPointStart];
+        [path addLineToPoint:horizonPointEnd];
+    }
+    for (float i = self.frame.size.height*0.5; i >= 0; i -= points_per_mm) {
         CGPoint horizonPointStart = CGPointMake(0, i);
         CGPoint horizonPointEnd = CGPointMake(self.frame.size.width, horizonPointStart.y);
         [path moveToPoint:horizonPointStart];
@@ -249,15 +253,21 @@ static float rulerLevel = 1;
 - (void)drawThickLines {
     UIBezierPath *path = [UIBezierPath bezierPath];
     
-    //纵粗线
+    //纵粗线：铺满整个 view 高度
     for (float i = 5 * points_per_mm; i <= self.frame.size.width; i += 5 * points_per_mm) {
         CGPoint verticalPointStart = CGPointMake(i, 0);
-        CGPoint verticalPointEnd = CGPointMake(verticalPointStart.x, 40*points_per_mm);
+        CGPoint verticalPointEnd = CGPointMake(verticalPointStart.x, self.frame.size.height);
         [path moveToPoint:verticalPointStart];
         [path addLineToPoint:verticalPointEnd];
     }
-    //横粗线
-    for (float i = 0; i <= 40*points_per_mm; i += 5 * points_per_mm) {
+    //横粗线：同样从中线向两侧铺
+    for (float i = self.frame.size.height*0.5; i <= self.frame.size.height; i += 5 * points_per_mm) {
+        CGPoint horizonPointStart = CGPointMake(0, i);
+        CGPoint horizonPointEnd = CGPointMake(self.frame.size.width, horizonPointStart.y);
+        [path moveToPoint:horizonPointStart];
+        [path addLineToPoint:horizonPointEnd];
+    }
+    for (float i = self.frame.size.height*0.5; i >= 0; i -= 5 * points_per_mm) {
         CGPoint horizonPointStart = CGPointMake(0, i);
         CGPoint horizonPointEnd = CGPointMake(self.frame.size.width, horizonPointStart.y);
         [path moveToPoint:horizonPointStart];

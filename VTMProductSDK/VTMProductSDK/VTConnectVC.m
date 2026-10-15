@@ -93,8 +93,10 @@
 
 - (void)didConnectedDevice:(VTDevice *)device{
     DLog(@"Connected：%@",device.rawPeripheral.name);
-    CBPeripheral *rawPeripheral = device.rawPeripheral;
-    [VTMProductURATUtils sharedInstance].peripheral = rawPeripheral;
+    // 必须用 setPeripheral:advertisementData: 而不是直接赋值 peripheral。
+    // 部分加密设备缺少广播数据时无法正确识别类型。
+    [[VTMProductURATUtils sharedInstance] setPeripheral:device.rawPeripheral
+                                     advertisementData:device.adv];
 }
 
 /// @brief This device has been disconnected. Note: If error == nil ，user manually disconnect.

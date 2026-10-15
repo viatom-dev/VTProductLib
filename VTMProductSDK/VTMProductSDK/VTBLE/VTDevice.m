@@ -14,6 +14,7 @@
     self = [super init];
     if (self) {
         self.RSSI = RSSI;
+        self.adv = advDic;
         self.advName = [advDic objectForKey:@"kCBAdvDataLocalName"];
         if (![self.advName isKindOfClass:[NSNull class]] &&
             ![self.advName isEqualToString:@""] &&

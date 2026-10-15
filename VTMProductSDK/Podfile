@@ -1,24 +1,52 @@
-# Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+# Podfile — VTMProductSDK Demo
+#
+# 这份 Podfile 同时服务内网开发与对外发布，不要分叉成两份。
+#
+# ---------------------------------------------------------------- VTMProductLib
+#
+# Viatom 设备蓝牙 SDK。用 ./sdk-mode.sh 切换模式，不要手改这里。
+#
+#   ./sdk-mode.sh            查看当前模式
+#   ./sdk-mode.sh release    默认：从 CocoaPods trunk 拉二进制（提交前切回这个）
+#   ./sdk-mode.sh source     本地源码，可在 SDK 内部下断点
+#
+# release 模式是客户克隆这个仓库后的默认行为，版本号只出现在下面那一行 :tag 里。
+# source 模式指向本仓库根目录的 VTMProductLib.podspec（源码版 spec），
+# 默认是 Podfile 所在目录的上一级；也可以用 VTM_PRODUCT_SDK_SOURCE 指到别处。
+#
+# 两种模式下 spec.name 都是 VTMProductLib，module 名一致，所以源码里一律写
+#   #import <VTMProductLib/VTMProductLib.h>
+# 不要用引号式 #import "VTMURATUtils.h"，那种写法只在源码模式下成立。
+#
+# ⚠️ 源码模式下 Podfile.lock 会记下本机绝对路径，那份 lock 不要提交。
+#
+platform :ios, '12.0'
+use_frameworks!
 
 target 'VTMProductSDK' do
-  # Comment the next line if you don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for VTMProductSDK
-
   pod 'MBProgressHUD'
-  pod 'VTMProductLib'
   pod 'Masonry'
 
+  vtm_sdk_source = ENV['VTM_PRODUCT_SDK_SOURCE'].to_s.strip
+
+  if vtm_sdk_source.empty?
+    pod 'VTMProductLib', '~> 1.5.7'
+  else
+    vtm_sdk_source = File.expand_path(vtm_sdk_source)
+    unless File.exist?(File.join(vtm_sdk_source, 'VTMProductLib.podspec'))
+      raise "VTM_PRODUCT_SDK_SOURCE 下没有 VTMProductLib.podspec：#{vtm_sdk_source}"
+    end
+    warn "==> VTMProductLib: 源码模式 (#{vtm_sdk_source})"
+    pod 'VTMProductLib', :path => vtm_sdk_source
+  end
 end
 
 post_install do |installer|
   installer.generated_projects.each do |project|
     project.targets.each do |target|
       target.build_configurations.each do |config|
-            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '11.0'
-       end
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '12.0'
+      end
     end
   end
 end

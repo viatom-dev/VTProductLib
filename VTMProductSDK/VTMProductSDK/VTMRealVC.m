@@ -305,7 +305,9 @@ typedef enum : NSUInteger {
                 NSUInteger loc = sizeof(VTMER3RealTimeData);
                 NSData *waveData = [response subdataWithRange:NSMakeRange(loc, response.length - loc)];
                 // 3、All waveform points for all 12 leads。VTMER3ShowLead_I, VTMER3ShowLead_II, .., VTMER3ShowLead_V6
-                NSArray<NSArray *> *leadsPoints = [VTMBLEParser parseER3RealWaveData:waveData withCable:runParams.cable_type andState:runParams.electrodes_state];
+                //    注意传的是上面用 parseCable:state: 转换出来的 leadState，
+                //    不是 runParams.electrodes_state —— 电极状态与导联状态的位含义不同。
+                NSArray<NSArray *> *leadsPoints = [VTMBLEParser parseER3RealWaveData:waveData withCable:runParams.cable_type andState:leadState];
                 // 4、Draw one of the leads。eg VTMER3ShowLead_II
                 _waveformView.isBpWave = YES;
                 _waveformView.receiveArray = leadsPoints[_showLead];
@@ -366,12 +368,14 @@ typedef enum : NSUInteger {
 }
 
 - (void)clickMeasureButton:(UIButton *)sender {
+    // ⚠️ 这两个指令受 controlKey 保护。未设置 VTMURATUtils.controlKey 时，
+    //    Debug 构建会触发断言。Key 由 Viatom 颁发，见 README 的 Notes 章节。
     if (sender.isSelected) {
         // stop measure
-        [[VTMProductURATUtils sharedInstance] exitER3MeasurementMode];
+        [[VTMProductURATUtils sharedInstance] er3_notifyMeasurementEnd];
     } else {
         // start measure
-        [[VTMProductURATUtils sharedInstance] startER3MeasurementMode];
+        [[VTMProductURATUtils sharedInstance] er3_notifyMeasurementStart];
     }
 }
 

@@ -6,7 +6,8 @@
 //  Copyright © 2021 viatom. All rights reserved.
 //
 
-//#import "VTMURATUtils.h"
+#import <VTMProductLib/VTMURATUtils.h>
+
 typedef enum : NSUInteger {
     BPStateInactive = 0,
     BPStateMemory,
