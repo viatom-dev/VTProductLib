@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "VTMProductLib"
-  spec.version      = "1.5.7"
+  spec.version      = "1.5.8"
   spec.summary      = "Support Lepu's products."
   spec.description  = <<-DESC
                   Support communication between Lepu's products and iOS devices.

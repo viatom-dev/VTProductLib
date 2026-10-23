@@ -7,6 +7,7 @@
 //
 
 #import "VTMProductURATUtils.h"
+#import "VTMDeviceRouting.h"
 
 @interface VTMProductURATUtils () <VTMURATDeviceExtension>
 
@@ -26,23 +27,17 @@ static VTMProductURATUtils *URATUtils = nil;
 
 #pragma mark - VTMURATDeviceExtension
 
-/// 把定制化的蓝牙名前缀映射到设备类型。
+/// 把 SDK 默认认不出来的蓝牙名映射到设备类型。
 ///
-/// SDK 默认按出厂蓝牙名识别设备。如果你的产品改过蓝牙名，在这里按设备类型返回
-/// 对应的前缀，SDK 就会把它识别成该类型，之后用该类型的指令（例如腕式血氧的
-/// `woxi_*`）正常通信。
+/// 两类设备需要这个扩展：
+///   1. 同名双代血氧的二代设备（如二代 O2Ring）—— 蓝牙名和一代一样，
+///      不在 SDK 的内置识别链里
+///   2. 定制改名产品
 ///
-/// 返回 nil 表示该类型不需要扩展，走 SDK 默认识别。
+/// 前缀统一由 VTMDeviceRouting 提供，保证「路由表认为该走 Module A」
+/// 和「SDK 实际识别出的类型」一致。要增减前缀改那边的表，不要改这里。
 - (NSArray<NSString *> *)extensionNamePrefixsWithType:(VTMDeviceType)deviceType {
-    switch (deviceType) {
-        // 示例：自家改名后的心电设备和腕式血氧设备
-        // case VTMDeviceTypeECG:
-        //     return @[@"MyECG", @"CardioMonitor"];
-        // case VTMDeviceTypeWOxi:
-        //     return @[@"MyO2Ring"];
-        default:
-            return nil;
-    }
+    return [VTMDeviceRouting extensionNamePrefixesForDeviceType:deviceType];
 }
 
 @end

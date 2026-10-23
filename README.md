@@ -1,6 +1,6 @@
 # VTMProductSDK
 
-**Version / 版本：1.5.7**
+**Version / 版本：1.5.8**
 
 iOS BLE SDK for Lepu devices.
 
@@ -9,6 +9,27 @@ iOS 蓝牙通信 SDK，用于连接和操作乐普系列设备。
 ---
 
 ## Changelog / 更新日志
+
+### 1.5.8
+- **VTMURATUtils** — Fixed a permanent main-thread hang when a file read fails. If the delegate
+  sent a follow-up command (e.g. `endReadFile`) from inside the failure callback, the command lock
+  was released twice and its condition reset, so the follow-up response could never be processed.
+  The lock is now released exactly once per response, using the condition the follow-up command
+  requires. The pending file name is also cleared when a read fails and the caller does not
+  continue. Typical trigger: reading `bp.list` from a BP3F while the device is in data-review mode.
+  修复读文件失败时主线程永久阻塞：在失败回调里补发后续指令（如 `endReadFile`）会导致指令锁被释放两次、
+  condition 被重置，后续指令的应答永远无法处理。现在每次应答只释放一次锁，并以后续指令要求的
+  condition 为准；读取失败且调用方未继续时同时清理待读文件名。典型复现：BP3F 处于「数据回顾」时读 `bp.list`。
+- **VTMURATUtils** — Authorization assertion messages now point to `VTMURATUtils.controlKey` /
+  `.wearablePPGKey` instead of a non-public key manager class.
+  授权断言的提示信息改为指向 `VTMURATUtils.controlKey` / `.wearablePPGKey`。
+- **Framework version** — the version embedded in the framework now matches the release:
+  `CFBundleShortVersionString`, `CFBundleVersion` and `VTMProductLibVersionString` all report
+  `1.5.8`. The 1.5.6 and 1.5.7 binaries were not bumped and still report `1.5.5`
+  (`CFBundleShortVersionString` was `1`).
+  框架内嵌的版本号恢复与发布版本一致：`CFBundleShortVersionString`、`CFBundleVersion`、
+  `VTMProductLibVersionString` 均为 `1.5.8`。1.5.6、1.5.7 的二进制漏改，仍显示 `1.5.5`
+  （`CFBundleShortVersionString` 为 `1`）。
 
 ### 1.5.7
 - **BabyPatch** — Added `VTMBabySleepState` enum and `VTMBabySleepInfo` struct (40 bytes: sleep state, timestamps, durations, cough flag, etc.). `VTMBabyRunParams` now includes `hasSleepInfo` flag and `sleepInfo` field; parser detects old/new packet length automatically.

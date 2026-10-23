@@ -13,16 +13,10 @@
 #import "VTMProductSDK-Swift.h"
 
 
-typedef enum : NSUInteger {
-    DeviceStatusSleep = 0,
-    DeviceStatusMemery,
-    DeviceStatusCharge,
-    DeviceStatusReady,
-    DeviceStatusBPMeasuring,
-    DeviceStatusBPMeasureEnd,
-    DeviceStatusECGMeasuring,
-    DeviceStatusECGMeasureEnd,
-} DeviceStatus;
+// 主机状态用 SDK 的 VTMBPStatus（VTMBLEEnum.h），不要在 Demo 里另外定义一份。
+// 这里原先有个本地 DeviceStatus 枚举，0–7 和 VTMBPStatus 完全重复，但缺了
+// BP2WIFI 三次测量（15–17）、BP2 理疗（20）、BP3 血压心电（21–24）、
+// 配网与数据上传（25/26）和无效值（0xFF）。
 
 
 @interface VTMRealVC ()<VTMURATUtilsDelegate>
@@ -103,6 +97,198 @@ typedef enum : NSUInteger {
         [[VTMProductURATUtils sharedInstance]requestECGRealData];
     }
 }
+#pragma mark -- BP 实时数据
+
+/// 处理一包血压机实时数据。
+///
+/// 这里的结构照 ViHealth 的做法来，有三点是单看头文件不容易想到的：
+///
+/// 1. **payload 的解析方式由 `rt_wav.type` 决定，不是由 `run_status.status` 决定。**
+///    `rt_wav.data[20]` 是一块复用的缓冲区，type 才是它的判别字段：
+///    0 = 血压测量中，1 = 血压测量结束，3 = 心电测量结束。
+///    BP3 必须按 type 取，否则会把测量中的包按结束包解析出一组垃圾血压值。
+///
+/// 2. **三次测量（x3）复用普通测量的状态处理**，只是多一个 isX3 标记：
+///    BPAVGMeasure(15) 等同 BPMeasuring(4)，BPAVGMeasureEnd(17) 等同
+///    BPMeasureEnd(5)。只有 BPAVGMeasureWait(16) 是独立的一档，用来显示
+///    两次测量之间的倒计时。
+///
+/// 3. **放气标志分两个字段**：BP3 看 `is_deflating`，BP2 系列看
+///    `is_deflating_2`。用错的那个会导致脉搏波画不出来。
+- (void)handleBPRealTimeData:(VTMBPRealTimeData)bpData {
+    VTMBPRunStatus status = bpData.run_status;
+    VTMBPRealTimeWaveform wav = bpData.rt_wav;
+
+    // 电池信息在任何状态下都有效，先取出来。state: 0 正常 1 充电中 2 充满
+    VTMBatteryInfo battery = status.battery;
+    DLog(@"battery percent:%d state:%d low:%@",
+         battery.percent, battery.state, battery.percent < 15 ? @"YES" : @"NO");
+
+    // SDK 的 VTMDeviceType 只区分到「血压计」，分不出 BP2/BP3。
+    // 要做型号差异只能看蓝牙名，前缀表在 VTMDeviceRouting 里。
+    BOOL isBP3 = [[VTBLEUtils sharedInstance].device.advName hasPrefix:@"BP3"];
+
+    NSData *payload = [NSData dataWithBytes:wav.data length:sizeof(wav.data)];
+
+    switch ((VTMBPStatus)status.status) {
+        // ── 非测量状态 ───────────────────────────────────────────────────
+        // 真实 App 在这几个状态下显示引导页。注意 VEN（BP2 理疗模式）也归在
+        // 这里 —— 理疗中不产生血压或心电数据。
+        case VTMBPStatusSleep:          // 0   关机
+        case VTMBPStatusMemery:         // 1   数据回顾
+        case VTMBPStatusCharge:         // 2   充电
+        case VTMBPStatusReady:          // 3   开机预备
+        case VTMBPStatusVEN:            // 20  BP2 理疗模式中
+            _waveformView.receiveArray = @[];
+            break;
+
+        // ── 血压测量中 ───────────────────────────────────────────────────
+        case VTMBPStatusBPMeasuring:    // 4
+        case VTMBPStatusBPAVGMeasure: { // 15  三次测量中
+            BOOL isX3 = (status.status == VTMBPStatusBPAVGMeasure);
+
+            // BP3 在测量中会复用 rt_wav 发别的 type，只有 type==0 是血压测量包
+            if (isBP3 && wav.type != 0) {
+                DLog(@"BP3 measuring: skip rt_wav.type=%d", wav.type);
+                break;
+            }
+
+            VTMBPMeasuringData md = [VTMBLEParser parseBPMeasuringData:payload];
+            DLog(@"BP measuring%@ pressure:%d pulse:%d getPulse:%d",
+                 isX3 ? @" (x3)" : @"", md.pressure, md.pulse_rate, md.is_get_pulse);
+
+            // 放气阶段才有脉搏波。两个字段按型号取，不能混用。
+            BOOL deflating = isBP3 ? md.is_deflating : md.is_deflating_2;
+            if (deflating) {
+                NSMutableArray *pulse = [NSMutableArray array];
+                for (int i = 0; i < wav.wav.sampling_num; i++) {
+                    [pulse addObject:@(wav.wav.wave_data[i])];
+                }
+                // 脉搏波是原始 AD 值，不走 mV 转换，量程 0–255
+                _waveformView.isBpWave = NO;
+                _waveformView.receiveArray = pulse;
+            }
+        }
+            break;
+
+        // ── 三次测量的间隔等待 ───────────────────────────────────────────
+        // 这一档没有波形，只有倒计时。bp_avg_cnt 是第几次，
+        // bp_avg_wait_tick 是已等待的秒数，总时长来自设备的 avg_measure_mode
+        // 配置（本 Demo 没读配置，所以只打印原始值）。
+        case VTMBPStatusBPAVGMeasureWait:   // 16
+            DLog(@"BP x3 waiting: count=%d tick=%d", status.bp_avg_cnt, status.bp_avg_wait_tick);
+            break;
+
+        // ── 血压测量结束 ─────────────────────────────────────────────────
+        case VTMBPStatusBPMeasureEnd:       // 5
+        case VTMBPStatusBPAVGMeasureEnd: {  // 17  三次测量结束
+            if (isBP3 && wav.type != 1) {
+                DLog(@"BP3 measure end: skip rt_wav.type=%d", wav.type);
+                break;
+            }
+
+            VTMBPEndMeasureData result = [VTMBLEParser parseBPEndMeasureData:payload];
+
+            // state_code 0 = 正常，0x0E = 心率不齐但结果有效，其余为测量失败
+            if (result.state_code == 0 || result.state_code == 0x0E) {
+                // 偶尔会收到一包全 0 或 65535 的占位结果，要丢掉
+                if (result.systolic_pressure == 0 || result.diastolic_pressure == 0 ||
+                    result.systolic_pressure == 65535) {
+                    DLog(@"BP result incomplete, ignored");
+                    break;
+                }
+                DLog(@"BP result: %d/%d mmHg  mean:%d  pulse:%d  arrhythmia:%@",
+                     result.systolic_pressure, result.diastolic_pressure,
+                     result.mean_pressure, result.pulse_rate,
+                     result.state_code == 0x0E ? @"YES" : @"NO");
+                [self showBPResult:result];
+            } else {
+                DLog(@"BP measure failed, state_code=0x%02X", result.state_code);
+            }
+
+            // 同一份 payload 也可以在 Swift 侧解析，演示混编
+            [VTSwiftParser swift_parseBPEndMeasureDataWithResponse:payload];
+            _waveformView.receiveArray = @[];
+        }
+            break;
+
+        // ── 心电测量中 ───────────────────────────────────────────────────
+        case VTMBPStatusECGMeasuring: { // 6
+            VTMECGMeasuringData md = [VTMBLEParser parseECGMeasuringData:payload];
+            // special_status bit0 信号弱，bit1 导联脱落
+            DLog(@"ECG measuring: %us  pulse:%d  weakSignal:%@  leadOff:%@",
+                 md.duration, md.pulse_rate,
+                 (md.special_status & 0x01) ? @"YES" : @"NO",
+                 (md.special_status & 0x02) ? @"YES" : @"NO");
+
+            NSMutableArray *points = [NSMutableArray array];
+            for (int i = 0; i < wav.wav.sampling_num; i++) {
+                if (wav.wav.wave_data[i] == 0x7FFF) continue;   // 无效点
+                // 用 SDK 的转换方法，不要自己写系数
+                [points addObject:@([VTMBLEParser bpMvFromShort:wav.wav.wave_data[i]])];
+            }
+            _waveformView.isBpWave = YES;
+            _waveformView.receiveArray = [[VTMFilter shared] sfilterPointValue:points];
+        }
+            break;
+
+        // ── 心电测量结束 ─────────────────────────────────────────────────
+        case VTMBPStatusECGMeasureEnd: {    // 7
+            if (isBP3 && wav.type != 3) {
+                DLog(@"BP3 ECG end: skip rt_wav.type=%d", wav.type);
+                break;
+            }
+
+            VTMECGEndMeasureData result = [VTMBLEParser parseECGEndMeasureData:payload];
+            // 0xFFFFFFFE 是哨兵值：测量不足 30 秒，设备不保存这条记录
+            if (result.result == 0xFFFFFFFE) {
+                DLog(@"ECG less than 30s, not saved by device");
+            } else {
+                DLog(@"ECG result: hr:%d qrs:%dms pvcs:%d qtc:%dms diagnosis:0x%X",
+                     result.hr, result.qrs, result.pvcs, result.qtc, result.result);
+            }
+        }
+            break;
+
+        // ── BP3 血压心电联测 ─────────────────────────────────────────────
+        // ViHealth 把 BP3F/HDM3G 这类设备走的是另一条独立渲染路径，不在这个
+        // switch 里。本 Demo 没有对应 UI，先打日志把状态和 type 暴露出来。
+        case VTMBPStatusBPMeasuringBP3:     // 21
+        case VTMBPStatusBPMeasureEndBP3:    // 22
+        case VTMBPStatusECGMeasuringBP3:    // 23
+        case VTMBPStatusECGMeasureEndBP3:   // 24
+            DLog(@"BP3 combined BP+ECG status=%d rt_wav.type=%d (not demonstrated)",
+                 status.status, wav.type);
+            break;
+
+        // ── 联网相关 ─────────────────────────────────────────────────────
+        case VTMBPStatusNetworkConfig:      // 25  配置 WiFi 和服务器
+        case VTMBPStatusDataUploading:      // 26  数据上传服务器
+            DLog(@"BP network status=%d (no measurement data)", status.status);
+            break;
+
+        case VTMBPStatusINVAIL:             // 0xFF
+            DLog(@"BP status invalid (0xFF)");
+            break;
+    }
+}
+
+/// 把血压结果显示出来。真实 App 在这里弹结果卡片并落库，Demo 只弹个 alert。
+- (void)showBPResult:(VTMBPEndMeasureData)result {
+    NSString *msg = [NSString stringWithFormat:@"%d/%d mmHg\npulse %d bpm%@",
+                     result.systolic_pressure, result.diastolic_pressure,
+                     result.pulse_rate,
+                     result.state_code == 0x0E ? @"\n(irregular heartbeat)" : @""];
+    UIAlertController *alert =
+        [UIAlertController alertControllerWithTitle:@"BP Result"
+                                            message:msg
+                                     preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    if (self.presentedViewController == nil) {
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
 #pragma mark -- vt communicate
 - (void)util:(VTMURATUtils *)util commandCompletion:(u_char)cmdType deviceType:(VTMDeviceType)deviceType response:(NSData *)response{
     
@@ -168,67 +354,10 @@ typedef enum : NSUInteger {
         case VTMDeviceTypeBP:{
             if (cmdType == VTMBPCmdGetRealData) {
                 VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
-                DLog(@"run_status:%hhu",bpData.run_status);
-                switch (bpData.run_status.status) {
-                    case DeviceStatusSleep:
-                        break;
-                    case DeviceStatusMemery:
-                        break;
-                    case DeviceStatusReady:
-                        break;
-                    case DeviceStatusBPMeasuring:{
-                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
-                        VTMBPMeasuringData measuringData = [VTMBLEParser parseBPMeasuringData:data];
-                        if (measuringData.is_deflating_2) {
-                            // Plot the pulse wave
-                            for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
-                                short val = bpData.rt_wav.wav.wave_data[i];
-                            }
-                        }
-                    }
-                        break;
-                    case DeviceStatusBPMeasureEnd:{
-                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
-                        VTMBPEndMeasureData endMeasureData = [VTMBLEParser parseBPEndMeasureData:data];
-                        if (endMeasureData.state_code == 0 ||
-                            endMeasureData.state_code == 0x0E) {
-                            // Display the result
-                            NSLog(@"%d. %d", endMeasureData.diastolic_pressure , endMeasureData.systolic_pressure);
-                        }else {
-                            // Measure failed. View state_code.
-                        }
-                        
-                        [VTSwiftParser swift_parseBPEndMeasureDataWithResponse:data];
-                        
-                    }
-                        break;
-                    case DeviceStatusECGMeasuring:{
-                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
-                        VTMECGMeasuringData ecgMeasuringData = [VTMBLEParser parseECGMeasuringData:data];
-                        NSMutableArray *tempArray = [NSMutableArray array];
-                        
-                        for (int i = 0; i < bpData.rt_wav.wav.sampling_num ; i++) {
-                            if (bpData.rt_wav.wav.wave_data[i] != 0x7FFF) {
-                                float mV = [VTMBLEParser bpMvFromShort:bpData.rt_wav.wav.wave_data[i]];  // BP2 covert mV
-                                [tempArray addObject:@(mV)];
-                            }
-                        }
-                        NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
-                        NSLog(@"%@", tempArray);
-                        _waveformView.isBpWave = YES;
-                        _waveformView.receiveArray = filterArr;
-                    }
-                        break;
-                    case DeviceStatusECGMeasureEnd:{
-                        NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
-                        VTMECGEndMeasureData ecgEndMeasueData = [VTMBLEParser parseECGEndMeasureData:data];
-        
-                    }
-                        break;
-                    default:
-                        break;
-                }
-                
+                [self handleBPRealTimeData:bpData];
+                // VTMBPRealTimeData 里的 packet_t 是堆上分配的，用完必须释放，
+                // 否则每个实时包都会漏一次（这里 0.2 秒一个包）。
+                VTMFreeBPRealTimeData(&bpData);
             }
         }
             break;

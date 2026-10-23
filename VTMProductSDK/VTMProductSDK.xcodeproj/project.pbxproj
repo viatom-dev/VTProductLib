@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07401998D4E4016957ABB8AE /* VTInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A96C793029F553939C8021CE /* VTInfoViewController.m */; };
+		30B7512BFF49EF9DC18E2ED6 /* VTRealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3868D0AD703364BEEB6D6B /* VTRealViewController.m */; };
+		36C69225F6D9EDDE52F507B0 /* VTDataDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AC071379347DBA107D34FC6E /* VTDataDetailViewController.m */; };
+		555AC2425764D91ED4E85A06 /* O2.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9B3A1B0536621CDDFD06ABFE /* O2.storyboard */; };
+		61F1586F34AA21BBC1ED6639 /* VTMDeviceRouting.m in Sources */ = {isa = PBXBuildFile; fileRef = FD3C6D6EDB806E32BB41611F /* VTMDeviceRouting.m */; };
 		6504C3E624A20532005CE0CF /* VTBLEUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C3E524A20532005CE0CF /* VTBLEUtils.m */; };
 		6504C3E924A21824005CE0CF /* VTDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C3E824A21824005CE0CF /* VTDevice.m */; };
 		6504C41524A9CEE9005CE0CF /* SVRadialGradientLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6504C40B24A9CEE9005CE0CF /* SVRadialGradientLayer.m */; };
@@ -35,6 +40,7 @@
 		65D75E102BD116D700E65EA1 /* W20240111145412_ER3 in Resources */ = {isa = PBXBuildFile; fileRef = 65D75E0F2BD116D700E65EA1 /* W20240111145412_ER3 */; };
 		65E95D6B2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */; };
 		65E95D6D2B4EBC3E004CE6B6 /* VTRecordEcgController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E95D6C2B4EBC3E004CE6B6 /* VTRecordEcgController.swift */; };
+		73EA0158DE5BDED5F2FFFCE1 /* VTMCommShared.m in Sources */ = {isa = PBXBuildFile; fileRef = 096CE20E170454EF8B244473 /* VTMCommShared.m */; };
 		8B07EF6E25E512A0001F97C5 /* VTMProductURATUtils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */; };
 		8B07EFA425E5151A001F97C5 /* VTMScaleUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFA325E5151A001F97C5 /* VTMScaleUtils.m */; };
 		8B07EFAD25E5152F001F97C5 /* LPEcgRealWaveformView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B07EFAC25E5152F001F97C5 /* LPEcgRealWaveformView.m */; };
@@ -46,7 +52,9 @@
 		8B07EFF825E6019E001F97C5 /* VTMScaleMenuVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8B07EFF625E6019E001F97C5 /* VTMScaleMenuVC.xib */; };
 		8BDFB5B925E79257001AD6FE /* VTMECGConfigVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 8BDFB5B725E79257001AD6FE /* VTMECGConfigVC.m */; };
 		8BDFB5BA25E79257001AD6FE /* VTMECGConfigVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8BDFB5B825E79257001AD6FE /* VTMECGConfigVC.xib */; };
+		A6EC09F78E946E12F11ED7C9 /* VTConnectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E2D65B5CBDA96E971A7DA44 /* VTConnectViewController.m */; };
 		ABE489368AC56A8CE17C798D /* Pods_VTMProductSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */; };
+		C1FBC0DDA8C4ED4D80B6C509 /* VTMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6E783F4A4185B9AFA29C8A68 /* VTMenuViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,7 +75,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		096CE20E170454EF8B244473 /* VTMCommShared.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTMCommShared.m; sourceTree = "<group>"; };
+		2A4D17E3240B763658D3D3B6 /* VTRealViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTRealViewController.h; sourceTree = "<group>"; };
+		35174E1141AFFC164821B149 /* VTMCommShared.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTMCommShared.h; sourceTree = "<group>"; };
 		36568C35A55E7393D652D689 /* Pods-VTMProductSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VTMProductSDK.debug.xcconfig"; path = "Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK.debug.xcconfig"; sourceTree = "<group>"; };
+		3E2D65B5CBDA96E971A7DA44 /* VTConnectViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTConnectViewController.m; sourceTree = "<group>"; };
+		44F1C546525AF0587150CF29 /* VTConnectViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTConnectViewController.h; sourceTree = "<group>"; };
+		5DCACE54B18A61F722F97009 /* VTDataDetailViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTDataDetailViewController.h; sourceTree = "<group>"; };
 		6504C3E424A20532005CE0CF /* VTBLEUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTBLEUtils.h; sourceTree = "<group>"; };
 		6504C3E524A20532005CE0CF /* VTBLEUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTBLEUtils.m; sourceTree = "<group>"; };
 		6504C3E724A21824005CE0CF /* VTDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTDevice.h; sourceTree = "<group>"; };
@@ -120,7 +134,9 @@
 		65E95D692B4D4AEC004CE6B6 /* VTMProductSDK-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "VTMProductSDK-Bridging-Header.h"; sourceTree = "<group>"; };
 		65E95D6A2B4D4AEC004CE6B6 /* VTRecordEcgWave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTRecordEcgWave.swift; sourceTree = "<group>"; };
 		65E95D6C2B4EBC3E004CE6B6 /* VTRecordEcgController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VTRecordEcgController.swift; sourceTree = "<group>"; };
+		6E783F4A4185B9AFA29C8A68 /* VTMenuViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTMenuViewController.m; sourceTree = "<group>"; };
 		7CEC3C9EEB88A4316129977C /* Pods_VTMProductSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_VTMProductSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7D3868D0AD703364BEEB6D6B /* VTRealViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTRealViewController.m; sourceTree = "<group>"; };
 		8B07EF6B25E51291001F97C5 /* VTPrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTPrefixHeader.pch; sourceTree = "<group>"; };
 		8B07EF6C25E512A0001F97C5 /* VTMProductURATUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VTMProductURATUtils.h; sourceTree = "<group>"; };
 		8B07EF6D25E512A0001F97C5 /* VTMProductURATUtils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VTMProductURATUtils.mm; sourceTree = "<group>"; };
@@ -140,7 +156,14 @@
 		8BDFB5B625E79257001AD6FE /* VTMECGConfigVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VTMECGConfigVC.h; sourceTree = "<group>"; };
 		8BDFB5B725E79257001AD6FE /* VTMECGConfigVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VTMECGConfigVC.m; sourceTree = "<group>"; };
 		8BDFB5B825E79257001AD6FE /* VTMECGConfigVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VTMECGConfigVC.xib; sourceTree = "<group>"; };
+		9B3A1B0536621CDDFD06ABFE /* O2.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; path = O2.storyboard; sourceTree = "<group>"; };
+		A96C793029F553939C8021CE /* VTInfoViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTInfoViewController.m; sourceTree = "<group>"; };
+		AC071379347DBA107D34FC6E /* VTDataDetailViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTDataDetailViewController.m; sourceTree = "<group>"; };
 		B44586BB746EE6FD9373D75C /* Pods-VTMProductSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VTMProductSDK.release.xcconfig"; path = "Target Support Files/Pods-VTMProductSDK/Pods-VTMProductSDK.release.xcconfig"; sourceTree = "<group>"; };
+		B7B5D574FF8BF06C8E76FACA /* VTMDeviceRouting.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTMDeviceRouting.h; sourceTree = "<group>"; };
+		B7EBD50D179FADF7076A7E2D /* VTInfoViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTInfoViewController.h; sourceTree = "<group>"; };
+		F98FFA5BC093D41AD400EB23 /* VTMenuViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = VTMenuViewController.h; sourceTree = "<group>"; };
+		FD3C6D6EDB806E32BB41611F /* VTMDeviceRouting.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = VTMDeviceRouting.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,6 +207,27 @@
 				B44586BB746EE6FD9373D75C /* Pods-VTMProductSDK.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		485E8DDCE9CEDC720341CA5F /* O2 */ = {
+			isa = PBXGroup;
+			children = (
+				35174E1141AFFC164821B149 /* VTMCommShared.h */,
+				096CE20E170454EF8B244473 /* VTMCommShared.m */,
+				44F1C546525AF0587150CF29 /* VTConnectViewController.h */,
+				3E2D65B5CBDA96E971A7DA44 /* VTConnectViewController.m */,
+				F98FFA5BC093D41AD400EB23 /* VTMenuViewController.h */,
+				6E783F4A4185B9AFA29C8A68 /* VTMenuViewController.m */,
+				B7EBD50D179FADF7076A7E2D /* VTInfoViewController.h */,
+				A96C793029F553939C8021CE /* VTInfoViewController.m */,
+				2A4D17E3240B763658D3D3B6 /* VTRealViewController.h */,
+				7D3868D0AD703364BEEB6D6B /* VTRealViewController.m */,
+				5DCACE54B18A61F722F97009 /* VTDataDetailViewController.h */,
+				AC071379347DBA107D34FC6E /* VTDataDetailViewController.m */,
+				9B3A1B0536621CDDFD06ABFE /* O2.storyboard */,
+			);
+			name = O2;
+			path = O2;
 			sourceTree = "<group>";
 		};
 		6504C3E324A204EC005CE0CF /* VTBLE */ = {
@@ -296,6 +340,8 @@
 				6570DEC524A09FC200F80D5C /* Info.plist */,
 				6570DEC624A09FC200F80D5C /* main.m */,
 				65E95D692B4D4AEC004CE6B6 /* VTMProductSDK-Bridging-Header.h */,
+				C3943B1DDBCBC9BDF8F90C27 /* Routing */,
+				485E8DDCE9CEDC720341CA5F /* O2 */,
 			);
 			path = VTMProductSDK;
 			sourceTree = "<group>";
@@ -351,6 +397,16 @@
 				8B07EFF625E6019E001F97C5 /* VTMScaleMenuVC.xib */,
 			);
 			path = Scale;
+			sourceTree = "<group>";
+		};
+		C3943B1DDBCBC9BDF8F90C27 /* Routing */ = {
+			isa = PBXGroup;
+			children = (
+				B7B5D574FF8BF06C8E76FACA /* VTMDeviceRouting.h */,
+				FD3C6D6EDB806E32BB41611F /* VTMDeviceRouting.m */,
+			);
+			name = Routing;
+			path = Routing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -469,6 +525,7 @@
 				8B07EFE725E600ED001F97C5 /* VTMBPMenuVC.xib in Resources */,
 				6570DEBF24A09FBD00F80D5C /* Main.storyboard in Resources */,
 				6504C41924A9CEE9005CE0CF /* SVProgressHUD.bundle in Resources */,
+				555AC2425764D91ED4E85A06 /* O2.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -562,6 +619,13 @@
 				6531847B2BEDF5ED00CE8C4D /* VTCOMMPresenter.m in Sources */,
 				8BDFB5B925E79257001AD6FE /* VTMECGConfigVC.m in Sources */,
 				6504C3E624A20532005CE0CF /* VTBLEUtils.m in Sources */,
+				61F1586F34AA21BBC1ED6639 /* VTMDeviceRouting.m in Sources */,
+				73EA0158DE5BDED5F2FFFCE1 /* VTMCommShared.m in Sources */,
+				A6EC09F78E946E12F11ED7C9 /* VTConnectViewController.m in Sources */,
+				C1FBC0DDA8C4ED4D80B6C509 /* VTMenuViewController.m in Sources */,
+				07401998D4E4016957ABB8AE /* VTInfoViewController.m in Sources */,
+				30B7512BFF49EF9DC18E2ED6 /* VTRealViewController.m in Sources */,
+				36C69225F6D9EDDE52F507B0 /* VTDataDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

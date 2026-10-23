@@ -11,9 +11,9 @@
 //
 //  Releasing is therefore just: update the xcframework, bump spec.version, tag.
 //
-//  Tags must be three-component semver. The repository's historical tags (v1.4 … v1.9)
-//  are two-component and invisible to SPM, which is harmless — they simply never
-//  resolve. New releases start at 1.5.8.
+//  Tags must be three-component semver, with no "v" prefix, to be visible to SPM.
+//  The repository's old two-component tags (v1.4 … v1.9) have been removed; 1.5.7
+//  is the first and currently only SPM-resolvable tag.
 //
 import PackageDescription
 

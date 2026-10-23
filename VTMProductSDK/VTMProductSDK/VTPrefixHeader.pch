@@ -15,6 +15,19 @@
 #import <Masonry/Masonry.h>
 #import "VTCOMMPresenter.h"
 
+// ⚠️ 下面这些前缀**不要**用来做设备路由或扫描过滤。
+//
+// 路由与过滤的唯一依据是 VTMDeviceRouting 的前缀表，那张表和 SDK 内部
+// VTMBLEDevice.m 的识别链逐条对齐。这里的常量是 Demo 早期留下的，其中几个
+// 和 SDK 实际使用的值不一致（对比见 Distribution/README.md）：
+//
+//   ER1_ShowPre         @"ER1 "        SDK 是 @"ER1"     —— 漏掉 ER1S / ER1-W / ER1-L
+//   VisualBeat_ShowPre  @"VisualBeat " SDK 是 @"VBeat"   —— 永远匹配不到真实设备
+//   SA8W                @"SA-8W"       SDK 是 @"S8-AW "  —— 字符顺序不同
+//
+// 目前只有 ECG/VTMECGMenuVC.m 还在用 ER1_ShowPre 和 VisualBeat_ShowPre 做
+// UI 功能开关，保留原值以免改变那里的现有行为。
+
 //ECG
 #define ER1_ShowPre @"ER1 " //ER1
 #define VisualBeat_ShowPre @"VisualBeat " //VisualBeat

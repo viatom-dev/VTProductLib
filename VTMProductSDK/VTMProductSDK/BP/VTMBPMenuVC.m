@@ -10,18 +10,10 @@
 #import "VTMRealVC.h"
 #import "VTMProductSDK-Swift.h"
 
-typedef enum : NSUInteger {
-    DeviceStatusSleep = 0,
-    DeviceStatusMemery,
-    DeviceStatusCharge,
-    DeviceStatusReady,
-    DeviceStatusBPMeasuring,
-    DeviceStatusBPMeasureEnd,
-    DeviceStatusECGMeasuring,
-    DeviceStatusECGMeasureEnd,
-    DeviceStatusDisconnected,
-} DeviceStatus;
-
+// 主机状态用 SDK 的 VTMBPStatus（VTMBLEEnum.h），不要在 Demo 里另外定义一份。
+// 这里原先有个本地 DeviceStatus 枚举，0–7 和 VTMBPStatus 完全重复，但缺了
+// BP2WIFI 三次测量（15–17）、BP2 理疗（20）、BP3 血压心电（21–24）、
+// 配网与数据上传（25/26）和无效值（0xFF）。
 
 @interface VTMBPMenuVC ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate,VTMURATUtilsDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -155,22 +147,22 @@ static NSString *identifier = @"funcCell";
         DLog(@"state:%hhu,percent:%hhu,voltage:%hhu",info.state,info.percent,info.voltage);
         VTMBPRunStatus status = bpData.run_status;
         VTMBPRealTimeWaveform waveform = bpData.rt_wav;
-        switch (status.status) {
-            case DeviceStatusSleep:{
+        switch ((VTMBPStatus)status.status) {
+            case VTMBPStatusSleep:{
             }
                 break;
-            case DeviceStatusMemery:{
+            case VTMBPStatusMemery:{
                 
             }
                 break;
-            case DeviceStatusCharge:{
+            case VTMBPStatusCharge:{
                 
             }
                 break;
-            case DeviceStatusReady:{
+            case VTMBPStatusReady:{
             }
                 break;
-            case DeviceStatusBPMeasuring:{
+            case VTMBPStatusBPMeasuring:{
                 NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
                 VTMBPMeasuringData measuringData = [VTMBLEParser parseBPMeasuringData:tempData];
                 if (measuringData.is_deflating_2) {
@@ -180,13 +172,13 @@ static NSString *identifier = @"funcCell";
                 }
             }
                 break;
-            case DeviceStatusBPMeasureEnd:{
+            case VTMBPStatusBPMeasureEnd:{
                 NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
                 VTMBPEndMeasureData endMeasureData = [VTMBLEParser parseBPEndMeasureData:tempData];
 
             }
                 break;
-            case DeviceStatusECGMeasuring:{
+            case VTMBPStatusECGMeasuring:{
     
                 NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
                 VTMECGMeasuringData ecgMeasuringData = [VTMBLEParser parseECGMeasuringData:tempData];
@@ -197,17 +189,40 @@ static NSString *identifier = @"funcCell";
                 }
             }
                 break;
-            case DeviceStatusECGMeasureEnd:{
+            case VTMBPStatusECGMeasureEnd:{
                 NSData *tempData = [NSData dataWithBytes:waveform.data length:sizeof(waveform.data)];
                 VTMECGEndMeasureData ecgEndMeasueData = [VTMBLEParser parseECGEndMeasureData:tempData];
 
             }
                 break;
-            default:
 
+            // ── 这个菜单只演示「取一次实时数据」，不做完整状态机 ──────────────
+            //
+            // 完整的状态处理（三次测量、BP3 按 rt_wav.type 取 payload、
+            // is_deflating 与 is_deflating_2 的区别）在 VTMRealVC 的
+            // handleBPRealTimeData: 里，那里是逐包渲染的场景。
+            case VTMBPStatusBPAVGMeasure:         // 15  BP2WIFI 血压三次测量中
+            case VTMBPStatusBPAVGMeasureWait:     // 16  BP2WIFI 血压三次测量等待开始
+            case VTMBPStatusBPAVGMeasureEnd:      // 17  BP2WIFI 血压三次测量结束
+            case VTMBPStatusVEN:                  // 20  BP2 理疗模式中
+            case VTMBPStatusBPMeasuringBP3:       // 21  BP3 血压心电测量中
+            case VTMBPStatusBPMeasureEndBP3:      // 22  BP3 血压心电测量结束
+            case VTMBPStatusECGMeasuringBP3:      // 23  BP3 血压心电三次测量中
+            case VTMBPStatusECGMeasureEndBP3:     // 24  BP3 血压心电三次测量结束
+            case VTMBPStatusNetworkConfig:        // 25  配置 WiFi 和服务器
+            case VTMBPStatusDataUploading:        // 26  数据上传服务器
+                DLog(@"BP status %d not demonstrated yet (rt_wav.type=%d)",
+                     status.status, waveform.type);
+                break;
+
+            case VTMBPStatusINVAIL:               // 0xFF
+                DLog(@"BP status invalid (0xFF)");
                 break;
         }
-        
+
+        // packet_t 在堆上，用完必须释放
+        VTMFreeBPRealTimeData(&bpData);
+
         [self.progressHUD hideAnimated:YES];
         [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"percent:%hhu%%", info.percent] handler:nil];
         

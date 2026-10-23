@@ -7,6 +7,7 @@
 //
 
 #import "VTDevice.h"
+#import "VTMDeviceRouting.h"
 
 @implementation VTDevice
 
@@ -24,17 +25,11 @@
         }
         self.rawPeripheral = peripheral;
         DLog(@"scan device:%@",peripheral.name);
-        if (![peripheral.name hasPrefix:ER1_ShowPre] &&
-            ![peripheral.name hasPrefix:VisualBeat_ShowPre] &&
-            ![peripheral.name hasPrefix:ER2_ShowPre] &&
-            ![peripheral.name hasPrefix:DuoEK_ShowPre] &&
-            ![peripheral.name hasPrefix:BP2_ShowPre]&&
-            ![peripheral.name hasPrefix:BP2A_ShowPre]&&
-            ![peripheral.name hasPrefix:LeS1_ShowPre]&&
-            ![peripheral.name hasPrefix:LeS1_ShowPre]&&
-            ![peripheral.name hasPrefix:ER3_ShowPre] &&
-            ![peripheral.name hasPrefix:O2RingS] &&
-            ![peripheral.name hasPrefix:SA8W]) {
+
+        // 过滤由 VTMDeviceRouting 的前缀表统一决定，不再在这里逐个 hasPrefix。
+        // 那张表同时驱动「扫不扫」和「连上以后用哪个通信模块」，
+        // 两者必须一致，否则会出现扫得出来但连上没法通信的设备。
+        if (![VTMDeviceRouting isKnownDeviceName:peripheral.name]) {
             return nil;
         }
     }
