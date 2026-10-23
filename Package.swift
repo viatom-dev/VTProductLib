@@ -13,7 +13,7 @@
 //
 //  Tags must be three-component semver, with no "v" prefix, to be visible to SPM.
 //  The repository's old two-component tags (v1.4 … v1.9) have been removed; 1.5.7
-//  is the first and currently only SPM-resolvable tag.
+//  is the first SPM-resolvable tag.
 //
 import PackageDescription
 

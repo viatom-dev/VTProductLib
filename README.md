@@ -112,7 +112,7 @@ Or declare it in your own `Package.swift`. Note the package identity is
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/viatom-dev/VTProductLib", from: "1.5.7")
+    .package(url: "https://github.com/viatom-dev/VTProductLib", from: "1.5.8")
 ],
 targets: [
     .target(
