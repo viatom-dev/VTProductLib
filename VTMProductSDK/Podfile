@@ -30,7 +30,7 @@ target 'VTMProductSDK' do
   vtm_sdk_source = ENV['VTM_PRODUCT_SDK_SOURCE'].to_s.strip
 
   if vtm_sdk_source.empty?
-    pod 'VTMProductLib', '~> 1.5.7'
+    pod 'VTMProductLib', '~> 1.5.8'
   else
     vtm_sdk_source = File.expand_path(vtm_sdk_source)
     unless File.exist?(File.join(vtm_sdk_source, 'VTMProductLib.podspec'))
