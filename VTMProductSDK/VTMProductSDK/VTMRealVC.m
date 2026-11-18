@@ -48,7 +48,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.waveformView];
-    self.title = @"Real-time data";
+    self.title = VTMLocalized(@"real.title");
     if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeScale) {
         [self.view addSubview:self.weightLabel];
     }
@@ -275,15 +275,17 @@
 
 /// 把血压结果显示出来。真实 App 在这里弹结果卡片并落库，Demo 只弹个 alert。
 - (void)showBPResult:(VTMBPEndMeasureData)result {
-    NSString *msg = [NSString stringWithFormat:@"%d/%d mmHg\npulse %d bpm%@",
+    NSString *irregular = result.state_code == 0x0E
+        ? [@"\n" stringByAppendingString:VTMLocalized(@"real.bp.irregular")] : @"";
+    NSString *msg = [NSString stringWithFormat:VTMLocalized(@"real.fmt.bp.result"),
                      result.systolic_pressure, result.diastolic_pressure,
                      result.pulse_rate,
-                     result.state_code == 0x0E ? @"\n(irregular heartbeat)" : @""];
+                     irregular];
     UIAlertController *alert =
-        [UIAlertController alertControllerWithTitle:@"BP Result"
+        [UIAlertController alertControllerWithTitle:VTMLocalized(@"real.bp.resultTitle")
                                             message:msg
                                      preferredStyle:UIAlertControllerStyleAlert];
-    [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
+    [alert addAction:[UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:nil]];
     if (self.presentedViewController == nil) {
         [self presentViewController:alert animated:YES completion:nil];
     }
@@ -343,7 +345,7 @@
                 }
                 NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];//心电波形
                 _waveformView.receiveArray = filterArr;
-                _weightLabel.text = [NSString stringWithFormat:@"weight:%.1fkg",weight];
+                _weightLabel.text = [NSString stringWithFormat:VTMLocalized(@"real.fmt.label.weight"),weight];
                 //run status  0:待机 1:秤端测量中 2:秤端测量结束 3:心电准备阶段 4:心电测量中 5:心电正常结束 6:带阻抗心电异常结束  7:不带阻抗异常结束
                 if (status == 5 || status == 6 || status == 7) {
                     DLog(@"Complete Measure");
@@ -482,10 +484,10 @@
     if (!_measureButton) {
         _measureButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _measureButton.frame = CGRectMake((self.view.frame.size.width - 100) * 0.5, CGRectGetMaxY(self.waveformView.frame) + 20, 100, 34.0);
-        [_measureButton setTitle:@"Start" forState:UIControlStateNormal];
+        [_measureButton setTitle:VTMLocalized(@"real.button.start") forState:UIControlStateNormal];
         [_measureButton setTitleColor:[UIColor colorWithRed:82/255.f green:211/255.f blue:106/255.f alpha:1] forState:UIControlStateNormal];
 
-        [_measureButton setTitle:@"Stop" forState:UIControlStateSelected];
+        [_measureButton setTitle:VTMLocalized(@"real.button.stop") forState:UIControlStateSelected];
         [_measureButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
         
         _measureButton.layer.borderWidth = 0.5;
@@ -497,8 +499,9 @@
 }
 
 - (void)clickMeasureButton:(UIButton *)sender {
-    // ⚠️ 这两个指令受 controlKey 保护。未设置 VTMURATUtils.controlKey 时，
-    //    Debug 构建会触发断言。Key 由 Viatom 颁发，见 README 的 Notes 章节。
+    // ⚠️ 这两个指令受 controlKey 保护。未设置有效的 VTMURATUtils.controlKey 时，
+    //    指令不会发送，commandFailed 以 VTMBLEPkgTypeUnauthorized 回调。
+    //    Key 由 Viatom 颁发，见 README 的 Notes 章节。
     if (sender.isSelected) {
         // stop measure
         [[VTMProductURATUtils sharedInstance] er3_notifyMeasurementEnd];

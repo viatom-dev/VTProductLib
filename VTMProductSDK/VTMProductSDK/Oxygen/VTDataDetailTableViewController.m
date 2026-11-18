@@ -10,6 +10,7 @@
 
 @interface VTDataDetailTableViewController ()
 
+/// Rows of single-entry dictionaries: { localized display label : value text }. The key is only shown, never looked up.
 @property (nonatomic, strong) NSMutableArray *detailList;
 
 @end
@@ -31,7 +32,7 @@
             }];
         }else{
             [VTMBLEParser parseWaveHeadAndTail:rawdata result:^(VTMFileHead head, VTMER2FileTail tail) {
-                [weakself.detailList addObject:@{@"Duration": [NSString stringWithFormat:@"%d s", tail.recording_time]}];
+                [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.duration"): [NSString stringWithFormat:@"%d s", tail.recording_time]}];
             }];
             
             // 125hz
@@ -50,18 +51,18 @@
             
             VTMBPBPResult result = [VTMBLEParser parseBPResult:rawdata];
             
-            [self.detailList addObject:@{@"DIA": [NSString stringWithFormat:@"%d mmHg", result.diastolic_pressure]}];
-            [self.detailList addObject:@{@"SYS": [NSString stringWithFormat:@"%d mmHg", result.systolic_pressure]}];
-            [self.detailList addObject:@{@"MAP": [NSString stringWithFormat:@"%d mmHg", result.mean_pressure]}];
-            [self.detailList addObject:@{@"PR": [NSString stringWithFormat:@"%d /min", result.pulse_rate]}];
+            [self.detailList addObject:@{VTMLocalized(@"oxi.detail.dia"): [NSString stringWithFormat:@"%d mmHg", result.diastolic_pressure]}];
+            [self.detailList addObject:@{VTMLocalized(@"oxi.detail.sys"): [NSString stringWithFormat:@"%d mmHg", result.systolic_pressure]}];
+            [self.detailList addObject:@{VTMLocalized(@"oxi.detail.map"): [NSString stringWithFormat:@"%d mmHg", result.mean_pressure]}];
+            [self.detailList addObject:@{VTMLocalized(@"oxi.detail.pr"): [NSString stringWithFormat:@"%d /min", result.pulse_rate]}];
             
             
         } else if (type == 2) {
             
             NSData *resultData = [rawdata subdataWithRange:NSMakeRange(0, sizeof(VTMBPECGResult))];
             VTMBPECGResult result = [VTMBLEParser parseECGResult:resultData];
-            [self.detailList addObject:@{@"Duration": [NSString stringWithFormat:@"%d s", result.recording_time]}];
-            [self.detailList addObject:@{@"HR": [NSString stringWithFormat:@"%d /min", result.hr]}];
+            [self.detailList addObject:@{VTMLocalized(@"oxi.detail.duration"): [NSString stringWithFormat:@"%d s", result.recording_time]}];
+            [self.detailList addObject:@{VTMLocalized(@"oxi.detail.hr"): [NSString stringWithFormat:@"%d /min", result.hr]}];
             
             // sample rate 125hz
             NSData *waveformData = [rawdata subdataWithRange:NSMakeRange(sizeof(VTMBPECGResult), rawdata.length - sizeof(VTMBPECGResult))];
@@ -79,15 +80,15 @@
 
         [VTMBLEParser oxi_parseFile:rawdata completion:^(VTMOxiFileHead head, VTMOxiPoint * _Nonnull points, VTMOxiFileTail tail) {
 
-            [weakself.detailList addObject:@{@"Avg. SpO2": [NSString stringWithFormat:@"%d %%", tail.result.average_spo2]}];
-            [weakself.detailList addObject:@{@"Lowest SpO2": [NSString stringWithFormat:@"%d %%", tail.result.lowest_spo2]}];
-            [weakself.detailList addObject:@{@"3% drops": [NSString stringWithFormat:@"%d", tail.result.percent3_drops]}];
-            [weakself.detailList addObject:@{@"4% drops": [NSString stringWithFormat:@"%d", tail.result.percent4_drops]}];
+            [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.avg_spo2"): [NSString stringWithFormat:@"%d %%", tail.result.average_spo2]}];
+            [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.lowest_spo2"): [NSString stringWithFormat:@"%d %%", tail.result.lowest_spo2]}];
+            [weakself.detailList addObject:@{[NSString stringWithFormat:VTMLocalized(@"oxi.detail.fmt.drops"), 3]: [NSString stringWithFormat:@"%d", tail.result.percent3_drops]}];
+            [weakself.detailList addObject:@{[NSString stringWithFormat:VTMLocalized(@"oxi.detail.fmt.drops"), 4]: [NSString stringWithFormat:@"%d", tail.result.percent4_drops]}];
             [weakself.detailList addObject:@{@"T90": [NSString stringWithFormat:@"%d", tail.result.t90]}];
-            [weakself.detailList addObject:@{@"Drops duration": [NSString stringWithFormat:@"%d", tail.result._90percent_time]}];
-            [weakself.detailList addObject:@{@"Drops numbers": [NSString stringWithFormat:@"%d", tail.result._90percent_drops]}];
-            [weakself.detailList addObject:@{@"O2 score": [NSString stringWithFormat:@"%.1f", tail.result.o2_score / 10.0]}]; // 255 is invalid
-            [weakself.detailList addObject:@{@"Avg. PR": [NSString stringWithFormat:@"%d /min", tail.result.average_pr]}];
+            [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.drops_duration"): [NSString stringWithFormat:@"%d", tail.result._90percent_time]}];
+            [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.drops_count"): [NSString stringWithFormat:@"%d", tail.result._90percent_drops]}];
+            [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.o2_score"): [NSString stringWithFormat:@"%.1f", tail.result.o2_score / 10.0]}]; // 255 is invalid
+            [weakself.detailList addObject:@{VTMLocalized(@"oxi.detail.avg_pr"): [NSString stringWithFormat:@"%d /min", tail.result.average_pr]}];
             
             for (int i = 0; i < tail.records; i ++) {
                 VTMOxiPoint p = points[i];

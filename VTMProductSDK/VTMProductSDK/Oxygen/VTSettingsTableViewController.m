@@ -8,6 +8,9 @@
 
 #import "VTSettingsTableViewController.h"
 
+// Defined in VTDataListTableViewController.m: localizes the oximeter tab bar items.
+FOUNDATION_EXTERN void VTOxiLocalizeTabBarItems(UITabBarController * _Nullable tabBarController);
+
 
 @interface VTSettingCellModel : NSObject
 
@@ -52,7 +55,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
+    self.navigationItem.title = VTMLocalized(@"oxi.nav.settings");
+    VTOxiLocalizeTabBarItems(self.tabBarController);
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -74,18 +78,18 @@
         u_char k1 = (info.fw_version >> 8) & 0xff;
         u_char k2 = info.fw_version;
         NSString *fwVersion = [NSString stringWithFormat:@"%d.%d.%d.%d",kf == 0 ? 1 : kf,k0,k1,k2];
-        VTSettingCellModel *cellModel0 = [[VTSettingCellModel alloc] initWithTitle:@"Firmware Version" detail:fwVersion type:2];
+        VTSettingCellModel *cellModel0 = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.fw_version") detail:fwVersion type:2];
         [weakself.infoArr addObject:cellModel0];
         
         NSString *hwVersion = [NSString stringWithFormat:@"%c", info.hw_version];
-        VTSettingCellModel *cellModel1 = [[VTSettingCellModel alloc] initWithTitle:@"Hardware Version" detail:hwVersion type:2];
+        VTSettingCellModel *cellModel1 = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.hw_version") detail:hwVersion type:2];
         [weakself.infoArr addObject:cellModel1];
         
         NSMutableString *snStr = [NSMutableString string];
         for (int i = 0; i < info.sn.len; i ++) {
             [snStr appendFormat:@"%c", info.sn.serial_num[i]];
         }
-        VTSettingCellModel *cellModel2 = [[VTSettingCellModel alloc] initWithTitle:@"SN" detail:snStr type:2];
+        VTSettingCellModel *cellModel2 = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.sn") detail:snStr type:2];
         [weakself.infoArr addObject:cellModel2];
         
         short year = *((short *)&info.cur_time[0]);
@@ -97,7 +101,7 @@
         
         NSString *timeStr = [NSString stringWithFormat:@"%04d-%02d-%02d %02d:%02d:%02d", year, month, day, hour, minute, second];
         
-        VTSettingCellModel *cellModel3 = [[VTSettingCellModel alloc] initWithTitle:@"Date" detail:timeStr type:0];
+        VTSettingCellModel *cellModel3 = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.date") detail:timeStr type:0];
         [weakself.infoArr addObject:cellModel3];
         cellModel3.DidSelected = ^{
             [[VTCOMMPresenter sharedInstance] syncDeviceTime:[NSDate date] response:^(BOOL succeed) {
@@ -125,7 +129,7 @@
             if (configData.length == sizeof(VTMER1Config)) {
                 VTMER1Config er1Config = [VTMBLEParser parseER1Config:configData];
                 
-                VTSettingCellModel *swiModel = [[VTSettingCellModel alloc] initWithTitle:@"Vibrate switch" detail:[NSString stringWithFormat:@"%d", er1Config.vibeSw] type:1];
+                VTSettingCellModel *swiModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.vibrate_switch") detail:[NSString stringWithFormat:@"%d", er1Config.vibeSw] type:1];
                 [weakself.configArr addObject:swiModel];
                 swiModel.DidChanged = ^(BOOL on) {
                     VTMER1Config er1Config = [VTMBLEParser parseER1Config:weakself.configData];
@@ -137,7 +141,7 @@
                     }];
                 };
                 
-                VTSettingCellModel *lowModel = [[VTSettingCellModel alloc] initWithTitle:@"Low" detail:[NSString stringWithFormat:@"%d /min", er1Config.hrTarget1] type:0];
+                VTSettingCellModel *lowModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.hr_low") detail:[NSString stringWithFormat:@"%d /min", er1Config.hrTarget1] type:0];
                 [weakself.configArr addObject:lowModel];
                 lowModel.DidSelected = ^{
                     VTMER1Config er1Config = [VTMBLEParser parseER1Config:weakself.configData];
@@ -150,9 +154,11 @@
                     }];
                 };
             
-                VTSettingCellModel *highModel = [[VTSettingCellModel alloc] initWithTitle:@"High" detail:[NSString stringWithFormat:@"%d /min", er1Config.hrTarget2] type:0];
+                VTSettingCellModel *highModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.hr_high") detail:[NSString stringWithFormat:@"%d /min", er1Config.hrTarget2] type:0];
                 [weakself.configArr addObject:highModel];
-                lowModel.DidSelected = ^{
+                // 原来这里误写成 lowModel.DidSelected，覆盖了上面「下限」的点击事件：
+                // 点「下限」实际改的是上限，点「上限」没有反应
+                highModel.DidSelected = ^{
                     VTMER1Config er1Config = [VTMBLEParser parseER1Config:weakself.configData];
                     er1Config.hrTarget2 = er1Config.hrTarget1 + arc4random()%80;
                     NSValue *value = [NSValue value:&er1Config withObjCType:@encode(VTMER1Config)];
@@ -167,7 +173,7 @@
 
             } else {
                 VTMER2Config er2Config = [VTMBLEParser parseER2Config:configData];
-                VTSettingCellModel *swiModel = [[VTSettingCellModel alloc] initWithTitle:@"Beat switch" detail:[NSString stringWithFormat:@"%d", er2Config.ecgSwitch] type:YES];
+                VTSettingCellModel *swiModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.beat_switch") detail:[NSString stringWithFormat:@"%d", er2Config.ecgSwitch] type:YES];
                 [weakself.configArr addObject:swiModel];
                 swiModel.DidChanged = ^(BOOL on) {
                     VTMER2Config er2Config = [VTMBLEParser parseER2Config:weakself.configData];
@@ -183,7 +189,7 @@
             
             VTMBPConfig bpConfig = [VTMBLEParser parseBPConfig:configData];
             
-            VTSettingCellModel *swiModel = [[VTSettingCellModel alloc] initWithTitle:@"switch" detail:[NSString stringWithFormat:@"%d", bpConfig.device_switch] type:1];
+            VTSettingCellModel *swiModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.device_switch") detail:[NSString stringWithFormat:@"%d", bpConfig.device_switch] type:1];
             [weakself.configArr addObject:swiModel];
             swiModel.DidChanged = ^(BOOL on) {
                 VTMBPConfig bpConfig = [VTMBLEParser parseBPConfig:weakself.configData];
@@ -197,14 +203,14 @@
 
         } else if ( type == VTMDeviceTypeWOxi) {
             VTMWOxiInfo info = [VTMBLEParser woxi_parseConfig:configData];
-            VTSettingCellModel *spo2thrModel = [[VTSettingCellModel alloc] initWithTitle:@"SpO2 threshold" detail:[NSString stringWithFormat:@"%d %%", info.spo2_thr] type:0];
+            VTSettingCellModel *spo2thrModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.spo2_threshold") detail:[NSString stringWithFormat:@"%d %%", info.spo2_thr] type:0];
             [weakself.configArr addObject:spo2thrModel];
             spo2thrModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%16+80 type:VTMWOxiSetParamsSpO2Thr];
             };
             
-            VTSettingCellModel *motorModel = [[VTSettingCellModel alloc] initWithTitle:@"Motor" detail:[NSString stringWithFormat:@"%d", info.motor] type:0];
+            VTSettingCellModel *motorModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.motor") detail:[NSString stringWithFormat:@"%d", info.motor] type:0];
             [weakself.configArr addObject:motorModel];
             motorModel.DidSelected = ^{
                 // [0, 100]
@@ -212,54 +218,54 @@
             };
             
             
-            VTSettingCellModel *lightModeModel = [[VTSettingCellModel alloc] initWithTitle:@"lighting Mode" detail:[NSString stringWithFormat:@"%d", info.display_mode] type:0];
+            VTSettingCellModel *lightModeModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.display_mode") detail:[NSString stringWithFormat:@"%d", info.display_mode] type:0];
             [weakself.configArr addObject:lightModeModel];
             lightModeModel.DidSelected = ^{
                 // 0 or 2
                 [weakself paramValue:arc4random()%2*2 type:VTMWOxiSetParamsDisplayMode];
             };
             
-            VTSettingCellModel *prSwiModel = [[VTSettingCellModel alloc] initWithTitle:@"PR switch" detail:[NSString stringWithFormat:@"%d", (info.remind_switch >> 4) & 0x01] type:1];
+            VTSettingCellModel *prSwiModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.pr_switch") detail:[NSString stringWithFormat:@"%d", (info.remind_switch >> 4) & 0x01] type:1];
             [weakself.configArr addObject:prSwiModel];
             prSwiModel.DidChanged = ^(BOOL on) {
                 [weakself paramValue:on type:VTMWOxiSetParamsHRSw];
             };
             
-            VTSettingCellModel *lowModel = [[VTSettingCellModel alloc] initWithTitle:@"PR Low threshold" detail:[NSString stringWithFormat:@"%d /min", info.hr_thr_low] type:0];
+            VTSettingCellModel *lowModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.pr_low") detail:[NSString stringWithFormat:@"%d /min", info.hr_thr_low] type:0];
             [weakself.configArr addObject:lowModel];
             lowModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%41 + 30  type:VTMWOxiSetParamsHRThrLow];
             };
             
-            VTSettingCellModel *highModel = [[VTSettingCellModel alloc] initWithTitle:@"PR High threshold" detail:[NSString stringWithFormat:@"%d /min", info.hr_thr_high] type:0];
+            VTSettingCellModel *highModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.pr_high") detail:[NSString stringWithFormat:@"%d /min", info.hr_thr_high] type:0];
             [weakself.configArr addObject:highModel];
             highModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%111 + 90  type:VTMWOxiSetParamsHRThrHigh];
             };
             
-            VTSettingCellModel *strengthModel = [[VTSettingCellModel alloc] initWithTitle:@"Light strength" detail:[NSString stringWithFormat:@"%d", info.brightness] type:0];
+            VTSettingCellModel *strengthModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.brightness") detail:[NSString stringWithFormat:@"%d", info.brightness] type:0];
             [weakself.configArr addObject:strengthModel];
             strengthModel.DidSelected = ^{
                 // [0, 2]
                 [weakself paramValue:arc4random()%3 type:VTMWOxiSetParamsBrightness];
             };
             
-            VTSettingCellModel *buzzerModel = [[VTSettingCellModel alloc] initWithTitle:@"Buzzer" detail:[NSString stringWithFormat:@"%d", info.buzzer] type:0];
+            VTSettingCellModel *buzzerModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.buzzer") detail:[NSString stringWithFormat:@"%d", info.buzzer] type:0];
             [weakself.configArr addObject:buzzerModel];
             buzzerModel.DidSelected = ^{
                 // [0, 100]
                 [weakself paramValue:arc4random()%101 type:VTMWOxiSetParamsBuzzer];
             };
             
-            VTSettingCellModel *spo2SwiModel = [[VTSettingCellModel alloc] initWithTitle:@"SpO2 switch" detail:[NSString stringWithFormat:@"%d", (info.remind_switch >> 0) & 0x01] type:1];
+            VTSettingCellModel *spo2SwiModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.spo2_switch") detail:[NSString stringWithFormat:@"%d", (info.remind_switch >> 0) & 0x01] type:1];
             [weakself.configArr addObject:spo2SwiModel];
             spo2SwiModel.DidChanged = ^(BOOL on) {
                 [weakself paramValue:on type:VTMWOxiSetParamsSpO2Sw];
             };
             
-            VTSettingCellModel *intervalModel = [[VTSettingCellModel alloc] initWithTitle:@"Store interval" detail:[NSString stringWithFormat:@"%d s", info.interval] type:0];
+            VTSettingCellModel *intervalModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.store_interval") detail:[NSString stringWithFormat:@"%d s", info.interval] type:0];
             [weakself.configArr addObject:intervalModel];
             intervalModel.DidSelected = ^{
                 // default is 4s, you can set 1 or 2 or 4.
@@ -269,47 +275,47 @@
             
         } else if ( type == VTMDeviceTypeFOxi) {
             VTMFOxiConfig info = [VTMBLEParser foxi_parseConfig:configData];
-            VTSettingCellModel *spo2thrModel = [[VTSettingCellModel alloc] initWithTitle:@"SpO2 threshold" detail:[NSString stringWithFormat:@"%d %%", info.spo2Low] type:0];
+            VTSettingCellModel *spo2thrModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.spo2_threshold") detail:[NSString stringWithFormat:@"%d %%", info.spo2Low] type:0];
             [weakself.configArr addObject:spo2thrModel];
             spo2thrModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%16+80 type:VTMFOxiSetParamsSpO2Low];
             };
             
-            VTSettingCellModel *lowModel = [[VTSettingCellModel alloc] initWithTitle:@"PR Low threshold" detail:[NSString stringWithFormat:@"%d /min", info.prLow] type:0];
+            VTSettingCellModel *lowModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.pr_low") detail:[NSString stringWithFormat:@"%d /min", info.prLow] type:0];
             [weakself.configArr addObject:lowModel];
             lowModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%41 + 30  type:VTMFOxiSetParamsPRLow];
             };
             
-            VTSettingCellModel *highModel = [[VTSettingCellModel alloc] initWithTitle:@"PR High threshold" detail:[NSString stringWithFormat:@"%d /min", info.prHigh] type:0];
+            VTSettingCellModel *highModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.pr_high") detail:[NSString stringWithFormat:@"%d /min", info.prHigh] type:0];
             [weakself.configArr addObject:highModel];
             highModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%111 + 90  type:VTMFOxiSetParamsPRHigh];
             };
             
-            VTSettingCellModel *alarmModel = [[VTSettingCellModel alloc] initWithTitle:@"Alarm" detail:[NSString stringWithFormat:@"%d", info.alramIsOn] type:1];
+            VTSettingCellModel *alarmModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.alarm") detail:[NSString stringWithFormat:@"%d", info.alramIsOn] type:1];
             [weakself.configArr addObject:alarmModel];
             alarmModel.DidChanged = ^(BOOL on) {
                 [weakself paramValue:on type:VTMFOxiSetParamsAlram];
             };
             
-            VTSettingCellModel *beepModel = [[VTSettingCellModel alloc] initWithTitle:@"PR High threshold" detail:[NSString stringWithFormat:@"%d", info.beepIsOn] type:1];
+            VTSettingCellModel *beepModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.beep") detail:[NSString stringWithFormat:@"%d", info.beepIsOn] type:1];
             [weakself.configArr addObject:beepModel];
             beepModel.DidChanged = ^(BOOL on) {
                 [weakself paramValue:on type:VTMFOxiSetParamsBeep];
             };
             
-            VTSettingCellModel *delayModel = [[VTSettingCellModel alloc] initWithTitle:@"Delay screen" detail:[NSString stringWithFormat:@"%d s", info.esmode] type:0];
+            VTSettingCellModel *delayModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.screen_delay") detail:[NSString stringWithFormat:@"%d s", info.esmode] type:0];
             [weakself.configArr addObject:delayModel];
             delayModel.DidSelected = ^{
                 // Adjust according to PRD.
                 [weakself paramValue:arc4random()%20 type:VTMFOxiSetParamsESMode];
             };
             
-            VTSettingCellModel *modeModel = [[VTSettingCellModel alloc] initWithTitle:@"Measure Mode" detail:[NSString stringWithFormat:@"%d", info.measureMode] type:2];
+            VTSettingCellModel *modeModel = [[VTSettingCellModel alloc] initWithTitle:VTMLocalized(@"oxi.settings.measure_mode") detail:[NSString stringWithFormat:@"%d", info.measureMode] type:2];
             [weakself.configArr addObject:modeModel];
             
             
@@ -410,9 +416,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section) {
-        return @"Config";
+        return VTMLocalized(@"oxi.settings.section.config");
     }
-    return @"Info";
+    return VTMLocalized(@"oxi.settings.section.info");
 }
 
 

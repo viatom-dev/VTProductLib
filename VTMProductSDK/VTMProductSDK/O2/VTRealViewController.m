@@ -33,18 +33,20 @@
     // Do any additional setup after loading the view.
     [VTMCommShared sharedInstance].o2Delegate = self;
     _deviceCom = [[VTBLEUtils alloc] init];
+    // 默认标题（storyboard 里是 "Real-time"），下面按 type 覆盖
+    self.title = VTMLocalized(@"o2.real.title");
     if (_type == 0) {
-        self.title = @"Real-time data";
+        self.title = VTMLocalized(@"o2.real.title.realtime");
         _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(readRealtimeData) userInfo:nil repeats:YES];
     } else if (_type == 1) {
-        self.title = @"Real-PPG data";
+        self.title = VTMLocalized(@"o2.real.title.realPPG");
         [self readRealPPGData];
     }  else if (_type == 2) {
-        self.title = @"Real-Wave data";
+        self.title = VTMLocalized(@"o2.real.title.realWave");
         self.descLab.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height*0.5);
         _timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(readRealWaveData) userInfo:nil repeats:YES];
     }  else if (_type == 3) {
-        self.title = @"Real-Params data";
+        self.title = VTMLocalized(@"o2.real.title.realParams");
 //        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
 //            [VTO2Communicate sharedInstance].a5Delegate = self;
 //            [[VTO2Communicate sharedInstance] babyo2s3_requestRunParams];
@@ -145,7 +147,7 @@
 
 - (void)a5_realRunParams:(VTO2SleepRunParams)params {
 //    NSLog(@"current spo2 : %d ~ %d ~ %d", params.spo2, params.pr, params.pi);
-    self.descLab.text = [NSString stringWithFormat:@"spo2: %d ~ pr: %d ~ pi: %d", params.spo2, params.pr, params.pi];
+    self.descLab.text = [NSString stringWithFormat:VTMLocalized(@"o2.real.fmt.params"), params.spo2, params.pr, params.pi];
 }
 
 -  (void)a5_realWave:(VTA5Wave)wave {

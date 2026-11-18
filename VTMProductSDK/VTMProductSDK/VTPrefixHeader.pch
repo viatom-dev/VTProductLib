@@ -14,6 +14,7 @@
 #import "VTMProductURATUtils.h"
 #import <Masonry/Masonry.h>
 #import "VTCOMMPresenter.h"
+#import "VTMLocalization.h"   // VTMLocalized(key)：Demo 的中英文文案，见 Localization/
 
 // ⚠️ 下面这些前缀**不要**用来做设备路由或扫描过滤。
 //

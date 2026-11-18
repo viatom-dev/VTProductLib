@@ -19,14 +19,14 @@ import PackageDescription
 
 let package = Package(
     name: "VTMProductLib",
-    // iOS: matches spec.ios.deployment_target = "11.0" in the podspec. The binary's
-    // LC_VERSION_MIN_IPHONEOS is 11.0; Xcode 15+ raises its own floor to iOS 12.
+    // iOS: matches spec.ios.deployment_target = "15.0" in the podspec and the
+    // LC_BUILD_VERSION minos of the binary. Xcode 27 only builds deployment targets 15.0+.
     //
     // macCatalyst: the xcframework carries an ios-arm64_x86_64-maccatalyst slice
-    // built with minos 14.0. There is no native macOS slice.
+    // built with minos 15.0. There is no native macOS slice.
     platforms: [
-        .iOS(.v11),
-        .macCatalyst(.v14)
+        .iOS(.v15),
+        .macCatalyst(.v15)
     ],
     products: [
         // Both targets ship together on purpose: the xcframework carries the code,

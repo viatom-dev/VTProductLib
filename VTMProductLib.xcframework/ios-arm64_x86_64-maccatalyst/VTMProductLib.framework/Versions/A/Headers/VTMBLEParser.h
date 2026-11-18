@@ -262,6 +262,7 @@ void VTMFreeWOxiRealData(VTMWOxiRealData * _Nullable data);
 
 + (VTMBabyRunParams)baby_parseRunParams:(NSData *)data;
 
+/// 解析 0x03 姿态数据。新版固件附带的睡眠输出写入 `sleepOut`，是否存在看 `hasSleepOut`。
 + (VTMBabyAtt)baby_parseAttitude:(NSData *)data;
 
 + (void)baby_parseRecordFile:(NSData *)data completion:(void(^)(VTMOxiFileHead fileHead, VTMBabyRecordHead head, VTMBabyRecord_t *records, NSInteger recordNum))completion;

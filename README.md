@@ -1,6 +1,6 @@
 # VTMProductSDK
 
-**Version / 版本：1.5.8**
+**Version / 版本：1.5.9**
 
 iOS BLE SDK for Lepu devices.
 
@@ -9,6 +9,15 @@ iOS 蓝牙通信 SDK，用于连接和操作乐普系列设备。
 ---
 
 ## Changelog / 更新日志
+
+### 1.5.9
+- **BabyPatch** — Added support for the new BabyPatch.
+  新增对新款 BabyPatch 的支持。
+- **Requirements** — The minimum supported system version is now iOS 15.0 (Mac Catalyst 15.0).
+  If your app must support versions earlier than iOS 15, keep using 1.5.8 (CocoaPods: `pod 'VTMProductLib', '1.5.8'`;
+  Swift Package Manager: `exact: "1.5.8"`).
+  最低支持系统版本提升至 iOS 15.0（Mac Catalyst 15.0）。如需兼容 iOS 15 以下版本，请将版本固定在 1.5.8
+  （CocoaPods：`pod 'VTMProductLib', '1.5.8'`；Swift Package Manager：`exact: "1.5.8"`）。
 
 ### 1.5.8
 - **VTMURATUtils** — Fixed a permanent main-thread hang when a file read fails. If the delegate
@@ -85,8 +94,8 @@ use it via CocoaPods.
 
 ## Requirements / 环境要求
 
-- iOS 11.0+ (Xcode 15 and newer raise their own floor to iOS 12 / Xcode 15 及以上版本自身的下限为 iOS 12)
-- Mac Catalyst 14.0+
+- iOS 15.0+ / iOS 15.0 及以上
+- Mac Catalyst 15.0+
 - Objective-C or Swift. The framework defines a module, so no bridging header is needed.
   Objective-C 或 Swift 均可。框架自带 module，无需桥接头文件。
 
@@ -112,7 +121,7 @@ Or declare it in your own `Package.swift`. Note the package identity is
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/viatom-dev/VTProductLib", from: "1.5.8")
+    .package(url: "https://github.com/viatom-dev/VTProductLib", from: "1.5.9")
 ],
 targets: [
     .target(
@@ -419,7 +428,23 @@ VTMWOxiRawSampleInfo info = {.marker = 0x01, .sample_rate = 0};
 [urat baby_syncConfigParam:param];
 [urat baby_requestRunParams];
 [urat baby_requestGesture];
+
+// Buzzer control (newer firmware only) / 蜂鸣器控制（仅新版固件）
+VTMBabyBuzzerInfo buzzer = {0};
+buzzer.on = 1;              // 0: off / 关闭, 1: on / 打开
+buzzer.time = 10;           // seconds / 秒
+buzzer.sound_intens = 60;   // 1-100
+[urat baby_controlBuzzer:buzzer];
+
+// Kick-off temperature drop threshold (newer firmware only) / 踢被下降温度阈值（仅新版固件）
+VTMOxiParamsOption opt = {0};
+opt.type = VTMBabySetParamsDropTemp;
+opt.param.val = 3;          // 1-5 ℃
+[urat baby_syncConfigParam:opt];
 ```
+
+> `baby_controlBuzzer:` and `VTMBabySetParamsDropTemp` require newer firmware. On older firmware the device rejects them and the result arrives in `util:commandFailed:deviceType:failedType:`.
+> `baby_controlBuzzer:` 和 `VTMBabySetParamsDropTemp` 需要新版固件，早期固件会拒绝，结果通过 `util:commandFailed:deviceType:failedType:` 返回。
 
 #### Ventilator Commands / 呼吸机指令
 
@@ -704,6 +729,14 @@ VTMWOxiRawSampleInfo info = {.marker = 0x01, .sample_rate = 0};
                 }
                 case VTMBabyCmdGetGesture: {
                     VTMBabyAtt attitude = [VTMBLEParser baby_parseAttitude:response];
+                    if (attitude.hasSleepOut) {
+                        // attitude.sleepOut.sleep_state — VTMBabySleepState
+                        // attitude.sleepOut.cough_event_flag — cough flag / 咳嗽标志
+                    }
+                    break;
+                }
+                case VTMBabyCmdBuzzer: {
+                    // Buzzer command acknowledged / 蜂鸣器指令已应答
                     break;
                 }
                 default:
@@ -749,6 +782,11 @@ VTMWOxiRawSampleInfo info = {.marker = 0x01, .sample_rate = 0};
     commandFailed:(u_char)cmdType
        deviceType:(VTMDeviceType)deviceType
        failedType:(VTMBLEPkgType)type {
+    if (type == VTMBLEPkgTypeUnauthorized) {
+        // Not sent: controlKey / wearablePPGKey missing or invalid
+        // 未发送：controlKey / wearablePPGKey 未设置或无效
+        return;
+    }
     // Handle error / 处理错误
 }
 
@@ -880,6 +918,14 @@ if (babyParams.hasSleepInfo) {
     // sleep.falling_asleep — sleep start timestamp / 入睡时间戳
     // sleep.awake_time — wake timestamp / 出睡时间戳
     // sleep.cough_display_flag — cough detected / 咳嗽标志
+}
+
+// Sleep output in attitude data (newer firmware only) / 姿态数据中的睡眠输出（仅新版固件）
+// Check hasSleepOut first: when it is NO, sleep_state is 0 but does not mean deep sleep.
+// 先判断 hasSleepOut：为 NO 时 sleep_state 为 0，但不代表深睡。
+if (attitude.hasSleepOut) {
+    VTMBabySleepState state = attitude.sleepOut.sleep_state;
+    BOOL cough = attitude.sleepOut.cough_event_flag != 0;
 }
 ```
 
@@ -1186,11 +1232,13 @@ VTMFreeWOxiRealData(&oxiData);
   文件读取为锁定操作，读取下一个文件前必须调用 `endReadFile`。
 
 - Authorization keys only gate a subset of commands; everything else works without them.
-  Calling a gated command without a valid key triggers an assertion in Debug builds. In
-  Release builds assertions are compiled out, so set the keys before shipping.
+  Without a valid key a gated command is not sent to the device, and
+  `util:commandFailed:deviceType:failedType:` is called with `VTMBLEPkgTypeUnauthorized`
+  (synchronously, on the calling thread). Debug and Release builds behave the same.
 
-  授权 Key 只保护部分指令，其余接口无需 Key 即可使用。未设置有效 Key 就调用受保护指令，
-  Debug 构建会触发断言；Release 构建中断言被编译移除，因此请在发版前确认已设置 Key。
+  授权 Key 只保护部分指令，其余接口无需 Key 即可使用。未设置有效 Key 时，受保护指令不会发送到设备，
+  并以 `VTMBLEPkgTypeUnauthorized` 回调 `util:commandFailed:deviceType:failedType:`
+  （在调用线程上同步回调）。Debug 与 Release 构建行为一致。
 
   | Key | Gated commands / 受保护的指令 |
   |---|---|

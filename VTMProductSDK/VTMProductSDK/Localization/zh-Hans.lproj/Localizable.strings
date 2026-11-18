@@ -1,0 +1,449 @@
+/*
+  Localizable.strings（简体中文）
+  VTMProductSDK Demo
+
+  key 与 en.lproj 一一对应。含 ".fmt." 的是格式串，占位符的种类和顺序必须与英文一致。
+*/
+
+/* ─── 通用 ─── */
+"common.ok" = "好";
+"common.cancel" = "取消";
+"common.language" = "语言";
+"common.language.hint" = "在英文和简体中文之间切换界面语言";
+
+/* ─── 扫描页 ─── */
+"scan.title" = "扫描设备";
+"scan.alert.unsupported" = "不支持该设备。";
+"scan.alert.failed" = "连接失败";
+"scan.alert.connected" = "连接成功";
+"scan.module.useO2" = "改用 VTO2Communicate";
+"scan.module.useURAT" = "改用 VTMURATUtils（woxi_*）";
+"scan.module.message" = "为该设备手动指定通信模块。";
+
+/* ─── 翻身贴：导航与视图 ─── */
+"baby.fmt.title.connected" = "%@ 已连接";
+"baby.fmt.title.disconnected" = "%@ 已断开";
+"baby.nav.disconnect" = "断开";
+"baby.nav.disconnect.hint" = "断开当前设备并回到扫描页，用于切换另一台设备";
+"baby.view.log" = "日志";
+"baby.view.log.a11y" = "指令日志";
+"baby.view.clear" = "清空";
+"baby.view.clear.a11y" = "清空日志";
+"baby.view.live.a11y" = "姿态实时数据";
+
+/* ─── 翻身贴：菜单 ─── */
+"baby.section.common" = "通用指令";
+"baby.section.config" = "配置";
+"baby.section.realtime" = "实时数据";
+"baby.section.file" = "文件";
+"baby.menu.deviceInfo" = "获取设备信息";
+"baby.menu.syncTime" = "同步时间";
+"baby.menu.syncTime.sub" = "0xEC  使用手机当前时间";
+"baby.menu.factoryReset" = "恢复出厂设置";
+"baby.menu.factoryReset.sub" = "0xE3  会清除设备配置";
+"baby.menu.getConfig" = "获取配置信息";
+"baby.menu.setConfig" = "设置配置项";
+"baby.menu.setConfig.sub" = "0x01  单项下发";
+"baby.menu.runParams" = "获取运行参数";
+"baby.menu.runParams.sub" = "0x02  姿态 / 呼吸率 / 体温 / 电量 / 睡眠";
+"baby.menu.buzzer" = "蜂鸣器控制";
+"baby.menu.buzzer.sub" = "0x04  开关 / 时长 / 强度（新版固件）";
+"baby.menu.fileList" = "文件列表并下载";
+"baby.menu.fileList.sub" = "0xF1 → 0xF2/F3/F4  R 记录 / E 事件";
+
+/* ─── 翻身贴：设置项（0x01）─── */
+"baby.setting.alarmBits.hint" = "bit0 踢被  bit1 温度  bit2 呼吸率  bit3 姿态，取值 0-15";
+"baby.setting.led" = "指示灯报警开关";
+"baby.setting.beep" = "声音报警开关";
+"baby.setting.notify" = "报警通知开关";
+"baby.setting.tempLow" = "温度低阈值";
+"baby.setting.tempLow.hint" = "单位 0.1℃，范围 150-320，须低于高阈值";
+"baby.setting.tempHigh" = "温度高阈值";
+"baby.setting.tempHigh.hint" = "单位 0.1℃，范围 320-430，须高于低阈值";
+"baby.setting.rrLow" = "呼吸率低阈值";
+"baby.setting.rrLow.hint" = "次/分钟，范围 0-70，须低于高阈值";
+"baby.setting.rrHigh" = "呼吸率高阈值";
+"baby.setting.rrHigh.hint" = "次/分钟，范围 0-70，须高于低阈值";
+"baby.setting.sensitivity" = "姿态报警灵敏度";
+"baby.setting.sensitivity.hint" = "范围 1-3";
+"baby.setting.ledTime" = "指示灯工作时间";
+"baby.setting.ledTime.hint" = "V3：0 常亮，255 关闭，1-254 为 x 分钟后关闭";
+"baby.setting.dropTemp" = "踢被下降温度阈值";
+"baby.setting.dropTemp.hint" = "单位 ℃，范围 1-5（新版固件）";
+"baby.fmt.setting.current" = "%@（当前 %@）";
+
+/* ─── 翻身贴：弹窗 ─── */
+"baby.alert.reset.message" = "会清除设备上的配置，确定继续？";
+"baby.alert.reset.confirm" = "恢复";
+"baby.alert.chooseSetting" = "选择设置项";
+"baby.alert.chooseSetting.noConfig" = "还没读过配置，建议先「获取配置信息」以显示当前值";
+"baby.alert.chooseFile" = "选择要下载的文件";
+"baby.alert.send" = "下发";
+"baby.alert.buzzer.message" = "开关 0/1，时间单位秒，强度 1-100";
+"baby.alert.buzzer.on" = "开关 0 关 / 1 开";
+"baby.alert.buzzer.time" = "蜂鸣时间（秒）";
+"baby.alert.buzzer.intensity" = "声音强度 1-100";
+"baby.buzzer.on" = "开关";
+"baby.buzzer.time" = "蜂鸣时间";
+"baby.buzzer.intensity" = "声音强度";
+
+/* ─── 翻身贴：输入校验 ─── */
+"baby.fmt.err.notInteger" = "%@：请输入整数";
+"baby.fmt.err.range" = "%@：超出范围 %ld-%ld";
+"baby.fmt.err.tempLow" = "温度低阈值须低于当前高阈值 %d";
+"baby.fmt.err.tempHigh" = "温度高阈值须高于当前低阈值 %d";
+"baby.fmt.err.rrLow" = "呼吸率低阈值须低于当前高阈值 %d";
+"baby.fmt.err.rrHigh" = "呼吸率高阈值须高于当前低阈值 %d";
+
+/* ─── 翻身贴：日志 ─── */
+"baby.log.connectedV3" = "已连接。当前 SDK 支持 V3 协议（蜂鸣器、踢被下降温度阈值、睡眠输出）";
+"baby.log.connectedV1Only" = "已连接。当前 SDK 不含 V3 协议内容，只显示一代指令（切到 source 模式可测试 V3）";
+"baby.log.autoProbe" = "自动探测：获取设备信息 → 获取运行参数";
+"baby.log.languageChanged" = "已切换语言，之前的日志保持原语言";
+"baby.log.syncTimeDone" = "同步时间成功";
+"baby.log.resetDone" = "恢复出厂设置成功";
+"baby.log.buzzerDone" = "蜂鸣器指令已应答";
+"baby.log.readAborted" = "读文件已结束（下载已中止）";
+"baby.log.reconnected" = "重连成功，已重新发起加密握手";
+"baby.log.reconnectFailed" = "✗ 重连后服务发现失败";
+"baby.log.disconnected" = "连接已断开";
+"baby.fmt.log.disconnectedError" = "连接断开：%@";
+"baby.fmt.log.busy" = "上一条指令（%@）还没应答，请稍候";
+"baby.fmt.log.timeout" = "✗ %@ %.0f 秒未应答";
+"baby.fmt.log.failed" = "✗ %@ 失败：%@";
+"baby.fmt.log.sendFailed" = "✗ 指令发送失败：%@";
+"baby.fmt.log.response" = "← %@ 应答 %lu 字节";
+"baby.fmt.log.setDone" = "设置成功 %@（可再「获取配置信息」核对）";
+"baby.fmt.log.fileLength" = "文件长度 %u 字节";
+"baby.fmt.hud.downloading" = "下载中 %u / %u";
+
+/* ─── 翻身贴：指令名 ─── */
+"baby.cmd.deviceInfo" = "获取设备信息";
+"baby.cmd.factoryReset" = "恢复出厂设置";
+"baby.cmd.syncTime" = "同步时间";
+"baby.cmd.fileList" = "文件列表";
+"baby.cmd.startRead" = "读文件开始";
+"baby.cmd.readFile" = "读文件数据";
+"baby.cmd.endRead" = "读文件结束";
+"baby.cmd.encrypt" = "加密握手";
+"baby.cmd.getConfig" = "获取配置";
+"baby.cmd.setConfig" = "设置配置";
+"baby.cmd.runParams" = "运行参数";
+"baby.cmd.attitude" = "姿态";
+"baby.cmd.buzzer" = "蜂鸣器";
+"baby.fmt.cmd.unknown" = "指令 0x%02X";
+
+/* ─── 翻身贴：失败类型（V3 协议 2.2）─── */
+"baby.fail.notFound" = "找不到文件";
+"baby.fail.readFailed" = "读文件失败";
+"baby.fail.writeFailed" = "写文件失败";
+"baby.fail.firmware" = "固件升级失败";
+"baby.fail.language" = "语言包升级失败";
+"baby.fail.busy" = "设备忙";
+"baby.fail.format" = "指令格式错误";
+"baby.fail.unsupported" = "不支持该指令";
+"baby.fail.common" = "通用错误";
+"baby.fail.head" = "包头错误（SDK 判定）";
+"baby.fail.crc" = "CRC 错误（SDK 判定）";
+"baby.fail.unauthorized" = "未授权，SDK 未发送";
+"baby.fmt.fail.unknown" = "包类型 0x%02X";
+"baby.sendErr.noPeripheral" = "peripheral 为空";
+"baby.sendErr.noCharacteristic" = "写特征为空";
+"baby.sendErr.notConnected" = "设备未连接";
+"baby.sendErr.timeout" = "超时";
+"baby.fmt.sendErr.unknown" = "错误码 %u";
+
+/* ─── 翻身贴：协议代际 ─── */
+"baby.fmt.protocol" = "协议：%@";
+"baby.gen.unknown" = "未判定（获取运行参数即可判定）";
+"baby.gen.v1" = "一代";
+"baby.gen.v3" = "V3";
+"baby.gen.conflict" = "⚠️ 判定冲突";
+"baby.gen.badLength" = "长度异常";
+"baby.fmt.evidence.runParams" = "运行参数 %luB→%@";
+"baby.fmt.evidence.attitude" = "姿态 %luB→%@";
+"baby.fmt.evidence.record" = "记录文件 v%lu→%@";
+"baby.fmt.evidence.config" = "配置 %luB→%@(参考)";
+
+/* ─── 翻身贴：应答详情 ─── */
+"baby.fmt.deviceInfo" = "设备信息\n  硬件版本 %c  固件 %@  引导 %@\n  协议版本 0x%04X  数据段最大长度 %u\n  SN %@";
+"baby.fmt.config" = "配置信息（%lu 字节）\n  指示灯报警 %@  声音报警 %@  通知 %@\n  温度阈值 %.1f ~ %.1f ℃  呼吸率阈值 %u ~ %u\n  姿态灵敏度 %u  指示灯工作时间 %@  踢被降温阈值 %u ℃";
+"baby.fmt.runParams" = "运行参数（%lu 字节）\n  运行状态 %@  姿态 %@  %@\n  呼吸率 %u（报警 0x%02X）  体温 %.1f ℃（报警 0x%02X）  趴睡报警 %u\n  电量 %u%%（状态 %u，%u mV）  记录 %u s  开机 %u s";
+"baby.fmt.runParams.sleep" = "\n  睡眠 %@  咳嗽 %u  呼吸急促 %u  清醒次数 %u\n  入睡 %@  出睡 %@\n  总睡眠 %u s  深睡 %u s  浅睡 %u s  清醒 %u s";
+"baby.runParams.noSleep" = "\n  无睡眠信息（一代固件）";
+"baby.attitude.waiting" = "等待设备上报姿态（0x03）…\n测试固件会以 26Hz 主动上报；正式固件可能不上报";
+"baby.fmt.attitude" = "姿态上报 #%lu（%lu 字节）\n姿势 %@  呼吸率 %u  俯仰 %.1f  翻滚 %.1f  偏航 %.1f\nacc %d / %d / %d   gyro %d / %d / %d";
+"baby.fmt.attitude.sleep" = "\n睡眠 %@  咳嗽 %u";
+"baby.attitude.noSleep" = "\n无睡眠输出（一代固件）";
+"baby.fileList.empty" = "文件列表为空";
+"baby.fmt.fileList" = "文件列表（%lu 个）\n  %@";
+"baby.wear.on" = "佩戴中";
+"baby.wear.off" = "已脱落";
+
+/* ─── 翻身贴：文件 ─── */
+"baby.fmt.download.done" = "下载完成 %@（%lu 字节）";
+"baby.download.unknownType" = "  未知文件类型，未解析";
+"baby.download.parseFailed" = "  解析失败";
+"baby.fmt.record.head" = "  文件版本 %u  类型 0x%02X  型号 0x%04X\n  开始 %@  时长 %u s  间隔 %u s  记录 %ld 条";
+"baby.fmt.record.sleep" = "\n  睡眠统计：入睡 %@  出睡 %@  总睡眠 %u s  深睡 %u s  浅睡 %u s  清醒 %u s / %u 次";
+"baby.fmt.record.item" = "\n  #%ld 呼吸率 %u  姿势 %@  体温 %.1f ℃";
+"baby.fmt.record.item.sleep" = "  睡眠 %u";
+"baby.fmt.record.more" = "\n  …其余 %ld 条略";
+"baby.fmt.event.head" = "  文件版本 %u  类型 0x%02X  事件 %ld 条";
+
+/* ─── 翻身贴：取值文案 ─── */
+"baby.alarm.kick" = "踢被";
+"baby.alarm.temp" = "温度";
+"baby.alarm.rr" = "呼吸率";
+"baby.alarm.posture" = "姿态";
+"baby.alarm.allOff" = "全关";
+"baby.ledTime.alwaysOn" = "0(常亮)";
+"baby.ledTime.off" = "255(关闭)";
+"baby.fmt.ledTime.minutes" = "%u 分钟";
+"baby.status.idle" = "待机(未佩戴)";
+"baby.status.work" = "工作(已佩戴)";
+"baby.status.charge" = "充电";
+"baby.status.upgrade" = "升级";
+"baby.status.test" = "测试模式";
+"baby.status.abnormal" = "设备异常";
+"baby.gesture.supine" = "仰卧";
+"baby.gesture.right" = "右侧卧";
+"baby.gesture.left" = "左侧卧";
+"baby.gesture.prone" = "俯卧";
+"baby.gesture.sitUp" = "坐起";
+"baby.sleep.deep" = "深睡";
+"baby.sleep.light" = "浅睡";
+"baby.sleep.wake" = "清醒";
+"baby.sleep.unknown" = "未知";
+"baby.event.prone" = "俯卧";
+"baby.event.tempLow" = "温度过低";
+"baby.event.tempHigh" = "温度过高";
+"baby.event.kick" = "踢被";
+"baby.event.rrLow" = "呼吸率低";
+"baby.event.rrHigh" = "呼吸率高";
+"baby.event.cough" = "咳嗽";
+"baby.event.tachypnea" = "呼吸急促";
+"baby.fmt.event.unknown" = "事件 0x%04X";
+
+/* ─── ECG: menu ─── */
+"ecg.fmt.title.connected" = "%@ 已连接";
+"ecg.fmt.title.disconnected" = "%@ 已断开";
+"ecg.menu.deviceInfo" = "设备信息";
+"ecg.menu.batteryInfo" = "电量信息";
+"ecg.menu.syncTime" = "同步时间";
+"ecg.menu.downloadFile" = "下载文件";
+"ecg.menu.factoryReset" = "恢复出厂设置";
+"ecg.menu.getConfig" = "获取配置";
+"ecg.menu.realTimeData" = "心电实时数据";
+"ecg.menu.syncConfig" = "同步配置";
+"ecg.menu.parseFile" = "解析文件";
+"ecg.menu.heartbeatSwitch" = "心跳开关";
+
+/* ─── ECG: alerts ─── */
+"ecg.alert.getInfoSuccess" = "获取信息成功";
+"ecg.fmt.alert.deviceInfo" = "硬件版本：%hhu\n固件版本：%hhu\nSN：%s\n更多信息见结构体 'VTMDeviceInfo'";
+"ecg.fmt.alert.battery" = "电量：%hhu%%";
+"ecg.alert.syncTimeSuccess" = "时间同步成功";
+"ecg.fmt.alert.fileCount.one" = "%lu 条记录";
+"ecg.fmt.alert.fileCount.other" = "%lu 条记录";
+"ecg.alert.downloadSuccess" = "下载成功";
+"ecg.alert.factoryResetSuccess" = "已恢复出厂设置";
+"ecg.alert.setSuccess" = "设置成功";
+"ecg.alert.resetSuccess" = "重置成功";
+"ecg.alert.getConfigSuccess" = "获取配置成功";
+"ecg.fmt.alert.er1Config" = "心率下限 hrTarget1：%hhu\n心率上限 hrTarget2：%hhu";
+"ecg.fmt.alert.er2Config" = "心跳开关：%hhu";
+"ecg.alert.setConfigSuccess" = "配置设置成功";
+
+/* ─── ECG: config page ─── */
+"ecg.config.title" = "心电配置";
+"ecg.config.label.switch" = "开关";
+"ecg.config.label.maxHR" = "最高心率";
+"ecg.config.label.minHR" = "最低心率";
+"ecg.config.button.confirm" = "确定";
+"ecg.config.alert.enterMin" = "请输入最小值";
+"ecg.config.alert.enterMax" = "请输入最大值";
+"ecg.config.alert.exceedMax" = "数值不能超过 200";
+"ecg.config.alert.minNotLessThanMax" = "最小值必须小于最大值";
+"ecg.config.alert.success" = "配置成功";
+"ecg.config.alert.failure" = "配置失败";
+
+/* ─── Real-time page ─── */
+"real.title" = "实时数据";
+"real.fmt.label.weight" = "体重：%.1fkg";
+"real.bp.resultTitle" = "血压结果";
+"real.fmt.bp.result" = "%d/%d mmHg\n脉率 %d bpm%@";
+"real.bp.irregular" = "（心律不齐）";
+"real.button.start" = "开始";
+"real.button.stop" = "停止";
+
+/* ─── BP menu page ─── */
+"bp.fmt.title.connected" = "%@ 已连接";
+"bp.fmt.title.disconnected" = "%@ 已断开";
+"bp.menu.deviceInfo" = "设备信息";
+"bp.menu.battery" = "电量信息";
+"bp.menu.syncTime" = "同步时间";
+"bp.menu.download" = "下载文件";
+"bp.menu.factoryReset" = "恢复出厂设置";
+"bp.menu.getConfig" = "获取配置";
+"bp.menu.realtime" = "血压实时数据";
+"bp.menu.heartbeat" = "心跳音开关";
+"bp.menu.deleteFirstFile" = "删除第一个文件";
+"bp.alert.infoDone" = "获取信息成功";
+"bp.fmt.alert.sn" = "序列号：%s";
+"bp.fmt.alert.battery" = "电量：%hhu%%";
+"bp.alert.syncTimeDone" = "同步时间成功";
+"bp.fmt.alert.records" = "%lu 条记录";
+"bp.fmt.alert.record" = "%lu 条记录";
+"bp.alert.downloadDone" = "下载成功";
+"bp.alert.factoryResetDone" = "恢复出厂设置成功";
+"bp.alert.setDone" = "设置成功";
+"bp.alert.resetDone" = "重置成功";
+"bp.alert.getConfigDone" = "获取配置成功";
+"bp.alert.setConfigDone" = "设置配置成功";
+"bp.alert.deleted" = "已删除";
+
+/* ─── Scale menu page ─── */
+"scale.fmt.title.connected" = "%@ 已连接";
+"scale.fmt.title.disconnected" = "%@ 已断开";
+"scale.menu.deviceInfo" = "设备信息";
+"scale.menu.battery" = "电量信息";
+"scale.menu.syncTime" = "同步时间";
+"scale.menu.download" = "下载文件";
+"scale.menu.factoryReset" = "恢复出厂设置";
+"scale.menu.runParams" = "体脂秤运行参数";
+"scale.menu.realtime" = "体脂秤实时数据";
+"scale.alert.infoDone" = "获取信息成功";
+"scale.fmt.alert.sn" = "序列号：%s";
+"scale.fmt.alert.battery" = "电量：%hhu%%";
+"scale.alert.syncTimeDone" = "同步时间成功";
+"scale.fmt.alert.records" = "%lu 条记录";
+"scale.fmt.alert.record" = "%lu 条记录";
+"scale.alert.downloadDone" = "下载成功";
+"scale.alert.factoryResetDone" = "恢复出厂设置成功";
+"scale.alert.setDone" = "设置成功";
+"scale.alert.resetDone" = "重置成功";
+"scale.alert.runParamsDone" = "获取运行参数成功";
+"scale.fmt.alert.status" = "状态：%hhu";
+
+/* ─── 血氧：标签栏与导航标题 ─── */
+"oxi.tab.history" = "历史记录";
+"oxi.tab.dashboard" = "实时";
+"oxi.tab.settings" = "设置";
+"oxi.nav.history" = "历史记录";
+"oxi.nav.dashboard" = "实时数据";
+"oxi.nav.settings" = "设置";
+/* ─── 血氧：实时页 ─── */
+"oxi.real.battery.normal" = "正常";
+"oxi.real.battery.charging" = "充电中";
+"oxi.real.battery.full" = "已充满";
+"oxi.real.battery.low" = "电量低";
+"oxi.real.run.normal" = "正常";
+"oxi.real.run.standby" = "待机";
+"oxi.real.run.preparing" = "准备测量";
+"oxi.real.run.measuring" = "测量中";
+"oxi.real.run.ended" = "测量结束";
+"oxi.real.bp.inactive" = "未激活";
+"oxi.real.bp.history" = "历史记录";
+"oxi.real.bp.ready" = "就绪";
+"oxi.real.bp.bp_measuring" = "血压测量中";
+"oxi.real.bp.bp_result" = "血压结果";
+"oxi.real.bp.ecg_measuring" = "心电测量中";
+"oxi.real.bp.ecg_result" = "心电结果";
+"oxi.real.fmt.run_status" = "运行状态：%d";
+"oxi.real.fmt.hr_per_min" = "心率：%d 次/分";
+"oxi.real.fmt.hr" = "心率：%d";
+"oxi.real.fmt.pr_per_min" = "脉率：%d 次/分";
+"oxi.real.fmt.lead_signal" = "导联：%d，信号：%d";
+"oxi.real.fmt.pressure" = "压力：%d mmHg";
+"oxi.real.fmt.error" = "错误：%d";
+"oxi.real.fmt.result" = "结果：%d";
+"oxi.real.fmt.spo2_pr" = "血氧：%d，脉率：%d";
+"oxi.real.fmt.motion_pi" = "体动：%d，灌注指数：%.1f";
+"oxi.real.fmt.pi" = "灌注指数：%.1f";
+/* ─── 血氧：设置 ─── */
+"oxi.settings.section.info" = "设备信息";
+"oxi.settings.section.config" = "配置";
+"oxi.settings.fw_version" = "固件版本";
+"oxi.settings.hw_version" = "硬件版本";
+"oxi.settings.sn" = "序列号";
+"oxi.settings.date" = "设备时间";
+"oxi.settings.vibrate_switch" = "震动开关";
+"oxi.settings.hr_low" = "心率下限";
+"oxi.settings.hr_high" = "心率上限";
+"oxi.settings.beat_switch" = "心跳音开关";
+"oxi.settings.device_switch" = "开关";
+"oxi.settings.spo2_threshold" = "血氧阈值";
+"oxi.settings.motor" = "震动强度";
+"oxi.settings.display_mode" = "显示模式";
+"oxi.settings.pr_switch" = "脉率提醒开关";
+"oxi.settings.pr_low" = "脉率下限";
+"oxi.settings.pr_high" = "脉率上限";
+"oxi.settings.brightness" = "亮度";
+"oxi.settings.buzzer" = "蜂鸣器";
+"oxi.settings.spo2_switch" = "血氧提醒开关";
+"oxi.settings.store_interval" = "存储间隔";
+"oxi.settings.alarm" = "报警";
+"oxi.settings.beep" = "提示音";
+"oxi.settings.screen_delay" = "息屏延时";
+"oxi.settings.measure_mode" = "测量模式";
+/* ─── 血氧：记录详情 ─── */
+"oxi.detail.duration" = "时长";
+"oxi.detail.dia" = "舒张压";
+"oxi.detail.sys" = "收缩压";
+"oxi.detail.map" = "平均压";
+"oxi.detail.pr" = "脉率";
+"oxi.detail.hr" = "心率";
+"oxi.detail.avg_spo2" = "平均血氧";
+"oxi.detail.lowest_spo2" = "最低血氧";
+"oxi.detail.fmt.drops" = "%d%% 氧降次数";
+"oxi.detail.drops_duration" = "低氧时长";
+"oxi.detail.drops_count" = "低氧次数";
+"oxi.detail.o2_score" = "O2 评分";
+"oxi.detail.avg_pr" = "平均脉率";
+
+/* ─── O2: scanner (VTConnectViewController) ─── */
+"o2.connect.title" = "扫描";
+"o2.connect.alert.ready.title" = "设备已就绪";
+"o2.connect.alert.ready.message" = "可以开始操作";
+"o2.connect.alert.unsupported" = "不支持该外设";
+/* ─── O2: menu (VTMenuViewController) ─── */
+"o2.menu.title" = "菜单";
+"o2.menu.info" = "获取设备信息";
+"o2.menu.realtime" = "实时数据";
+"o2.menu.realPPG" = "实时 PPG 数据";
+"o2.menu.realWave" = "实时波形数据";
+"o2.menu.realParams" = "实时参数数据";
+"o2.menu.reset" = "恢复出厂设置";
+"o2.menu.alert.reset" = "将清除设备上的所有文件。";
+"o2.menu.alert.ready.title" = "设备已就绪";
+"o2.menu.alert.ready.message" = "可以开始操作";
+"o2.menu.fmt.connected" = "%@ 已连接";
+"o2.menu.fmt.disconnected" = "%@ 已断开";
+/* ─── O2: device info (VTInfoViewController) ─── */
+"o2.info.title" = "设备信息";
+"o2.info.section.files" = "可下载的文件";
+"o2.info.section.params" = "可设置的参数";
+"o2.info.param.date" = "日期时间";
+"o2.info.param.oxiThr" = "血氧阈值";
+"o2.info.param.motor" = "震动强度";
+"o2.info.param.pedometer" = "计步目标";
+"o2.info.param.lightingMode" = "亮屏模式";
+"o2.info.param.prVibration" = "脉率震动提醒";
+"o2.info.param.prSound" = "脉率声音提醒";
+"o2.info.param.hrSwitch" = "心率提醒开关";
+"o2.info.param.hrLowThr" = "心率下限阈值";
+"o2.info.param.hrHighThr" = "心率上限阈值";
+"o2.info.param.lightStrength" = "屏幕亮度";
+"o2.info.param.oxiVibration" = "血氧震动提醒";
+"o2.info.param.oxiSound" = "血氧声音提醒";
+"o2.info.param.oxiSwitch" = "血氧提醒开关";
+"o2.info.alert.syncSuccess" = "同步成功";
+"o2.info.alert.syncError" = "同步失败";
+/* ─── O2: real-time (VTRealViewController) ─── */
+"o2.real.title" = "实时数据";
+"o2.real.title.realtime" = "实时数据";
+"o2.real.title.realPPG" = "实时 PPG 数据";
+"o2.real.title.realWave" = "实时波形数据";
+"o2.real.title.realParams" = "实时参数数据";
+"o2.real.fmt.params" = "血氧: %d ~ 脉率: %d ~ 灌注指数: %d";

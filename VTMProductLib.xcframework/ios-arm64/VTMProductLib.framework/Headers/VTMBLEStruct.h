@@ -1442,16 +1442,23 @@ typedef struct {
 // MARK: Baby
 
 
+/// 0x00 获取配置信息的应答。
+///
+/// 设备下发的长度随固件不同：V3 协议为 12 字节字段 + 33 字节预留 = 45 字节，
+/// 早期协议预留更短。有效字段只有前 12 字节，预留区不含数据，
+/// 因此本结构体保持 40 字节不变；解析时按实际长度拷贝，长短都安全。
 typedef struct {
     u_char alarm_led;               // 指示灯报警开关 bit0:踢被警告 bit1:温度报警 bit2:呼吸率报警 bit3:姿态报警 其他预留
     u_char alarm_beep;              // 声音报警开关 bit0:踢被警告 bit1:温度报警 bit2:呼吸率报警 bit3:姿态报警 其他预留
     u_char alarm_wait;              // 报警等待 bit0:踢被警告 bit1:温度报警 bit2:呼吸率报警 bit3:姿态报警
-    short temp_thr_low;            // 温度报警低阈值。范围[150, 320],单位：0.1℃，步进:1℃，下限不可高于上限 default 200
-    short temp_thr_high;           // 温度报警高阈值。范围[320, 430],单位：0.1℃，步进:1℃，上限不可低于下限 default 360
+    short temp_thr_low;            // 温度报警低阈值。范围[150, 320],单位：0.1℃，步进:1（即 0.1℃），下限不可高于上限 default 200
+    short temp_thr_high;           // 温度报警高阈值。范围[320, 430],单位：0.1℃，步进:1（即 0.1℃），上限不可低于下限 default 360
     u_char rr_thr_low;              // 呼吸率报警低阈值。范围[0,70],单位：次/每分钟，步进:1，下限不可高于上限
     u_char rr_thr_high;             // 呼吸率报警高阈值。范围[0,70],单位：次/每分钟，步进:1，上限不可低于下限
     u_char alarm_sensitivity;       // 报警灵敏度，范围[1,3] default 2
-    u_char wear_led_work_time;      // 佩戴指示灯工作时间，单位：分钟。0为一直工作, 1是关闭
+    u_char wear_led_work_time;      // 佩戴指示灯工作时间，单位：分钟。
+                                    //   V3 协议：0x00 常亮，0xFF 关闭，1-254 为 x 分钟后关闭（默认常亮）
+                                    //   此前 SDK 注释为"0 一直工作，1 关闭"，早期固件以实际行为为准
     u_char drop_temp;               //  踢被下降温度阈值，默认3℃，范围[1-5]，步进1，单位：℃
     u_char reserved[28];
 } CG_BOXABLE VTMBabyConfig;
@@ -1544,7 +1551,18 @@ typedef struct {
     VTMBabyGyrosStatus gesture;             // 姿势类型 (1Byte)
     uint8_t RR;                         // 呼吸率
 } CG_BOXABLE VTMBabyAttRes;
- 
+
+/// 姿态上报里的睡眠输出（V3 协议新增，2 字节）。
+typedef struct {
+    uint8_t cough_event_flag;           // 咳嗽状态
+    VTMBabySleepState sleep_state;      // 睡眠状态（1Byte），0xFF 为未知
+} CG_BOXABLE VTMBabySleepOutCtx;
+
+/// 0x03 姿态原始数据（设备主动上报）。
+///
+/// 早期固件上报 26 字节（到 alg_result 为止），V3 固件在末尾追加 VTMBabySleepOutCtx 共 28 字节。
+/// hasSleepOut 与 sleepOut 不是设备字节流的一部分，由解析器按长度填写：
+/// 早期固件 hasSleepOut 为 NO，sleepOut 全 0（注意 sleep_state 为 0 并不代表深睡，须先判断 hasSleepOut）。
 typedef struct {
     int16_t acc_x;
     int16_t acc_y;
@@ -1553,7 +1571,27 @@ typedef struct {
     int16_t g_y;
     int16_t g_z;
     VTMBabyAttRes alg_result;
+    BOOL hasSleepOut;
+    VTMBabySleepOutCtx sleepOut;
 } CG_BOXABLE VTMBabyAtt;
+
+/// 0x04 蜂鸣器控制（V3 协议新增，需新版固件）。
+typedef struct {
+    u_char on;                          // 0：关闭，1：打开
+    u_short time;                       // 蜂鸣时间，单位：秒
+    u_char sound_intens;                // 声音强度，范围[1,100]
+} CG_BOXABLE VTMBabyBuzzerInfo;
+
+typedef struct {
+    uint32_t     falling_asleep;        //入睡时间
+    uint32_t     awake_time;         //出睡时间
+    uint32_t     wake_time;             //清醒时长
+    uint32_t     deep_time;            //深度睡眠时长
+    uint32_t    light_time;            //浅度睡眠时长
+    uint32_t     sleep_time;         //总睡眠时长
+    uint8_t     awake_cnt;            //清醒次数
+    uint8_t reserved1[11];
+} CG_BOXABLE VTMBabySleepRTT;
 
 /// RyyyyMMddHHmmss
 typedef struct {
@@ -1562,12 +1600,16 @@ typedef struct {
     u_char interval;            // sample interval
     u_char reserved[9];
     int crc32;                  // check crc32
+    VTMBabySleepRTT sleep_rtt;
 } CG_BOXABLE VTMBabyRecordHead;
 
 typedef struct {
-    u_char resp;     // Respiration rate
+    u_char resp;                    // Respiration rate
     VTMBabyGyrosStatus status;      // pos
     short temp;                     // temp
+    uint8_t sleep_state:4;          // Sleep state
+    uint8_t reserved_bits:4;        // Reserved bits (padding to complete the byte)
+    u_char reserved[3];             // Reserved
 } CG_BOXABLE VTMBabyRecord_t;
 
 /// EyyyyMMddHHmmss

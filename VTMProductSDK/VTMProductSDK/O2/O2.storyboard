@@ -46,6 +46,7 @@
                     </view>
                     <connections>
                         <outlet property="myTableView" destination="Viq-WE-qwL" id="M3W-Rd-ORi"/>
+                        <outlet property="scannerLabel" destination="m6i-gJ-DEp" id="sCn-Lb-7qT"/>
                         <segue destination="Qjc-pJ-hg4" kind="presentation" identifier="presentViewController" modalPresentationStyle="fullScreen" id="9O2-0v-O3m"/>
                     </connections>
                 </viewController>

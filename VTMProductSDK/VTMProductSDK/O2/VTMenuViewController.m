@@ -30,28 +30,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = VTMLocalized(@"o2.menu.title");
     __weak typeof(self) weakself = self;
-    VTMenuItem *infoItem = [VTMenuItem itemWithTitle:@"Get Info" selector:^{
+    VTMenuItem *infoItem = [VTMenuItem itemWithTitle:VTMLocalized(@"o2.menu.info") selector:^{
         [weakself performSegueWithIdentifier:@"gotoVTInfoViewController" sender:nil];
     }];
-    VTMenuItem *realdataItem = [VTMenuItem itemWithTitle:@"Real-time data" selector:^{
+    VTMenuItem *realdataItem = [VTMenuItem itemWithTitle:VTMLocalized(@"o2.menu.realtime") selector:^{
         weakself.funcRow = 0;
         [weakself performSegueWithIdentifier:@"gotoVTRealViewController" sender:nil];
     }];
-    VTMenuItem *realPPGItem = [VTMenuItem itemWithTitle:@"Real-PPG data" selector:^{
+    VTMenuItem *realPPGItem = [VTMenuItem itemWithTitle:VTMLocalized(@"o2.menu.realPPG") selector:^{
         weakself.funcRow = 1;
         [weakself performSegueWithIdentifier:@"gotoVTRealViewController" sender:nil];
     }];
-    VTMenuItem *realWaveItem = [VTMenuItem itemWithTitle:@"Real-Waveform data" selector:^{
+    VTMenuItem *realWaveItem = [VTMenuItem itemWithTitle:VTMLocalized(@"o2.menu.realWave") selector:^{
         weakself.funcRow = 2;
         [weakself performSegueWithIdentifier:@"gotoVTRealViewController" sender:nil];
     }];
-    VTMenuItem *realParamsItem = [VTMenuItem itemWithTitle:@"Real-Params data" selector:^{
+    VTMenuItem *realParamsItem = [VTMenuItem itemWithTitle:VTMLocalized(@"o2.menu.realParams") selector:^{
         weakself.funcRow = 3;
         [weakself performSegueWithIdentifier:@"gotoVTRealViewController" sender:nil];
     }];
-    VTMenuItem *resetItem = [VTMenuItem itemWithTitle:@"Reset" selector:^{
-        [weakself showAlertWithTitle:@"It will erase all files" message:@"" handler:^(UIAlertAction *action) {
+    VTMenuItem *resetItem = [VTMenuItem itemWithTitle:VTMLocalized(@"o2.menu.reset") selector:^{
+        [weakself showAlertWithTitle:VTMLocalized(@"o2.menu.alert.reset") message:@"" handler:^(UIAlertAction *action) {
             [VTMCommShared sharedInstance].o2Delegate = weakself;
             [[VTMCommShared sharedInstance] beginFactory];
         }];
@@ -105,19 +106,19 @@
 }
 - (void)serviceDeployed:(BOOL)completed{
     if (completed) {
-        [self showAlertWithTitle:@"Good !!!" message:@"Start work" handler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:VTMLocalized(@"o2.menu.alert.ready.title") message:VTMLocalized(@"o2.menu.alert.ready.message") handler:^(UIAlertAction *action) {
         }];
     }
 }
 #pragma mark -- vt ble
 - (void)didConnectedDevice:(VTDevice *)device{
-    self.title = [NSString stringWithFormat:@"%@ connected", device.rawPeripheral.name];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"o2.menu.fmt.connected"), device.rawPeripheral.name];
     [VTMCommShared sharedInstance].o2Delegate = self;
     /** The app needs to send a advertisementData packet when connecting to an encrypted device for the first time after startup.  */
     [[VTMCommShared sharedInstance] setPeripheral:device.rawPeripheral advertisementData:device.adv];
 }
 - (void)didDisconnectedDevice:(VTDevice *)device andError:(NSError *)error{
-    self.title = [NSString stringWithFormat:@"%@ disconnected", device.rawPeripheral.name];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"o2.menu.fmt.disconnected"), device.rawPeripheral.name];
 }
 - (void)o2_serviceDeployed:(BOOL)completed{
     if (completed) {
@@ -138,7 +139,7 @@
                   message:(NSString *)message
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

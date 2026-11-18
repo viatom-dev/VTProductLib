@@ -18,6 +18,11 @@
 @property (weak, nonatomic) IBOutlet UIView *minView;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 
+// xib 里的静态文案保留英文默认值，在 viewDidLoad 里按当前语言设置
+@property (weak, nonatomic) IBOutlet UILabel *switchLabel;
+@property (weak, nonatomic) IBOutlet UILabel *maxHRLabel;
+@property (weak, nonatomic) IBOutlet UILabel *minHRLabel;
+
 @property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
@@ -27,7 +32,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.title = @"ECG Config";
+    self.title = VTMLocalized(@"ecg.config.title");
+    _switchLabel.text = VTMLocalized(@"ecg.config.label.switch");
+    _maxHRLabel.text = VTMLocalized(@"ecg.config.label.maxHR");
+    _minHRLabel.text = VTMLocalized(@"ecg.config.label.minHR");
+    [_sureBtn setTitle:VTMLocalized(@"ecg.config.button.confirm") forState:UIControlStateNormal];
     _maxHRTextField.keyboardType = UIKeyboardTypeNumberPad;
     _minHRTextField.keyboardType = UIKeyboardTypeNumberPad;
     _sureBtn.layer.cornerRadius = 20.f;
@@ -48,16 +57,16 @@
 
 - (IBAction)sureClick:(id)sender {
     if (_minHRTextField.text.length == 0) {
-        NSString *str = @"Enter the minimum value";
+        NSString *str = VTMLocalized(@"ecg.config.alert.enterMin");
         [self showAlertWithTitle:str message:nil handler:nil];
     }else if (_maxHRTextField.text.length == 0){
-        NSString *str = @"Enter the maximum value";
+        NSString *str = VTMLocalized(@"ecg.config.alert.enterMax");
         [self showAlertWithTitle:str message:nil handler:nil];
     }else if (([_minHRTextField.text intValue] > 200) || ([_maxHRTextField.text intValue] > 200)) {
-        NSString *str = @"The value cannot exceed 200";
+        NSString *str = VTMLocalized(@"ecg.config.alert.exceedMax");
         [self showAlertWithTitle:str message:nil handler:nil];
     }else if([_minHRTextField.text intValue] >= [_maxHRTextField.text intValue]){
-        NSString *str = @"The minimum value cannot be greater than the maximum value";
+        NSString *str = VTMLocalized(@"ecg.config.alert.minNotLessThanMax");
         [self showAlertWithTitle:str message:nil handler:nil];
     }else{
         [self.progressHUD showAnimated:YES];
@@ -75,7 +84,7 @@
         {
             DLog(@"Config successfully");
             [self.progressHUD hideAnimated:YES];
-            [self showAlertWithTitle:@"Config successfully" message:nil handler:nil];
+            [self showAlertWithTitle:VTMLocalized(@"ecg.config.alert.success") message:nil handler:nil];
         }
             break;
             
@@ -90,7 +99,7 @@
         {
             DLog(@"Config failure");
             [self.progressHUD hideAnimated:YES];
-            [self showAlertWithTitle:@"Config failure" message:nil handler:nil];
+            [self showAlertWithTitle:VTMLocalized(@"ecg.config.alert.failure") message:nil handler:nil];
         }
             break;
             
@@ -102,7 +111,7 @@
                   message:(NSString *)message
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "SVProgressHUD.h"
 
 @interface AppDelegate ()
 
@@ -17,10 +16,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
-
-    
+    // UI initialization that needs a window belongs in VTMSceneDelegate. In a scene-based
+    // app this callback runs before the scene window is connected.
     return YES;
 }
 

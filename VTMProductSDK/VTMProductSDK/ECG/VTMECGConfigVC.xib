@@ -13,10 +13,13 @@
             <connections>
                 <outlet property="MaxView" destination="8rD-Yr-ikR" id="Cm6-En-UA8"/>
                 <outlet property="hrSwitch" destination="MXB-oh-6fG" id="eUB-BW-v0t"/>
+                <outlet property="maxHRLabel" destination="WhA-28-RhU" id="pX8-mH-2Rd"/>
                 <outlet property="maxHRTextField" destination="9Br-gH-3zE" id="vyc-j0-33M"/>
+                <outlet property="minHRLabel" destination="zuY-2Z-n6l" id="tN5-vC-4Gz"/>
                 <outlet property="minHRTextField" destination="jmz-c9-mkP" id="SI5-t4-dT0"/>
                 <outlet property="minView" destination="6M1-Yg-goD" id="RMF-Fv-jHW"/>
                 <outlet property="sureBtn" destination="qhT-hI-pyI" id="Ue4-5F-0lN"/>
+                <outlet property="switchLabel" destination="xx9-o1-hFy" id="kQ3-sW-7Lb"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

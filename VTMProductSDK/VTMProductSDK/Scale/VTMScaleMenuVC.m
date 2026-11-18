@@ -26,8 +26,10 @@ static NSString *identifier = @"funcCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = [NSString stringWithFormat:@"%@ connected", [VTBLEUtils sharedInstance].device.advName];
-    _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time", @"Download file",@"Factory Reset",@"Scale Run Prams", @"Scale Real-time Data",nil];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"scale.fmt.title.connected"), [VTBLEUtils sharedInstance].device.advName];
+    // _funcArray 里存的是本地化 key，不是显示文案：显示时用 VTMLocalized(key)，
+    // 点击分发时比较 key，这样切换语言不影响菜单行为。
+    _funcArray = [[NSMutableArray alloc]initWithObjects:@"scale.menu.deviceInfo", @"scale.menu.battery", @"scale.menu.syncTime", @"scale.menu.download", @"scale.menu.factoryReset", @"scale.menu.runParams", @"scale.menu.realtime", nil];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -60,7 +62,7 @@ static NSString *identifier = @"funcCell";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.text = _funcArray[indexPath.section];
+    cell.textLabel.text = VTMLocalized(_funcArray[indexPath.section]);
     return cell;
 }
 
@@ -70,34 +72,34 @@ static NSString *identifier = @"funcCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSString *textStr = _funcArray[indexPath.section];
-    if ([textStr isEqualToString:@"Device info"]) {
+    NSString *key = _funcArray[indexPath.section];
+    if ([key isEqualToString:@"scale.menu.deviceInfo"]) {
         
         [[VTMProductURATUtils sharedInstance] requestDeviceInfo];
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Battery Info"]){
+    }else if ([key isEqualToString:@"scale.menu.battery"]){
         [[VTMProductURATUtils sharedInstance] requestBatteryInfo];
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Sync time"]){
+    }else if ([key isEqualToString:@"scale.menu.syncTime"]){
         
         [[VTMProductURATUtils sharedInstance] syncTime:[NSDate date]];//CallBack cmdType:VTMBLECmdSyncTime
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Download file"]){
+    }else if ([key isEqualToString:@"scale.menu.download"]){
         
         //CallBack cmdType order：VTMBLECmdGetFileList -> VTMBLECmdStartRead -> VTMBLECmdReadFile -> VTMBLECmdEndRead
         [[VTMProductURATUtils sharedInstance] requestFilelist];
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Factory Reset"]){
+    }else if ([key isEqualToString:@"scale.menu.factoryReset"]){
         
         //CallBack cmdType:VTMBLECmdRestore
         [[VTMProductURATUtils sharedInstance] factoryReset];
         [self.progressHUD showAnimated:YES];
         
-    }else if ([textStr isEqualToString:@"Scale Run Prams"]){
+    }else if ([key isEqualToString:@"scale.menu.runParams"]){
         
         [self.progressHUD showAnimated:YES];
         [[VTMProductURATUtils sharedInstance] requestScaleRealData];
-    }else if ([textStr isEqualToString:@"Scale Real-time Data"]){
+    }else if ([key isEqualToString:@"scale.menu.realtime"]){
         
         VTMRealVC *vc = [[VTMRealVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
@@ -114,18 +116,18 @@ static NSString *identifier = @"funcCell";
         VTMDeviceInfo info = [VTMBLEParser parseDeviceInfo:response];
         DLog(@"hw_version:%hhu,fw_version:%hhu,fw_version:%hhu,sn:%s,branch_code:%s",info.hw_version,info.fw_version,info.fw_version,info.sn.serial_num,info.branch_code);
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"sn:%s", info.sn.serial_num] handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.infoDone") message:[NSString stringWithFormat:VTMLocalized(@"scale.fmt.alert.sn"), info.sn.serial_num] handler:nil];
          
     }else if(cmdType == VTMBLECmdGetBattery){
         VTMBatteryInfo info = [VTMBLEParser parseBatteryInfo:response];
         DLog(@"state:%hhu,percent:%hhu,voltage:%hhu",info.state,info.percent,info.voltage);
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"percent:%hhu%%", info.percent] handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.infoDone") message:[NSString stringWithFormat:VTMLocalized(@"scale.fmt.alert.battery"), info.percent] handler:nil];
         
     }else if(cmdType == VTMBLECmdSyncTime){
         DLog(@"Synchronize time successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Synchronize time successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.syncTimeDone") message:nil handler:nil];
         
     }else if(cmdType == VTMBLECmdGetFileList){//
         VTMFileList list = [VTMBLEParser parseFileList:response];
@@ -141,7 +143,8 @@ static NSString *identifier = @"funcCell";
             [downloadArr addObject:temp];
             [fileStr appendString:[NSString stringWithFormat:@"%@\n", temp]];
         }
-        [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:nil];
+        NSString *countFmt = VTMLocalized(downloadArr.count > 1 ? @"scale.fmt.alert.records" : @"scale.fmt.alert.record");
+        [self showAlertWithTitle:[NSString stringWithFormat:countFmt, (unsigned long)downloadArr.count] message:fileStr handler:nil];
         if (downloadArr.count > 0) {
             [[VTMProductURATUtils sharedInstance] prepareReadFile:downloadArr[0]];
         }else{
@@ -172,7 +175,7 @@ static NSString *identifier = @"funcCell";
     }else if(cmdType == VTMBLECmdEndRead){
         DLog(@"Download successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Download successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.downloadDone") message:nil handler:nil];
         [VTMBLEParser parseScaleFile:[_downloadData copy] completion:^(VTMScaleFileHead head, VTMScaleFileData fileData) {
             DLog(@"hr : %d", fileData.ecg_result.hr);
             DLog(@"recordTime: %d", fileData.ecg_result.recording_time);
@@ -182,34 +185,34 @@ static NSString *identifier = @"funcCell";
     }else if (cmdType == VTMBLECmdRestore) {
         DLog(@"Factory Settings restored successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Factory Settings restored successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.factoryResetDone") message:nil handler:nil];
     }else if (cmdType == VTMBLECmdRestoreInfo) {
         
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Set successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.setDone") message:nil handler:nil];
     }else if (cmdType == VTMBLECmdProductReset){
         
         DLog(@"Production factory Settings restored successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Reset successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.resetDone") message:nil handler:nil];
     }else if (cmdType == VTMSCALECmdGetRealData){
         
         [self.progressHUD hideAnimated:YES];
         VTMScaleRealData realData = [VTMBLEParser parseScaleRealData:response];
-        [self showAlertWithTitle:@"Get RunParams successfully" message:[NSString stringWithFormat:@"status:%hhu", realData.run_para.run_status] handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scale.alert.runParamsDone") message:[NSString stringWithFormat:VTMLocalized(@"scale.fmt.alert.status"), realData.run_para.run_status] handler:nil];
     }
 }
 
 #pragma mark -- vt ble
 - (void)didConnectedDevice:(VTDevice *)device{
     DLog(@"connected successfully：%@",device.rawPeripheral.name);
-    self.title = [NSString stringWithFormat:@"%@ connected", device.rawPeripheral.name];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"scale.fmt.title.connected"), device.rawPeripheral.name];
     CBPeripheral *rawPeripheral = device.rawPeripheral;
     [VTMProductURATUtils sharedInstance].peripheral = rawPeripheral;
 }
 
 - (void)didDisconnectedDevice:(VTDevice *)device andError:(NSError *)error{
-    self.title = [NSString stringWithFormat:@"%@ disconnected", device.rawPeripheral.name];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"scale.fmt.title.disconnected"), device.rawPeripheral.name];
 }
 
 #pragma mark --
@@ -218,7 +221,7 @@ static NSString *identifier = @"funcCell";
                   message:(NSString *)message
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

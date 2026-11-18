@@ -36,8 +36,10 @@ static NSString *identifier = @"funcCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = [NSString stringWithFormat:@"%@ connected", [VTBLEUtils sharedInstance].device.advName];
-    _funcArray = [[NSMutableArray alloc]initWithObjects:@"Device info",@"Battery Info", @"Sync time", @"Download file",@"Factory Reset",@"Get Config",@"BP Real-time Data", @"Heartbeat switch", @"delete first file", nil];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"bp.fmt.title.connected"), [VTBLEUtils sharedInstance].device.advName];
+    // _funcArray 里存的是本地化 key，不是显示文案：显示时用 VTMLocalized(key)，
+    // 点击分发时比较 key，这样切换语言不影响菜单行为。
+    _funcArray = [[NSMutableArray alloc]initWithObjects:@"bp.menu.deviceInfo", @"bp.menu.battery", @"bp.menu.syncTime", @"bp.menu.download", @"bp.menu.factoryReset", @"bp.menu.getConfig", @"bp.menu.realtime", @"bp.menu.heartbeat", @"bp.menu.deleteFirstFile", nil];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
@@ -70,9 +72,11 @@ static NSString *identifier = @"funcCell";
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    NSString *str = _funcArray[indexPath.section];
-    cell.textLabel.text = str;
-    if ([str isEqualToString:@"Heartbeat switch"]) {
+    // 复用的 cell 可能带着上一行的开关，先清掉，否则开关会出现在其它行
+    cell.accessoryView = nil;
+    NSString *key = _funcArray[indexPath.section];
+    cell.textLabel.text = VTMLocalized(key);
+    if ([key isEqualToString:@"bp.menu.heartbeat"]) {
         UISwitch *swi  = [[UISwitch alloc]init];
         cell.accessoryView = swi;
         [swi addTarget:self action:@selector(syncHeartbeatSwitch:) forControlEvents:UIControlEventTouchUpInside];
@@ -93,38 +97,38 @@ static NSString *identifier = @"funcCell";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     _curIdxPath = indexPath;
-    NSString *textStr = _funcArray[indexPath.section];
-    if ([textStr isEqualToString:@"Device info"]) {
+    NSString *key = _funcArray[indexPath.section];
+    if ([key isEqualToString:@"bp.menu.deviceInfo"]) {
         
         [[VTMProductURATUtils sharedInstance] requestDeviceInfo];
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Battery Info"]){
+    }else if ([key isEqualToString:@"bp.menu.battery"]){
         
         [[VTMProductURATUtils sharedInstance] requestBPRealData];
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Sync time"]){
+    }else if ([key isEqualToString:@"bp.menu.syncTime"]){
         
         [[VTMProductURATUtils sharedInstance] syncTime:[NSDate date]];//CallBack cmdType:VTMBLECmdSyncTime
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Download file"]){
+    }else if ([key isEqualToString:@"bp.menu.download"]){
         
         //CallBack cmdType order：VTMBLECmdGetFileList -> VTMBLECmdStartRead -> VTMBLECmdReadFile -> VTMBLECmdEndRead
         [[VTMProductURATUtils sharedInstance] requestFilelist];
         [self.progressHUD showAnimated:YES];
-    }else if ([textStr isEqualToString:@"Factory Reset"]){
+    }else if ([key isEqualToString:@"bp.menu.factoryReset"]){
         
         //CallBack cmdType:VTMBLECmdRestore
         [[VTMProductURATUtils sharedInstance] factoryReset];
         [self.progressHUD showAnimated:YES];
         
-    }else if ([textStr isEqualToString:@"Get Config"]){
+    }else if ([key isEqualToString:@"bp.menu.getConfig"]){
         
         [self.progressHUD showAnimated:YES];
         [[VTMProductURATUtils sharedInstance] requestBPConfig];
-    }else if ([textStr isEqualToString:@"BP Real-time Data"]){
+    }else if ([key isEqualToString:@"bp.menu.realtime"]){
         VTMRealVC *vc = [[VTMRealVC alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
-    } else if ([textStr isEqualToString:@"delete first file"]) {
+    } else if ([key isEqualToString:@"bp.menu.deleteFirstFile"]) {
         [[VTMProductURATUtils sharedInstance] requestFilelist];
         [self.progressHUD showAnimated:YES];
     }
@@ -139,7 +143,7 @@ static NSString *identifier = @"funcCell";
         VTMDeviceInfo info = [VTMBLEParser parseDeviceInfo:response];
         DLog(@"hw_version:%hhu,fw_version:%hhu,fw_version:%hhu,sn:%s,branch_code:%s",info.hw_version,info.fw_version,info.fw_version,info.sn.serial_num,info.branch_code);
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"sn:%s", info.sn.serial_num] handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.infoDone") message:[NSString stringWithFormat:VTMLocalized(@"bp.fmt.alert.sn"), info.sn.serial_num] handler:nil];
         
     }else if(cmdType == VTMBPCmdGetRealData){
         VTMBPRealTimeData bpData = [VTMBLEParser parseBPRealTimeData:response];
@@ -224,12 +228,12 @@ static NSString *identifier = @"funcCell";
         VTMFreeBPRealTimeData(&bpData);
 
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Get information successfully" message:[NSString stringWithFormat:@"percent:%hhu%%", info.percent] handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.infoDone") message:[NSString stringWithFormat:VTMLocalized(@"bp.fmt.alert.battery"), info.percent] handler:nil];
         
     }else if(cmdType == VTMBLECmdSyncTime){
         DLog(@"Synchronize time successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Synchronize time successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.syncTimeDone") message:nil handler:nil];
         
     }else if(cmdType == VTMBLECmdGetFileList){//
         VTMFileList list = [VTMBLEParser parseFileList:response];
@@ -245,9 +249,10 @@ static NSString *identifier = @"funcCell";
             [downloadArr addObject:temp];
             [fileStr appendString:[NSString stringWithFormat:@"%@\n", temp]];
         }
-        NSString *textStr = _funcArray[_curIdxPath.section];
-        if ([textStr isEqual:@"Download file"]) {
-            [self showAlertWithTitle:[NSString stringWithFormat:@"%lu%@", (unsigned long)downloadArr.count, downloadArr.count > 1 ? @"records" : @"record"] message:fileStr handler:^(UIAlertAction *action) {
+        NSString *menuKey = _funcArray[_curIdxPath.section];
+        if ([menuKey isEqual:@"bp.menu.download"]) {
+            NSString *countFmt = VTMLocalized(downloadArr.count > 1 ? @"bp.fmt.alert.records" : @"bp.fmt.alert.record");
+            [self showAlertWithTitle:[NSString stringWithFormat:countFmt, (unsigned long)downloadArr.count] message:fileStr handler:^(UIAlertAction *action) {
                 if (downloadArr.count > 0) {
                     self.downloadName = downloadArr[arc4random() % downloadArr.count];
                     [[VTMProductURATUtils sharedInstance] prepareReadFile:self.downloadName];
@@ -304,7 +309,7 @@ static NSString *identifier = @"funcCell";
             DLog(@"Error");
         }
         
-        [self showAlertWithTitle:@"Download successfully" message:nil handler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.downloadDone") message:nil handler:^(UIAlertAction *action) {
             
             
         }];
@@ -312,45 +317,45 @@ static NSString *identifier = @"funcCell";
     }else if (cmdType == VTMBLECmdRestore) {
         DLog(@"Factory Settings restored successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Factory Settings restored successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.factoryResetDone") message:nil handler:nil];
         
     }else if (cmdType == VTMBLECmdRestoreInfo) {
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Set successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.setDone") message:nil handler:nil];
         
     }else if (cmdType == VTMBLECmdProductReset){
         DLog(@"Production factory Settings restored successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Reset successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.resetDone") message:nil handler:nil];
         
     }else if (cmdType == VTMBPCmdGetConfig){
         DLog(@"Get Config successfully");
         [self.progressHUD hideAnimated:YES];
         VTMBPConfig  bpConfig =  [VTMBLEParser parseBPConfig:response];
-        [self showAlertWithTitle:@"Get Config successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.getConfigDone") message:nil handler:nil];
         self.configData = response;
         
     }else if (cmdType == VTMBPCmdSetConfig){
         DLog(@"Set Config successfully");
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Set Config successfully" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.setConfigDone") message:nil handler:nil];
         
     } else if (cmdType == VTMBLECmdDeleteFile) {
         [self.progressHUD hideAnimated:YES];
-        [self showAlertWithTitle:@"Deleted" message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"bp.alert.deleted") message:nil handler:nil];
     }
 }
 
 #pragma mark -- vt ble
 - (void)didConnectedDevice:(VTDevice *)device{
     DLog(@"connected successfully：%@",device.rawPeripheral.name);
-    self.title = [NSString stringWithFormat:@"%@ connected", device.rawPeripheral.name];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"bp.fmt.title.connected"), device.rawPeripheral.name];
     CBPeripheral *rawPeripheral = device.rawPeripheral;
     [VTMProductURATUtils sharedInstance].peripheral = rawPeripheral;
 }
 
 - (void)didDisconnectedDevice:(VTDevice *)device andError:(NSError *)error{
-    self.title = [NSString stringWithFormat:@"%@ disconnected", device.rawPeripheral.name];
+    self.title = [NSString stringWithFormat:VTMLocalized(@"bp.fmt.title.disconnected"), device.rawPeripheral.name];
 }
 
 #pragma mark --
@@ -358,7 +363,7 @@ static NSString *identifier = @"funcCell";
                    message:(NSString *)message
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

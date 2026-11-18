@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/Info.plist</key>
 		<data>
-		wcE/aNpw5ylAB1nrtwf/lxyLfO8=
+		thfjg5wk8Y5NjO/VCFShEjx8i5c=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -15,21 +15,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			LjQN5iLxo6RfgcRCcVGLUqQJBwBMsXICB6jYjQyquFM=
+			y0B+91ybNjcjNzWeIVivzdU7KR+RzkCCtm8tN0hAafU=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEParser.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ukFBFJGsDRQFotHSnzi7zT2kpoj1/VCdn/XVq7LLkck=
+			+gLv2az1/jNkWRKymDUoaBH6OwLNJ3TsttZyXaIZN+g=
 			</data>
 		</dict>
 		<key>Headers/VTMBLEStruct.h</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			hn85zjRzZrxjlyLAhVcy81+r5hpxDY/vEJI/rDpTvtA=
+			WI3hF5297PnpZYMJJvWxR+8tCuq1pl0uEKftkdNTvHg=
 			</data>
 		</dict>
 		<key>Headers/VTMCalibrate.h</key>
@@ -57,7 +57,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Cv/nXCgKnmwEBvKSQmWbkIqBP6fknHlKqG1Wfeasm6A=
+			QGf8rWEYKujrR8aIG9IQdR+4dKnE+llM0aMVwlD4kOE=
 			</data>
 		</dict>
 		<key>Headers/VTO2Communicate.h</key>
@@ -120,7 +120,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			uZ68FX+hlKO6ymJYIhA8ipN/WirMH3GelBCIApnDiJo=
+			9YQYd0NdF8nwsfzQ/7kjBlZwvOjqFwRx9pejgKcHpcU=
 			</data>
 		</dict>
 	</dict>

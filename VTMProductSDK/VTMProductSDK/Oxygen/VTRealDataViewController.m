@@ -11,6 +11,9 @@
 #import "VTRealParamsView.h"
 #import "Pulsewave.h"
 
+// Defined in VTDataListTableViewController.m: localizes the oximeter tab bar items.
+FOUNDATION_EXTERN void VTOxiLocalizeTabBarItems(UITabBarController * _Nullable tabBarController);
+
 @interface VTRealDataViewController ()
 
 @property (nonatomic, weak) LPEcgRealWaveformView *waveform;
@@ -30,6 +33,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.navigationItem.title = VTMLocalized(@"oxi.nav.dashboard");
+    VTOxiLocalizeTabBarItems(self.tabBarController);
     
     if ([VTMProductURATUtils sharedInstance].currentType == VTMDeviceTypeFOxi) {
         __weak typeof(self) weakself = self;
@@ -161,16 +167,16 @@
     NSArray *filterArr = [[VTMFilter shared] sfilterPointValue:tempArray];
     self.waveform.receiveArray = filterArr;
     self.paramsView.batteryLabel.text = [NSString stringWithFormat:@"%d %%", rd.run_para.percent];
-    NSString *batStaStr = @"normal";
+    NSString *batStaStr = VTMLocalized(@"oxi.real.battery.normal");
     switch ((rd.run_para.sys_flag >> 6)&0x03) {
         case 1:
-            batStaStr = @"charging";
+            batStaStr = VTMLocalized(@"oxi.real.battery.charging");
             break;
         case 2:
-            batStaStr = @"charge full";
+            batStaStr = VTMLocalized(@"oxi.real.battery.full");
             break;
         case 3:
-            batStaStr = @"low";
+            batStaStr = VTMLocalized(@"oxi.real.battery.low");
             break;
         default:
             
@@ -178,10 +184,10 @@
     }
     
     self.paramsView.batteryStaLabel.text = batStaStr;
-    self.paramsView.runStaLabel.text = [NSString stringWithFormat:@"run status: %d", rd.run_para.run_status&0x0F];
+    self.paramsView.runStaLabel.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.run_status"), rd.run_para.run_status&0x0F];
     self.paramsView.timeLabel.text = [NSString stringWithFormat:@"%dh%dm%ds", rd.run_para.record_time/3600, rd.run_para.record_time/60, rd.run_para.record_time%60];
-    self.paramsView.param1Label.text = [NSString stringWithFormat:@"HR: %d /min", rd.run_para.hr];
-    self.paramsView.param2Label.text = [NSString stringWithFormat:@"lead: %d, signal: %d", (rd.run_para.sys_flag >> 3)&0x01, (rd.run_para.sys_flag >> 2)&0x01];
+    self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.hr_per_min"), rd.run_para.hr];
+    self.paramsView.param2Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.lead_signal"), (rd.run_para.sys_flag >> 3)&0x01, (rd.run_para.sys_flag >> 2)&0x01];
     
     
     // MARK: heart rate
@@ -208,16 +214,16 @@
     self.paramsView.batteryLabel.text = [NSString stringWithFormat:@"%d%%", bpData.run_status.battery.percent];
     
     // 0:Normal 1:Charging 2:charge full 3:low
-    NSString *batStaStr = @"normal";
+    NSString *batStaStr = VTMLocalized(@"oxi.real.battery.normal");
     switch (bpData.run_status.battery.state) {
         case 1:
-            batStaStr = @"charging";
+            batStaStr = VTMLocalized(@"oxi.real.battery.charging");
             break;
         case 2:
-            batStaStr = @"charge full";
+            batStaStr = VTMLocalized(@"oxi.real.battery.full");
             break;
         case 3:
-            batStaStr = @"low";
+            batStaStr = VTMLocalized(@"oxi.real.battery.low");
             break;
         default:
             
@@ -227,21 +233,21 @@
     NSString *runStaStr = @"";
     switch (bpData.run_status.status) {
         case BPStateInactive:
-            runStaStr = @"inactive";
+            runStaStr = VTMLocalized(@"oxi.real.bp.inactive");
             break;
         case BPStateMemory:
-            runStaStr = @"History";
+            runStaStr = VTMLocalized(@"oxi.real.bp.history");
             break;
         case BPStateReady:
-            runStaStr = @"ready";
+            runStaStr = VTMLocalized(@"oxi.real.bp.ready");
             [self.waveform clearChache];
             break;
         case BPStateBPMeasuring:{
-            runStaStr = @"BP measuring";
+            runStaStr = VTMLocalized(@"oxi.real.bp.bp_measuring");
             NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
             VTMBPMeasuringData measuringData = [VTMBLEParser parseBPMeasuringData:data];
             
-            self.paramsView.param1Label.text = [NSString stringWithFormat:@"pressure: %d mmHg", measuringData.pressure /100];
+            self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.pressure"), measuringData.pressure /100];
 //                        self.paramsView.param2Label.text = [NSString stringWithFormat:@"PR: %d /min", measuringData.pulse_rate ];
             if (measuringData.is_deflating_2) {
                 // Plot the pulse wave
@@ -252,7 +258,7 @@
         }
             break;
         case BPStateBPMeasureEnd:{
-            runStaStr = @"BP result";
+            runStaStr = VTMLocalized(@"oxi.real.bp.bp_result");
             NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
             VTMBPEndMeasureData endMeasureData = [VTMBLEParser parseBPEndMeasureData:data];
             if (endMeasureData.state_code == 0 ||
@@ -260,22 +266,22 @@
                 // Display the result
                 
                 self.paramsView.param1Label.text = [NSString stringWithFormat:@"%d/%d mmHg", endMeasureData.systolic_pressure,endMeasureData.diastolic_pressure];
-                self.paramsView.param2Label.text = [NSString stringWithFormat:@"PR: %d /min", endMeasureData.pulse_rate];
+                self.paramsView.param2Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.pr_per_min"), endMeasureData.pulse_rate];
                 
             }else {
                 // Measure failed. View state_code.
-                self.paramsView.param1Label.text = [NSString stringWithFormat:@"error: %d", endMeasureData.state_code];
+                self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.error"), endMeasureData.state_code];
                 self.paramsView.param2Label.text = [NSString stringWithFormat:@"--"];
             }
         }
             break;
         case BPStateECGMeasuring:{
-            runStaStr = @"ECG measuring";
+            runStaStr = VTMLocalized(@"oxi.real.bp.ecg_measuring");
             NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
             VTMECGMeasuringData ecgMeasuringData = [VTMBLEParser parseECGMeasuringData:data];
             self.paramsView.timeLabel.text = [NSString stringWithFormat:@"%d s", ecgMeasuringData.duration];
-            self.paramsView.param1Label.text = [NSString stringWithFormat:@"HR: %d", ecgMeasuringData.pulse_rate];
-            self.paramsView.param2Label.text = [NSString stringWithFormat:@"lead: %d, signal: %d", (ecgMeasuringData.special_status >> 1) & 0x01, ecgMeasuringData.special_status & 0x01];
+            self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.hr"), ecgMeasuringData.pulse_rate];
+            self.paramsView.param2Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.lead_signal"), (ecgMeasuringData.special_status >> 1) & 0x01, ecgMeasuringData.special_status & 0x01];
             
             NSMutableArray *tempArray = [NSMutableArray array];
             
@@ -291,11 +297,11 @@
         }
             break;
         case BPStateECGMeasureEnd:{
-            runStaStr = @"ECG result";
+            runStaStr = VTMLocalized(@"oxi.real.bp.ecg_result");
             NSData *data = [NSData dataWithBytes:bpData.rt_wav.data length:sizeof(bpData.rt_wav.data)];
             VTMECGEndMeasureData ecgEndMeasueData = [VTMBLEParser parseECGEndMeasureData:data];
-            self.paramsView.param1Label.text = [NSString stringWithFormat:@"HR: %d", ecgEndMeasueData.hr];
-            self.paramsView.param2Label.text = [NSString stringWithFormat:@"result: %d", ecgEndMeasueData.result];
+            self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.hr"), ecgEndMeasueData.hr];
+            self.paramsView.param2Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.result"), ecgEndMeasueData.result];
             [self.waveform clearChache];
         }
             break;
@@ -314,16 +320,16 @@
     self.paramsView.batteryLabel.text = [NSString stringWithFormat:@"%d%%", rd.run_para.battery_percent];
     
     // 0:Normal 1:Charging 2:charge full 3:low
-    NSString *batStaStr = @"normal";
+    NSString *batStaStr = VTMLocalized(@"oxi.real.battery.normal");
     switch (rd.run_para.battery_state) {
         case 1:
-            batStaStr = @"charging";
+            batStaStr = VTMLocalized(@"oxi.real.battery.charging");
             break;
         case 2:
-            batStaStr = @"charge full";
+            batStaStr = VTMLocalized(@"oxi.real.battery.full");
             break;
         case 3:
-            batStaStr = @"low";
+            batStaStr = VTMLocalized(@"oxi.real.battery.low");
             break;
         default:
             
@@ -331,19 +337,19 @@
     }
     self.paramsView.batteryStaLabel.text = batStaStr;
     
-    NSString *runStaStr = @"normal";
+    NSString *runStaStr = VTMLocalized(@"oxi.real.run.normal");
     switch (rd.run_para.run_status) {
         case 0:
-            runStaStr = @"standby";
+            runStaStr = VTMLocalized(@"oxi.real.run.standby");
             break;
         case 1:
-            runStaStr = @"prepare to measure";
+            runStaStr = VTMLocalized(@"oxi.real.run.preparing");
             break;
         case 2:
-            runStaStr = @"measuring";
+            runStaStr = VTMLocalized(@"oxi.real.run.measuring");
             break;
         case 3:
-            runStaStr = @"measure end";
+            runStaStr = VTMLocalized(@"oxi.real.run.ended");
             break;
         default:
             break;
@@ -352,9 +358,9 @@
     
     self.paramsView.timeLabel.text = [NSString stringWithFormat:@"%d s", rd.run_para.record_time];
     
-    self.paramsView.param1Label.text = [NSString stringWithFormat:@"SpO2:%d, PR: %d", rd.run_para.spo2, rd.run_para.pr];
+    self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.spo2_pr"), rd.run_para.spo2, rd.run_para.pr];
     
-    self.paramsView.param2Label.text = [NSString stringWithFormat:@"Motion:%d, PI: %.1f", rd.run_para.motion, rd.run_para.pi/10.0];
+    self.paramsView.param2Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.motion_pi"), rd.run_para.motion, rd.run_para.pi/10.0];
     
     NSMutableArray *tempArr = [NSMutableArray array];
     for (int i = 0; i < rd.waveform.sampling_num; i ++) {
@@ -391,9 +397,9 @@
 - (void)refreshFoxiParams:(NSData *)realdata {
     VTMFOxiMeasureInfo info = [VTMBLEParser foxi_parseMeasureInfo:realdata];
     
-    self.paramsView.param1Label.text = [NSString stringWithFormat:@"SpO2:%d, PR: %d", info.spo2, info.pr];
+    self.paramsView.param1Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.spo2_pr"), info.spo2, info.pr];
     
-    self.paramsView.param2Label.text = [NSString stringWithFormat:@"PI: %.1f", info.pi/10.0];
+    self.paramsView.param2Label.text = [NSString stringWithFormat:VTMLocalized(@"oxi.real.fmt.pi"), info.pi/10.0];
     
     // lead off - 1  lead on - 0
     BOOL leadOff = (info.status >> 1) & 0x01;

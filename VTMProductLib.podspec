@@ -1,6 +1,6 @@
 Pod::Spec.new do |spec|
   spec.name         = "VTMProductLib"
-  spec.version      = "1.5.8"
+  spec.version      = "1.5.9"
   spec.summary      = "Support Lepu's products."
   spec.description  = <<-DESC
                   Support communication between Lepu's products and iOS devices.
@@ -12,7 +12,7 @@ Pod::Spec.new do |spec|
         :git => "https://github.com/viatom-dev/VTProductLib.git",
         :tag => spec.version
     }
-  spec.ios.deployment_target = "11.0"
+  spec.ios.deployment_target = "15.0"
   spec.vendored_frameworks = "VTMProductLib.xcframework"
   # The framework is static and partly Objective-C++; consumers need the C++ stdlib.
   spec.libraries = 'c++', 'stdc++'

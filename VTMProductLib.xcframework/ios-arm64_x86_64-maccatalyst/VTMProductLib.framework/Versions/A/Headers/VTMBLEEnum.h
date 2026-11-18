@@ -40,6 +40,7 @@ typedef enum : u_char {
     VTMBLEPkgTypeCommonError = 0xFF,
     VTMBLEPkgTypeHeadError = 0xCC,
     VTMBLEPkgTypeCRCError = 0xCD,
+    VTMBLEPkgTypeUnauthorized = 0xCE,       ///< not sent by SDK: controlKey / wearablePPGKey missing or invalid
 } VTMBLEPkgType;
 
 typedef enum : u_char {
@@ -284,11 +285,18 @@ typedef enum : u_char {
 } VTMER3Cable;
 
 // MAKR: BABY
+
+/// 定义时表示 SDK 含翻身贴 V3 协议新增内容：`VTMBabyCmdBuzzer`、`VTMBabySetParamsDropTemp`、
+/// `VTMBabyAtt.hasSleepOut`/`sleepOut`、`baby_controlBuzzer:`、`VTMBabyRecordHead.sleep_rtt`、
+/// `VTMBabyRecord_t.sleep_state`。调用方可用 `#ifdef VTM_BABY_PATCH_V3` 兼容旧版 SDK。
+#define VTM_BABY_PATCH_V3 1
+
 typedef enum: u_char {
     VTMBabyCmdGetConfig = 0x00,
     VTMBabyCmdSetConfig ,
     VTMBabyCmdGetRunParams,
     VTMBabyCmdGetGesture,
+    VTMBabyCmdBuzzer = 0x04,        // 蜂鸣器控制，需新版固件（V3 协议）
 } VTMBabyCmd;
 
 typedef enum: u_char {
@@ -302,6 +310,7 @@ typedef enum: u_char {
     VTMBabySetParamsRRHigh ,        // 呼吸率报警阈值上限
     VTMBabySetParamsSensivity,      // 设置报警灵敏度-->范围[1,3]
     VTMBabySetParamsWearLEDTime,    // 佩戴指示灯工作时间设置
+    VTMBabySetParamsDropTemp = 10,  // 踢被下降温度阈值，范围[1,5]，单位℃，需新版固件（V3 协议）
 } VTMBabySetParams;
 
 /* 姿势类型 */
@@ -341,6 +350,7 @@ typedef enum: u_char {
     VTMBabyWorkStatusIDLE = 0x00,           // 待机模式（未佩戴）
     VTMBabyWorkStatusWORK,                  // 工作模式（已佩戴）
     VTMBabyWorkStatusCHARGE,                // 充电模式
+    VTMBabyWorkStatusUPGRADE = 0x03,        // 升级状态（V3 协议）
     VTMBabyWorkStatusTEST = 0x70,           // 测试模式
     VTMBabyWorkStatusABNORMA = 0x80,        // 设备异常（软件、硬件设备自检异常）
 } VTMBabyWorkStatus;
@@ -352,6 +362,8 @@ typedef enum: u_short {
     VTMBabyEventIdTempDrop = 0x0004,
     VTMBabyEventIdRRLow = 0x0005,
     VTMBabyEventIdRRHigh = 0x0006,
+    VTMBabyEventIdCough = 0x0007,
+    VTMBabyEventIdPlaypnea = 0x0008,
 } VTMBabyEventId;
 
 typedef enum : u_char {

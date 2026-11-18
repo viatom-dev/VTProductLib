@@ -11,9 +11,12 @@
 #import "VTMECGMenuVC.h"
 #import "VTMBPMenuVC.h"
 #import "VTMScaleMenuVC.h"
+#import "VTMBabyPatchVC.h"
 #import "AppDelegate.h"
 #import "VTMDeviceRouting.h"
 #import "VTMCommShared.h"
+#import "VTMLocalization.h"
+#import "UIViewController+VTMLanguage.h"
 
 // 同时实现两套通信模块的 delegate：
 //   Module A  VTMURATDeviceDelegate + VTMURATUtilsDelegate
@@ -43,10 +46,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"Scaner";
+    [self applyLocalization];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(languageDidChange:)
+                                                 name:VTMLanguageDidChangeNotification object:nil];
     [_myTableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:54 green:216 blue:192 alpha:1]];
     [VTBLEUtils sharedInstance].delegate = self;
+    // 原来没有初始化，didDiscoverDevice: 里的去重一直不生效
+    self.deviceIDArray = [NSMutableArray array];
+    // 从设备页「断开」回来时蓝牙早已开启，updateBleState: 不会再回调，需要在这里主动开始扫描
+    if ([[VTBLEUtils sharedInstance] bleState] == VTBLEStatePoweredOn) {
+        [[VTBLEUtils sharedInstance] startScan];
+    }
 
     self.forcedURATDevices = [NSMutableSet set];
 
@@ -55,6 +66,20 @@
         [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPress:)];
     [_myTableView addGestureRecognizer:longPress];
 }
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)languageDidChange:(NSNotification *)note {
+    [self applyLocalization];
+}
+
+/// 按当前语言刷新标题和导航栏按钮。列表里的路由说明是给开发者看的诊断信息，保持英文
+- (void)applyLocalization {
+    self.title = VTMLocalized(@"scan.title");
+    self.navigationItem.rightBarButtonItem = [self vtm_makeLanguageBarButtonItem];
+}
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [VTMProductURATUtils sharedInstance].deviceDelegate = self;
@@ -113,7 +138,7 @@
     VTMDeviceRoute route = [self routeForDevice:device];
 
     if (route.module == VTMCommModuleUnsupported) {
-        [self showAlertWithTitle:@"This device is not supported." message:nil handler:nil];
+        [self showAlertWithTitle:VTMLocalized(@"scan.alert.unsupported") message:nil handler:nil];
         return;
     }
 
@@ -145,11 +170,11 @@
 
     NSString *key = device.rawPeripheral.identifier.UUIDString;
     BOOL forced = [self.forcedURATDevices containsObject:key];
-    NSString *title = forced ? @"Use VTO2Communicate" : @"Use VTMURATUtils (woxi_*)";
+    NSString *title = VTMLocalized(forced ? @"scan.module.useO2" : @"scan.module.useURAT");
 
     UIAlertController *sheet =
         [UIAlertController alertControllerWithTitle:device.rawPeripheral.name
-                                            message:@"Override the communication module for this device."
+                                            message:VTMLocalized(@"scan.module.message")
                                      preferredStyle:UIAlertControllerStyleActionSheet];
     [sheet addAction:[UIAlertAction actionWithTitle:title
                                               style:UIAlertActionStyleDefault
@@ -162,7 +187,7 @@
         [self->_myTableView reloadRowsAtIndexPaths:@[indexPath]
                                   withRowAnimation:UITableViewRowAnimationNone];
     }]];
-    [sheet addAction:[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil]];
+    [sheet addAction:[UIAlertAction actionWithTitle:VTMLocalized(@"common.cancel") style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:sheet animated:YES completion:nil];
 }
 #pragma mark --  ble
@@ -214,7 +239,7 @@
 #pragma mark ---deviceDelegate
 - (void)utilDeployFailed:(VTMURATUtils *)util{
     [_progressHUD hideAnimated:YES];
-    [self showAlertWithTitle:@"Failed" message:nil handler:^(UIAlertAction *action) {
+    [self showAlertWithTitle:VTMLocalized(@"scan.alert.failed") message:nil handler:^(UIAlertAction *action) {
         [[VTBLEUtils sharedInstance] startScan];
     }];
 }
@@ -235,7 +260,7 @@
     // 本类没有实现 commandFailed:，所以不会弹多余的提示。
     [util openupEncryptWithToken:@"" secretKey:@""];
 
-    [self showAlertWithTitle:@"Completion" message:nil handler:^(UIAlertAction *action) {
+    [self showAlertWithTitle:VTMLocalized(@"scan.alert.connected") message:nil handler:^(UIAlertAction *action) {
         AppDelegate *appDelagete = [UIApplication sharedApplication].delegate;
         if (util.currentType == VTMDeviceTypeWOxi || util.currentType == VTMDeviceTypeFOxi) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
@@ -248,6 +273,11 @@
         }else if (util.currentType == VTMDeviceTypeScale){
             VTMScaleMenuVC *vc = [[VTMScaleMenuVC alloc]init];
             UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:vc];
+            appDelagete.window.rootViewController = nav;
+        }else if (util.currentType == VTMDeviceTypeBabyPatch){
+            // 翻身贴（BBSM P1 / BS1）。之前落到 else 分支会错误地进 ECG 菜单
+            VTMBabyPatchVC *vc = [[VTMBabyPatchVC alloc] init];
+            UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
             appDelagete.window.rootViewController = nav;
         }else{
             VTMECGMenuVC *vc =  [[VTMECGMenuVC alloc]init];
@@ -264,7 +294,7 @@
     [_progressHUD hideAnimated:YES];
 
     if (!completed) {
-        [self showAlertWithTitle:@"Failed" message:nil handler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:VTMLocalized(@"scan.alert.failed") message:nil handler:^(UIAlertAction *action) {
             [[VTBLEUtils sharedInstance] startScan];
         }];
         return;
@@ -307,7 +337,7 @@
     
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

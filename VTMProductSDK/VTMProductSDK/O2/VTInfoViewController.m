@@ -26,6 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = VTMLocalized(@"o2.info.title");
     
     [VTMCommShared sharedInstance].o2Delegate = self;
     [[VTMCommShared sharedInstance] beginGetInfo];
@@ -71,9 +72,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return @"File list that can be download";
+        return VTMLocalized(@"o2.info.section.files");
     }else{
-        return @"Parameters that can be set";
+        return VTMLocalized(@"o2.info.section.params");
     }
 }
 
@@ -263,47 +264,47 @@
         [_fileListArray removeObject:fileList.lastObject];
         
         if (_info.curDate != nil) {
-            [_availableSetParamArray addObject:@[@"Date", _info.curDate, @(VTParamTypeDate)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.date"), _info.curDate, @(VTParamTypeDate)]];
         }
         if (_info.curOxiThr != nil) {
-            [_availableSetParamArray addObject:@[@"Oxygen threshold", _info.curOxiThr, @(VTParamTypeOxiThr)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.oxiThr"), _info.curOxiThr, @(VTParamTypeOxiThr)]];
         }
         if (_info.curMotor != nil) {
-            [_availableSetParamArray addObject:@[@"Motor", _info.curMotor, @(VTParamTypeMotor)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.motor"), _info.curMotor, @(VTParamTypeMotor)]];
         }
         if (_info.curPedThr != nil) {
-            [_availableSetParamArray addObject:@[@"Pedometer goal", _info.curPedThr, @(VTParamTypePedtar)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.pedometer"), _info.curPedThr, @(VTParamTypePedtar)]];
         }
         if (_info.lightingMode != nil) {
-            [_availableSetParamArray addObject:@[@"Lighting mode", _info.lightingMode, @(VTParamTypeLightingMode)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.lightingMode"), _info.lightingMode, @(VTParamTypeLightingMode)]];
         }
         if (_info.hrSwitch != nil) {
             if ([[VTMCommShared sharedInstance].peripheral.name hasPrefix:@"O2M "]) {
                 NSString *vibrateSwi = [NSString stringWithFormat:@"%d", [_info.hrSwitch intValue]&0x01];
                 NSString *soundSwi = [NSString stringWithFormat:@"%d", ([_info.hrSwitch intValue] >> 1)&0x01];
-                [_availableSetParamArray addObject:@[@"Pulse rate reminder by vibration", vibrateSwi, @(VTParamTypeHeartRateSwitch)]];
-                [_availableSetParamArray addObject:@[@"Pulse rate reminder by sound", soundSwi, @(VTParamTypeHeartRateSwitch)]];
+                [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.prVibration"), vibrateSwi, @(VTParamTypeHeartRateSwitch)]];
+                [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.prSound"), soundSwi, @(VTParamTypeHeartRateSwitch)]];
             }else{
-                [_availableSetParamArray addObject:@[@"Heart rate switch", _info.hrSwitch, @(VTParamTypeHeartRateSwitch)]];
+                [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.hrSwitch"), _info.hrSwitch, @(VTParamTypeHeartRateSwitch)]];
             }
         }
         if (_info.hrLowThr != nil) {
-            [_availableSetParamArray addObject:@[@"Low heart rate threshold", _info.hrLowThr, @(VTParamTypeHeartRateLowThr)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.hrLowThr"), _info.hrLowThr, @(VTParamTypeHeartRateLowThr)]];
         }
         if (_info.hrHighThr != nil) {
-            [_availableSetParamArray addObject:@[@"High heart rate threshold", _info.hrHighThr, @(VTParamTypeHeartRateHighThr)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.hrHighThr"), _info.hrHighThr, @(VTParamTypeHeartRateHighThr)]];
         }
         if (_info.lightStrength != nil) {
-            [_availableSetParamArray addObject:@[@"Light strength", _info.lightStrength, @(VTParamTypeLightStrength)]];
+            [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.lightStrength"), _info.lightStrength, @(VTParamTypeLightStrength)]];
         }
         if (_info.oxiSwitch != nil) {
             if ([[VTMCommShared sharedInstance].peripheral.name hasPrefix:@"O2M "]) {
                 NSString *vibrateSwi = [NSString stringWithFormat:@"%d", [_info.oxiSwitch intValue]&0x01];
                 NSString *soundSwi = [NSString stringWithFormat:@"%d", ([_info.oxiSwitch intValue] >> 1)&0x01];
-                [_availableSetParamArray addObject:@[@"Oxygen reminder by vibration", vibrateSwi, @(VTParamTypeOxiSwitch)]];
-                [_availableSetParamArray addObject:@[@"Oxygen reminder by sound", soundSwi, @(VTParamTypeOxiSwitch)]];
+                [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.oxiVibration"), vibrateSwi, @(VTParamTypeOxiSwitch)]];
+                [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.oxiSound"), soundSwi, @(VTParamTypeOxiSwitch)]];
             }else{
-                [_availableSetParamArray addObject:@[@"Oxygen switch", _info.oxiSwitch, @(VTParamTypeOxiSwitch)]];
+                [_availableSetParamArray addObject:@[VTMLocalized(@"o2.info.param.oxiSwitch"), _info.oxiSwitch, @(VTParamTypeOxiSwitch)]];
             }
             
         }
@@ -340,11 +341,11 @@
 - (void)commonResponse:(VTCmd)cmdType andResult:(VTCommonResult)result{
     if (cmdType == VTCmdSyncTime) {
         if (result == VTCommonResultSuccess) {
-            [self showAlertWithTitle:@"Sync success" message:nil handler:^(UIAlertAction *action) {
+            [self showAlertWithTitle:VTMLocalized(@"o2.info.alert.syncSuccess") message:nil handler:^(UIAlertAction *action) {
                 [[VTMCommShared sharedInstance] beginGetInfo];
             }];
         }else{
-            [self showAlertWithTitle:@"Sync error" message:nil handler:nil];
+            [self showAlertWithTitle:VTMLocalized(@"o2.info.alert.syncError") message:nil handler:nil];
             [SVProgressHUD dismiss];
         }
     }
@@ -364,7 +365,7 @@
                   message:(NSString *)message
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

@@ -73,7 +73,9 @@
 /// @param util util
 /// @param cmdType cmdType.  ``VTMBLECmd`` ``VTMECGCmd`` ``VTMBPCmd`` ``VTMSCALECmd``
 /// @param deviceType device type  ``VTMDeviceType``
-/// @param type error type. ``VTMBLEPkgType``
+/// @param type error type. ``VTMBLEPkgType``. ``VTMBLEPkgTypeUnauthorized`` means the SDK did not send the
+/// command because `controlKey` / `wearablePPGKey` is missing or invalid; it is reported synchronously
+/// on the calling thread.
 - (void)util:(VTMURATUtils * _Nonnull)util commandFailed:(u_char)cmdType deviceType:(VTMDeviceType)deviceType failedType:(VTMBLEPkgType)type;
 
 
@@ -112,9 +114,15 @@
 @property (nonatomic, copy, readonly) NSString * _Nullable curReadFileName;
 
 /// @brief The key of the wearable oximeter PPG feature.
+/// @discussion Required by `woxi_requestPPGList`, `woxi_prepareReadPPGFile:`, `woxi_readPPGFile:` and
+/// `woxi_endReadPPGFile`. Without a valid key these commands are not sent and
+/// `util:commandFailed:deviceType:failedType:` reports ``VTMBLEPkgTypeUnauthorized``.
 @property (nonatomic, copy) NSString * _Nullable wearablePPGKey;
 
 /// @brief The key of the device control feature.
+/// @discussion Required by `er1_notifyMeasurementEnd`, `bp_syncRunState:`, `er3_notifyMeasurementStart` and
+/// `er3_notifyMeasurementEnd`. Without a valid key these commands are not sent and
+/// `util:commandFailed:deviceType:failedType:` reports ``VTMBLEPkgTypeUnauthorized``.
 @property (nonatomic, copy) NSString * _Nullable controlKey;
 
 @property (nonatomic, strong, readonly) VTMBLEDevice * _Nullable bleDevice;
@@ -336,6 +344,10 @@
 
 /// 获取姿势
 - (void)baby_requestGesture;
+
+/// 蜂鸣器控制（`VTMBabyCmdBuzzer`）。需新版固件；早期固件不支持，应答走 `util:commandFailed:deviceType:failedType:`。
+/// @param info on：0 关闭 / 1 打开；time：蜂鸣时间（秒）；sound_intens：声音强度 1-100
+- (void)baby_controlBuzzer:(VTMBabyBuzzerInfo)info;
 
 @end
 

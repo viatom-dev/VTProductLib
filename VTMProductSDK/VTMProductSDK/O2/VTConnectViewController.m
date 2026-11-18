@@ -13,6 +13,7 @@
 @interface VTConnectViewController ()<UITableViewDelegate, UITableViewDataSource, VTBLEUtilsDelegate, VTO2CommunicateDelegate, VTO2A5RespDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (weak, nonatomic) IBOutlet UILabel *scannerLabel;
 @property (nonatomic, strong) NSMutableArray *deviceListArray;
 @property (nonatomic, strong) NSMutableArray *deviceIDArray;
 
@@ -23,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.scannerLabel.text = VTMLocalized(@"o2.connect.title");
     [VTBLEUtils sharedInstance].delegate = self;
     
 }
@@ -115,11 +117,11 @@
         NSString *token = @"";
         NSString *key = @"";
         [[VTMCommShared sharedInstance] openupEncryptWithToken:token secretKey:key];
-        [self showAlertWithTitle:@"Good !!!" message:@"Start work" handler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:VTMLocalized(@"o2.connect.alert.ready.title") message:VTMLocalized(@"o2.connect.alert.ready.message") handler:^(UIAlertAction *action) {
             [self performSegueWithIdentifier:@"presentViewController" sender:nil];
         }];
     }else{
-        [self showAlertWithTitle:@"The peripheral is not supported !!!" message:@"" handler:^(UIAlertAction *action) {
+        [self showAlertWithTitle:VTMLocalized(@"o2.connect.alert.unsupported") message:@"" handler:^(UIAlertAction *action) {
             [self.deviceListArray removeAllObjects];
             [[VTBLEUtils sharedInstance] startScan];
         }];
@@ -142,7 +144,7 @@
                    handler:(void (^ __nullable)(UIAlertAction *action))handler{
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }

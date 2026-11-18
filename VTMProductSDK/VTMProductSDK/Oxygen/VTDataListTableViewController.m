@@ -8,6 +8,38 @@
 
 #import "VTDataListTableViewController.h"
 #import "VTDataDetailTableViewController.h"
+#import "VTRealDataViewController.h"
+#import "VTSettingsTableViewController.h"
+
+/// Localizes the tab bar items of the oximeter tab bar (storyboard id `myTabBarController`).
+///
+/// In Main.storyboard every tab is a plain UINavigationController whose root is one of the
+/// Oxygen view controllers, and the `tabBarItem` belongs to that navigation controller, not to
+/// the root VC. The root VC cannot reach it in `awakeFromNib` (navigationController is still nil),
+/// so each root VC calls this from `viewDidLoad`. The selected tab's root view loads before the
+/// tab bar is first rendered, so all three items are localized up front no matter which tab
+/// loads first. Items are matched by root VC class, so tab order does not matter. Idempotent.
+/// Also declared (extern) in VTRealDataViewController.m and VTSettingsTableViewController.m.
+FOUNDATION_EXTERN void VTOxiLocalizeTabBarItems(UITabBarController * _Nullable tabBarController);
+void VTOxiLocalizeTabBarItems(UITabBarController * _Nullable tabBarController) {
+    for (UIViewController *child in tabBarController.viewControllers) {
+        UIViewController *root = child;
+        if ([child isKindOfClass:[UINavigationController class]]) {
+            root = ((UINavigationController *)child).viewControllers.firstObject;
+        }
+        NSString *key = nil;
+        if ([root isKindOfClass:[VTDataListTableViewController class]]) {
+            key = @"oxi.tab.history";
+        } else if ([root isKindOfClass:[VTRealDataViewController class]]) {
+            key = @"oxi.tab.dashboard";
+        } else if ([root isKindOfClass:[VTSettingsTableViewController class]]) {
+            key = @"oxi.tab.settings";
+        }
+        if (key) {
+            child.tabBarItem.title = VTMLocalized(key);
+        }
+    }
+}
 
 @interface VTDataListTableViewController ()
 
@@ -23,6 +55,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navigationItem.title = VTMLocalized(@"oxi.nav.history");
+    VTOxiLocalizeTabBarItems(self.tabBarController);
     
     self.tableView.tableFooterView = [UIView new];
     
@@ -128,7 +163,7 @@
     
     UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:handler];
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:VTMLocalized(@"common.ok") style:UIAlertActionStyleDefault handler:handler];
     [alertVC addAction:confirmAction];
     [self presentViewController:alertVC animated:YES completion:nil];
 }
